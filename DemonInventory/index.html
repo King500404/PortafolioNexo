@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Inventory · DEMO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #12121F;
+            color: #CBD5E1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ===== FONDO TECNOLÓGICO ===== */
+        .server-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, #1A1A2E, #12121F 80%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .led {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00F0FF;
+            box-shadow: 0 0 12px #00F0FF, 0 0 30px rgba(0, 240, 255, 0.3);
+            animation: blink 2.2s infinite alternate;
+        }
+
+        .led.green {
+            background: #00FF94;
+            box-shadow: 0 0 12px #00FF94, 0 0 30px rgba(0, 255, 148, 0.3);
+            animation-duration: 1.8s;
+        }
+
+        .led.green-soft {
+            background: #39FFB0;
+            box-shadow: 0 0 12px #39FFB0, 0 0 30px rgba(57, 255, 176, 0.25);
+            animation-duration: 2.6s;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .cable {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.7), rgba(0, 240, 255, 0.1));
+            filter: blur(1px);
+            border-radius: 2px;
+            transform: rotate(var(--rot, 0deg));
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+        }
+
+        .cable.green {
+            background: linear-gradient(90deg, rgba(0, 255, 148, 0.2), rgba(0, 255, 148, 0.7), rgba(0, 255, 148, 0.1));
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            width: 100%;
+            overflow: hidden;
+            padding: 50px 55px 40px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 6px;
+        }
+
+        .logo-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1E2A36, #0B1119);
+            border: 3px solid #00FF94;
+            box-shadow: 0 0 40px rgba(0, 255, 148, 0.35), 0 0 15px rgba(0, 255, 148, 0.5) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-img img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            padding: 5px;
+        }
+
+        .logo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #00F0FF;
+            text-shadow: none;
+        }
+
+        .logo-leyenda {
+            font-size: 14px;
+            color: #94A3B8;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        /* ===== BADGE DEMO - AZUL NEÓN ===== */
+        .demo-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.08);
+            color: #00D4FF;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+            text-transform: uppercase;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .demo-notice {
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.06);
+            border-radius: 16px;
+            padding: 10px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #94A3B8;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .demo-notice i {
+            font-size: 16px;
+            color: #00D4FF;
+        }
+
+        .demo-notice strong {
+            color: #00D4FF;
+            font-weight: 500;
+        }
+
+        /* ===== SECCIÓN HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 20px 10px 30px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: #ECF0F1;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: #00FF94;
+        }
+
+        .hero .demo-subtitle {
+            font-size: 14px;
+            color: #4DA6FF;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #94A3B8;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .hero .btn-hero {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            padding: 18px 55px;
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #12121F;
+            text-decoration: none;
+            transition: all 0.25s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(0, 255, 148, 0.25);
+            cursor: pointer;
+        }
+
+        .hero .btn-hero:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 240, 255, 0.3);
+        }
+
+        .hero .btn-hero:active {
+            transform: scale(0.97);
+        }
+
+        .hero .btn-hero i {
+            margin-right: 12px;
+        }
+
+        /* ===== SECCIONES ===== */
+        .section {
+            background: rgba(18, 18, 31, 0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            border: 1px solid rgba(0, 255, 148, 0.25);
+            padding: 40px 45px;
+            margin-bottom: 36px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 255, 148, 0.05) inset;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #00F0FF;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-title i {
+            color: #00FF94;
+            font-size: 26px;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: #CBD5E1;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        /* ===== TARJETAS DE CARACTERÍSTICAS ===== */
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 24px;
+            padding: 28px 22px;
+            border: 1px solid rgba(0, 255, 148, 0.08);
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 255, 148, 0.3);
+            transform: translateY(-4px);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .card .card-icon {
+            font-size: 30px;
+            color: #00FF94;
+            margin-bottom: 14px;
+        }
+
+        .card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ECF0F1;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .card .demo-limit {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 11px;
+            color: #4DA6FF;
+            background: rgba(0, 212, 255, 0.04);
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-weight: 400;
+            border: 1px solid rgba(0, 212, 255, 0.04);
+        }
+
+        /* ===== BENEFICIOS ===== */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 30px;
+        }
+
+        .benefits-list li {
+            font-size: 16px;
+            color: #CBD5E1;
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            line-height: 1.5;
+        }
+
+        .benefits-list li i {
+            color: #00FF94;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .benefits-list .demo-badge-small {
+            font-size: 10px;
+            color: #4DA6FF;
+            background: rgba(0, 212, 255, 0.04);
+            padding: 2px 10px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 400;
+            border: 1px solid rgba(0, 212, 255, 0.04);
+        }
+
+        /* ===== MÓDULOS DEL SISTEMA ===== */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .module-card {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            padding: 24px 20px;
+            border: 1px solid rgba(0, 240, 255, 0.06);
+            text-align: center;
+            transition: 0.25s;
+            position: relative;
+        }
+
+        .module-card:hover {
+            border-color: rgba(0, 255, 148, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .module-card .module-icon {
+            font-size: 28px;
+            color: #00F0FF;
+            margin-bottom: 10px;
+        }
+
+        .module-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ECF0F1;
+            margin-bottom: 6px;
+        }
+
+        .module-card p {
+            font-size: 13px;
+            color: #94A3B8;
+            line-height: 1.4;
+        }
+
+        .module-card .demo-tag {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: rgba(0, 212, 255, 0.08);
+            color: #4DA6FF;
+            font-size: 8px;
+            font-weight: 500;
+            padding: 2px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(0, 212, 255, 0.06);
+        }
+
+        .module-card.limited {
+            opacity: 0.75;
+        }
+
+        .module-card.limited::after {
+            content: '🔒';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 14px;
+            opacity: 0.3;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 24px 20px 10px;
+            border-top: 1px solid rgba(0, 255, 148, 0.06);
+            margin-top: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #4A5A6A;
+            letter-spacing: 0.3px;
+            line-height: 1.6;
+        }
+
+        .footer .footer-brand {
+            font-family: 'Orbitron', sans-serif;
+            color: #39FFB0;
+            font-weight: 600;
+        }
+
+        .footer .demo-footer-note {
+            color: #4A5A6A;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* ===== INFO BOX CASUAL - AZUL NEÓN ===== */
+        .info-box-casual {
+            margin-top: 16px;
+            padding: 14px 20px;
+            background: rgba(0, 212, 255, 0.04);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 212, 255, 0.06);
+        }
+
+        .info-box-casual p {
+            font-size: 14px;
+            color: #94A3B8;
+            margin: 0;
+        }
+
+        .info-box-casual i {
+            color: #00D4FF;
+            margin-right: 10px;
+        }
+
+        .info-box-casual strong {
+            color: #4DA6FF;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .container {
+                padding: 35px 30px 30px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .section {
+                padding: 30px 28px;
+            }
+
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modules-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 18px 20px;
+                border-radius: 28px;
+            }
+
+            .logo-title {
+                font-size: 24px;
+            }
+
+            .logo-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .logo-img img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .hero .btn-hero {
+                padding: 16px 40px;
+                font-size: 15px;
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .cards-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .card h4 {
+                font-size: 14px;
+            }
+
+            .card p {
+                font-size: 13px;
+            }
+
+            .section {
+                padding: 24px 18px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+
+            .module-card {
+                padding: 18px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-title {
+                font-size: 20px;
+            }
+
+            .logo-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo-img img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .hero h1 {
+                font-size: 22px;
+            }
+
+            .cards-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .hero .btn-hero {
+                font-size: 14px;
+                padding: 14px 24px;
+            }
+
+            .demo-notice {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== FONDO TECNOLÓGICO ===== -->
+    <div class="server-bg" id="serverBg"></div>
+
+    <!-- ===== CONTENEDOR PRINCIPAL ===== -->
+    <div class="container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-img">
+                    <img src="iconos/Logotipos.png" alt="Nexus Inventory Logo">
+                </div>
+                <span class="logo-title">
+                    Nexus Inventory
+                    <span class="demo-badge">demo</span>
+                </span>
+            </div>
+            <div class="logo-leyenda">Sistema de gestión de inventario para comerciantes</div>
+        </header>
+
+        <!-- ===== AVISO DE DEMO - AZUL NEÓN ===== -->
+        <div class="demo-notice">
+            <i class="fas fa-code-branch"></i>
+            <span>
+                <strong>versión demo</strong> — funcionalidades limitadas · datos de prueba
+            </span>
+            <i class="fas fa-flask"></i>
+        </div>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="demo-subtitle">
+                <i class="fas fa-flask" style="margin-right: 6px;"></i> versión de prueba
+            </div>
+            <h1>Control total de tu <span>inventario</span></h1>
+            <p>
+                Explora la interfaz y conoce las funcionalidades del sistema.
+                <span style="color:#4DA6FF;">Algunas características están restringidas en esta versión.</span>
+            </p>
+            <a href="login.html" class="btn-hero">
+                <i class="fas fa-sign-in-alt"></i> PRUEBA DEMO
+            </a>
+        </section>
+
+        <!-- ¿QUÉ ES NEXUS INVENTORY? -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-cube"></i> ¿Qué es Nexus Inventory?
+                <span class="demo-badge" style="font-size:10px; margin-left:12px;">demo</span>
+            </div>
+            <p style="margin-bottom: 8px;">
+                <strong style="color:#ECF0F1;">Nexus Inventory</strong> es un sistema completo de gestión de inventario
+                diseñado para comerciantes que necesitan control total sobre sus productos, existencias y movimientos.
+            </p>
+            <div class="info-box-casual">
+                <p>
+                    <i class="fas fa-flask"></i>
+                    <strong>Versión demo:</strong> Esta página muestra una vista previa del sistema.
+                    Los datos son simulados y se reinician periódicamente.
+                </p>
+            </div>
+        </section>
+
+        <!-- MÓDULOS DEL SISTEMA -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-cogs"></i> Módulos del sistema
+                <span class="demo-badge" style="font-size:10px; margin-left:12px;">limitado</span>
+            </div>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <span class="demo-tag">demo</span>
+                    <div class="module-icon"><i class="fas fa-boxes"></i></div>
+                    <h4>Gestión de productos</h4>
+                    <p>Registra, edita y organiza tus productos. <span style="color:#4DA6FF; font-size:12px;">(máx. 10)</span></p>
+                </div>
+                <div class="module-card limited">
+                    <div class="module-icon"><i class="fas fa-tags"></i></div>
+                    <h4>Categorías</h4>
+                    <p>Clasifica tus productos por categorías. <span style="color:#4DA6FF; font-size:12px;">(limitado)</span></p>
+                </div>
+                <div class="module-card limited">
+                    <div class="module-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <h4>Movimientos</h4>
+                    <p>Registra entradas, salidas y ajustes. <span style="color:#4DA6FF; font-size:12px;">(solo vista)</span></p>
+                </div>
+                <div class="module-card limited">
+                    <div class="module-icon"><i class="fas fa-bell"></i></div>
+                    <h4>Alertas de stock</h4>
+                    <p>Recibe notificaciones de stock bajo. <span style="color:#4DA6FF; font-size:12px;">(simuladas)</span></p>
+                </div>
+                <div class="module-card limited">
+                    <div class="module-icon"><i class="fas fa-chart-line"></i></div>
+                    <h4>Reportes</h4>
+                    <p>Visualiza el valor de tu inventario. <span style="color:#4DA6FF; font-size:12px;">(ejemplo)</span></p>
+                </div>
+                <div class="module-card limited">
+                    <div class="module-icon"><i class="fas fa-user-shield"></i></div>
+                    <h4>Control de acceso</h4>
+                    <p>Acceso seguro con autenticación. <span style="color:#4DA6FF; font-size:12px;">(usuarios test)</span></p>
+                </div>
+            </div>
+            <p style="font-size: 14px; color: #4A5A6A; margin-top: 16px; text-align: center;">
+                <i class="fas fa-lock" style="margin-right: 8px; color:#4DA6FF;"></i>
+                algunos módulos están restringidos en esta versión
+            </p>
+        </section>
+
+        <!-- BENEFICIOS PARA COMERCIANTES -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-star"></i> Beneficios para comerciantes
+                <span class="demo-badge" style="font-size:10px; margin-left:12px;">preview</span>
+            </div>
+            <ul class="benefits-list">
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Control total de productos y existencias.
+                    <span class="demo-badge-small">demo</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Registro automático de cada movimiento.
+                    <span class="demo-badge-small">limitado</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Alertas inteligentes de stock bajo.
+                    <span class="demo-badge-small">simulado</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Historial completo y filtrable.
+                    <span class="demo-badge-small">solo lectura</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Valor total del inventario al instante.
+                    <span class="demo-badge-small">ejemplo</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Acceso seguro y protegido.
+                    <span class="demo-badge-small">demo</span>
+                </li>
+            </ul>
+            <div class="info-box-casual">
+                <p>
+                    <i class="fas fa-info-circle"></i>
+                    Los beneficios mostrados corresponden a la versión completa. En esta demo algunas funciones están limitadas.
+                </p>
+            </div>
+        </section>
+
+        <!-- CARACTERÍSTICAS PRINCIPALES -->
+        <section class="section">
+            <div class="section-title">
+                <i class="fas fa-cogs"></i> Características principales
+                <span class="demo-badge" style="font-size:10px; margin-left:12px;">demo</span>
+            </div>
+            <div class="cards-row">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-boxes"></i></div>
+                    <h4>Control total</h4>
+                    <p>Organiza por categorías, lleva existencias reales y ajustes precisos.</p>
+                    <span class="demo-limit">demo: 10 productos</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <h4>Registro automático</h4>
+                    <p>Cada entrada, salida y ajuste queda registrado sin esfuerzo.</p>
+                    <span class="demo-limit">solo visualización</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-bell"></i></div>
+                    <h4>Alertas inteligentes</h4>
+                    <p>Define mínimos y recibe avisos cuando el stock está bajo.</p>
+                    <span class="demo-limit">datos de ejemplo</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-history"></i></div>
+                    <h4>Historial completo</h4>
+                    <p>Consulta todos los movimientos con filtros avanzados.</p>
+                    <span class="demo-limit">limitado a 30 días</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- AYUDA & SOPORTE -->
+        <section class="section" style="border-color: rgba(100, 116, 139, 0.1);">
+            <div class="section-title">
+                <i class="fas fa-life-ring"></i> Ayuda &amp; Soporte
+                <span class="demo-badge" style="font-size:10px; margin-left:12px;">info</span>
+            </div>
+            <p style="margin-bottom: 6px;">
+                <i class="fas fa-info-circle" style="color: #4DA6FF; margin-right: 8px;"></i>
+                Esta es una <strong style="color:#CBD5E1;">versión demo</strong> del sistema Nexus Inventory.
+                Algunas funcionalidades pueden estar limitadas o ser solo de muestra.
+            </p>
+            <p style="margin-top: 12px; font-size: 15px; color: #94A3B8;">
+                <i class="fas fa-envelope" style="color: #4DA6FF; margin-right: 8px;"></i>
+                Para soporte o más información sobre la versión completa:
+                <a href="#" style="color:#00F0FF; text-decoration:none; border-bottom:1px solid rgba(0,240,255,0.15);">
+                    contacto@nexusinventory.com
+                </a>
+            </p>
+            <div class="info-box-casual">
+                <p>
+                    <i class="fas fa-code-branch"></i>
+                    <strong>Versión demo v1.0</strong> — Este sitio es solo para propósitos de
+                    demostración y pruebas. Los datos son simulados.
+                </p>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>
+                <span class="footer-brand">Nexus Inventory</span> © 2026 — Nexus Webs.
+                <br>Todos los derechos reservados.
+            </p>
+            <p class="demo-footer-note">
+                <i class="fas fa-flask"></i> versión demo · solo pruebas
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ===== GENERAR FONDO TECNOLÓGICO =====
+        (function() {
+            const bg = document.getElementById('serverBg');
+            const ledColors = ['', 'green', 'green-soft'];
+            for (let i = 0; i < 85; i++) {
+                const led = document.createElement('div');
+                led.className = 'led ' + ledColors[Math.floor(Math.random() * ledColors.length)];
+                led.style.left = Math.random() * 100 + '%';
+                led.style.top = Math.random() * 100 + '%';
+                led.style.width = (4 + Math.random() * 6) + 'px';
+                led.style.height = led.style.width;
+                led.style.animationDelay = (Math.random() * 4) + 's';
+                led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                bg.appendChild(led);
+            }
+            for (let i = 0; i < 18; i++) {
+                const cable = document.createElement('div');
+                cable.className = 'cable ' + (['', 'green'][Math.floor(Math.random() * 2)]);
+                cable.style.width = (60 + Math.random() * 120) + 'px';
+                cable.style.left = (Math.random() * 90) + '%';LOIN
+                cable.style.top = (Math.random() * 90) + '%';
+                cable.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+                cable.style.opacity = 0.3 + Math.random() * 0.4;
+                bg.appendChild(cable);
+            }
+        })();
+    </script>
+
+</body>
+
+</html>

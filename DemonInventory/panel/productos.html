@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Inventory · Productos DEMO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET Y VARIABLES ===== */
+        :root {
+            --bg-primary: #12121F;
+            --bg-card: rgba(18, 18, 31, 0.85);
+            --bg-hover: rgba(0, 255, 148, 0.05);
+            --border-neon: rgba(0, 255, 148, 0.15);
+            --border-neon-hover: rgba(0, 255, 148, 0.3);
+            --cyan: #00F0FF;
+            --green: #00FF94;
+            --green-soft: #39FFB0;
+            --neon-red: #FF0040;
+            --text-primary: #ECF0F1;
+            --text-body: #CBD5E1;
+            --text-secondary: #94A3B8;
+            --text-muted: #5A6A7A;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .logo-text,
+        .navbar a,
+        .card-title,
+        .status-value,
+        .status-title,
+        .nav-link,
+        .section-title,
+        .btn-primary,
+        .modal-title,
+        .logout-btn {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        body {
+            background: #12121F;
+            min-height: 100vh;
+            padding: 20px;
+            color: #ECF0F1;
+        }
+
+        /* ===== FONDO TECNOLÓGICO ===== */
+        .server-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, #1A1A2E, #12121F 80%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .led {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00F0FF;
+            box-shadow: 0 0 12px #00F0FF, 0 0 30px rgba(0, 240, 255, 0.3);
+            animation: blink 2.2s infinite alternate;
+        }
+
+        .led.green {
+            background: #00FF94;
+            box-shadow: 0 0 12px #00FF94, 0 0 30px rgba(0, 255, 148, 0.3);
+            animation-duration: 1.8s;
+        }
+
+        .led.green-soft {
+            background: #39FFB0;
+            box-shadow: 0 0 12px #39FFB0, 0 0 30px rgba(57, 255, 176, 0.25);
+            animation-duration: 2.6s;
+        }
+
+        .led.neon-red {
+            background: #FF0040;
+            box-shadow: 0 0 14px #FF0040, 0 0 40px rgba(255, 0, 64, 0.3);
+            animation-duration: 1.5s;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .cable {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.7), rgba(0, 240, 255, 0.1));
+            filter: blur(1px);
+            border-radius: 2px;
+            transform: rotate(var(--rot, 0deg));
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+            animation: cableMove 20s linear infinite;
+        }
+
+        .cable.green {
+            background: linear-gradient(90deg, rgba(0, 255, 148, 0.2), rgba(0, 255, 148, 0.7), rgba(0, 255, 148, 0.1));
+        }
+
+        .cable.neon-red {
+            background: linear-gradient(90deg, rgba(255, 0, 64, 0.2), rgba(255, 0, 64, 0.7), rgba(255, 0, 64, 0.1));
+        }
+
+        @keyframes cableMove {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ===== CONTENEDOR ===== */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(18, 18, 31, 0.75);
+            backdrop-filter: blur(14px) saturate(1.3);
+            border-radius: 40px;
+            border: 1px solid rgba(0, 255, 148, 0.25);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 148, 0.08) inset;
+            padding: 28px 32px;
+        }
+
+        /* ===== TOPBAR CON LOGO ===== */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.12);
+            margin-bottom: 24px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1E2A36, #0B1119);
+            border: 2px solid #00FF94;
+            box-shadow: 0 0 30px rgba(0, 255, 148, 0.2), 0 0 10px rgba(0, 255, 148, 0.3) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .logo-img::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 20%;
+            width: 60%;
+            height: 8px;
+            background: radial-gradient(ellipse, rgba(0, 255, 148, 0.6), transparent);
+            filter: blur(6px);
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+
+        .logo-img img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #00F0FF;
+            letter-spacing: -0.3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .logo-title span {
+            color: #00FF94;
+        }
+
+        .logo-subtitle {
+            font-size: 13px;
+            color: #94A3B8;
+            margin-top: 2px;
+        }
+
+        /* ===== DEMO BADGE ===== */
+        .demo-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.08);
+            color: #00D4FF;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            margin-left: 8px;
+        }
+
+        .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-toggle {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 148, 0.15);
+            border-radius: 60px;
+            padding: 6px 16px 6px 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-toggle:hover {
+            background: rgba(0, 255, 148, 0.08);
+            border-color: rgba(0, 255, 148, 0.3);
+        }
+
+        .user-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #00FF94;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #12121F;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #ECF0F1;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 280px;
+            background: rgba(18, 18, 31, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 148, 0.15);
+            padding: 20px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .user-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-info {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.1);
+        }
+
+        .user-info h3 {
+            font-size: 16px;
+            color: #ECF0F1;
+            margin-bottom: 12px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .user-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #CBD5E1;
+            margin-bottom: 8px;
+        }
+
+        .user-detail i {
+            width: 20px;
+            color: #00FF94;
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            background: rgba(255, 0, 64, 0.1);
+            color: #FF0040;
+            border: 1.5px solid #FF0040;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(255, 0, 64, 0.05);
+        }
+
+        .logout-btn:hover {
+            background: #FF0040;
+            color: #12121F;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 0, 64, 0.3);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 60px;
+            padding: 6px 10px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(0, 255, 148, 0.08);
+        }
+
+        .navbar a {
+            color: #94A3B8;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .navbar a i {
+            font-size: 15px;
+        }
+
+        .navbar a:hover {
+            color: #ECF0F1;
+            background: rgba(0, 255, 148, 0.08);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            color: #12121F;
+            box-shadow: 0 4px 20px rgba(0, 255, 148, 0.25);
+            font-weight: 600;
+        }
+
+        /* ===== SECTION HEADER ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ECF0F1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title span {
+            color: #00FF94;
+        }
+
+        .section-title i {
+            color: #00F0FF;
+            font-size: 26px;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #12121F;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 255, 148, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        /* ===== FILTROS ===== */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 60px;
+            padding: 0 20px;
+            border: 1px solid rgba(0, 255, 148, 0.08);
+            transition: var(--transition);
+        }
+
+        .search-box:focus-within {
+            border-color: #00F0FF;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 12px 14px;
+            color: #ECF0F1;
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+        }
+
+        .search-box input::placeholder {
+            color: #5A6A7A;
+        }
+
+        .search-box i {
+            color: #5A6A7A;
+            font-size: 14px;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 148, 0.08);
+            border-radius: 60px;
+            color: #ECF0F1;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            min-width: 150px;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            border-color: #00F0FF;
+        }
+
+        .filter-select option {
+            background: #1A1A2E;
+            color: #ECF0F1;
+        }
+
+        /* ===== TABLA ===== */
+        .table-container {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: var(--radius);
+            border: 1px solid rgba(0, 255, 148, 0.06);
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        table thead th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.06);
+        }
+
+        table tbody td {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #CBD5E1;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.04);
+            vertical-align: middle;
+        }
+
+        table tbody tr {
+            transition: var(--transition);
+        }
+
+        table tbody tr:hover {
+            background: rgba(0, 255, 148, 0.02);
+        }
+
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-categoria {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-categoria.asignada {
+            background: rgba(0, 240, 255, 0.08);
+            color: #00F0FF;
+            border: 1px solid rgba(0, 240, 255, 0.08);
+        }
+
+        .badge-categoria.sin-categoria {
+            background: rgba(255, 255, 255, 0.05);
+            color: #5A6A7A;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .stock-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stock-indicator.normal {
+            background: rgba(0, 255, 148, 0.1);
+            color: #00FF94;
+        }
+
+        .stock-indicator.medio {
+            background: rgba(243, 156, 18, 0.1);
+            color: #F39C12;
+        }
+
+        .stock-indicator.bajo {
+            background: rgba(231, 76, 60, 0.1);
+            color: #E74C3C;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .btn-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .btn-icon.edit {
+            background: rgba(0, 240, 255, 0.1);
+            color: #00F0FF;
+        }
+
+        .btn-icon.edit:hover {
+            background: #00F0FF;
+            color: #12121F;
+            transform: scale(1.1);
+        }
+
+        .btn-icon.stock {
+            background: rgba(0, 255, 148, 0.1);
+            color: #00FF94;
+        }
+
+        .btn-icon.stock:hover {
+            background: #00FF94;
+            color: #12121F;
+            transform: scale(1.1);
+        }
+
+        .btn-icon.delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: #E74C3C;
+        }
+
+        .btn-icon.delete:hover {
+            background: #E74C3C;
+            color: #12121F;
+            transform: scale(1.1);
+        }
+
+        .btn-icon.demo {
+            background: rgba(0, 212, 255, 0.08);
+            color: #00D4FF;
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .btn-icon.demo:hover {
+            transform: none;
+            background: rgba(0, 212, 255, 0.08);
+            color: #00D4FF;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5A6A7A;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #94A3B8;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: #94A3B8;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal {
+            background: rgba(18, 18, 31, 0.95);
+            backdrop-filter: blur(14px);
+            border-radius: 24px;
+            border: 1px solid rgba(0, 255, 148, 0.25);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px 36px;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ECF0F1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title i {
+            color: #00F0FF;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #5A6A7A;
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: #ECF0F1;
+            transform: rotate(90deg);
+        }
+
+        /* ===== FORMULARIO ===== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #94A3B8;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px solid rgba(0, 255, 148, 0.08);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #ECF0F1;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #00F0FF;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-group select option {
+            background: #1A1A2E;
+            color: #ECF0F1;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-secondary {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1.5px solid #5A6A7A;
+            border-radius: 60px;
+            color: #94A3B8;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-secondary:hover {
+            border-color: #ECF0F1;
+            color: #ECF0F1;
+        }
+
+        .btn-success {
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #12121F;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-success:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0 10px;
+            color: #5A6A7A;
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 255, 148, 0.04);
+            margin-top: 20px;
+        }
+
+        .footer .footer-brand {
+            font-family: 'Orbitron', sans-serif;
+            color: #39FFB0;
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #fff;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: #00FF94;
+            color: #12121F;
+        }
+
+        .toast.error {
+            background: #E74C3C;
+        }
+
+        @media (max-width: 992px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 18px; }
+            .topbar { flex-wrap: wrap; gap: 12px; }
+            .user-dropdown { width: 260px; right: -10px; }
+            .navbar { border-radius: 24px; padding: 8px; }
+            .navbar a { padding: 8px 14px; font-size: 13px; }
+            .section-title { font-size: 20px; }
+            .filters { flex-direction: column; }
+            .search-box { min-width: unset; }
+            .filter-select { width: 100%; }
+            table thead th, table tbody td { padding: 10px 14px; font-size: 12px; }
+            .btn-actions { gap: 4px; }
+            .btn-icon { width: 30px; height: 30px; font-size: 12px; }
+            .modal { padding: 24px 20px; }
+            .btn-primary { padding: 10px 20px; font-size: 13px; }
+            .form-actions { flex-direction: column; }
+            .toast { left: 20px; right: 20px; bottom: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .user-name { display: none; }
+            .section-title { font-size: 18px; }
+            .section-title i { font-size: 22px; }
+            .btn-primary { font-size: 12px; padding: 8px 16px; }
+            table thead th, table tbody td { padding: 8px 10px; font-size: 11px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="server-bg" id="serverBg"></div>
+
+    <div class="container">
+
+        <!-- TOPBAR CON LOGO -->
+        <header class="topbar">
+            <div class="logo-container">
+                <div class="logo-img">
+                    <img src="../iconos/Logotipos.png" alt="Nexus Inventory Logo">
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">
+                        Nexus Inventory
+                        <span class="demo-badge">demo</span>
+                    </span>
+                    <span class="logo-subtitle">Sistema de Gestión de Inventario · Versión de prueba</span>
+                </div>
+            </div>
+            <div class="user-menu">
+                <button class="user-toggle" id="user-toggle">
+                    <div class="user-icon"><i class="fas fa-user"></i></div>
+                    <span class="user-name">DEMO</span>
+                    <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: 12px; color: #94A3B8;"></i>
+                </button>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="user-info">
+                        <h3>Usuario DEMO</h3>
+                        <div class="user-detail"><i class="fas fa-user"></i><span>Cuenta de prueba</span></div>
+                        <div class="user-detail"><i class="fas fa-envelope"></i><span>admin@sistema.com</span></div>
+                    </div>
+                    <button onclick="cerrarSesion()" class="logout-btn"><i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Cerrar Sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="navbar">
+      <a href="index.html"><i class="fas fa-home"></i> Resumen</a>
+      <a href="productos.html"><i class="fas fa-boxes"></i> Productos</a>
+      <a href="movimientos.html"><i class="fas fa-history"></i> Movimientos</a>
+      <a href="categorias.html"><i class="fas fa-tags"></i> Categorías</a>
+      <a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a>
+    </nav>
+
+        <!-- SECTION HEADER -->
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-boxes"></i>
+                Gestión de <span>Productos</span>
+            </div>
+            <button class="btn-primary" onclick="openModal('create')">
+                <i class="fas fa-plus"></i> Nuevo Producto
+            </button>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="filters">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." oninput="filterTable()">
+            </div>
+            <select class="filter-select" id="filterCategoria" onchange="filterTable()">
+                <option value="">Todas las categorías</option>
+                <option value="Sin categoría">📂 Sin categoría</option>
+                <option value="Electrónica">💻 Electrónica</option>
+                <option value="Accesorios">🎧 Accesorios</option>
+                <option value="Software">💿 Software</option>
+                <option value="Alimentos">🍎 Alimentos</option>
+                <option value="Bebidas">🥤 Bebidas</option>
+                <option value="Limpieza">🧹 Limpieza</option>
+                <option value="Papelería">📄 Papelería</option>
+                <option value="Ropa">👕 Ropa</option>
+            </select>
+        </div>
+
+        <!-- TABLA DE PRODUCTOS -->
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>P. Compra</th>
+                            <th>P. Venta</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th style="text-align:center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaProductos">
+                        <!-- Producto 1 -->
+                        <tr data-categoria="Electrónica">
+                            <td>
+                                <strong style="color:#ECF0F1;">Laptop Dell XPS 13</strong>
+                                <br><small style="color:#5A6A7A; font-size:12px;">Portátil ultraligera 13 pulgadas</small>
+                            </td>
+                            <td><span class="badge-categoria asignada">💻 Electrónica</span></td>
+                            <td>$850.00</td>
+                            <td><strong style="color:#00FF94;">$1,200.00</strong></td>
+                            <td>12</td>
+                            <td><span class="stock-indicator normal">✅ Disponible</span></td>
+                            <td>
+                                <div class="btn-actions">
+                                    <button class="btn-icon edit" onclick="editarProducto(1)" title="Editar"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon demo" onclick="alert('📌 Ajustar Stock\n🔒 Versión demo')" title="Ajustar Stock (Demo)"><i class="fas fa-warehouse"></i></button>
+                                    <button class="btn-icon demo" onclick="alert('📌 Eliminar producto\n🔒 Versión demo')" title="Eliminar (Demo)"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Producto 2 -->
+                        <tr data-categoria="Electrónica">
+                            <td>
+                                <strong style="color:#ECF0F1;">Monitor Samsung 27"</strong>
+                                <br><small style="color:#5A6A7A; font-size:12px;">Monitor curvo 144Hz</small>
+                            </td>
+                            <td><span class="badge-categoria asignada">💻 Electrónica</span></td>
+                            <td>$320.00</td>
+                            <td><strong style="color:#00FF94;">$450.00</strong></td>
+                            <td>8</td>
+                            <td><span class="stock-indicator normal">✅ Disponible</span></td>
+                            <td>
+                                <div class="btn-actions">
+                                    <button class="btn-icon edit" onclick="editarProducto(2)" title="Editar"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon demo" onclick="alert('📌 Ajustar Stock\n🔒 Versión demo')" title="Ajustar Stock (Demo)"><i class="fas fa-warehouse"></i></button>
+                                    <button class="btn-icon demo" onclick="alert('📌 Eliminar producto\n🔒 Versión demo')" title="Eliminar (Demo)"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Producto 3 -->
+                        <tr data-categoria="Accesorios">
+                            <td>
+                                <strong style="color:#ECF0F1;">Teclado Mecánico RGB</strong>
+                                <br><small style="color:#5A6A7A; font-size:12px;">Teclado mecánico con iluminación</small>
+                            </td>
+                            <td><span class="badge-categoria asignada">🎧 Accesorios</span></td>
+                            <td>$45.00</td>
+                            <td><strong style="color:#00FF94;">$75.00</strong></td>
+                            <td>3</td>
+                            <td><span class="stock-indicator bajo">⚠️ Stock bajo</span></td>
+                            <td>
+                                <div class="btn-actions">
+                                    <button class="btn-icon edit" onclick="editarProducto(3)" title="Editar"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon demo" onclick="alert('📌 Ajustar Stock\n🔒 Versión demo')" title="Ajustar Stock (Demo)"><i class="fas fa-warehouse"></i></button>
+                                    <button class="btn-icon demo" onclick="alert('📌 Eliminar producto\n🔒 Versión demo')" title="Eliminar (Demo)"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>
+                <span class="footer-brand">Nexus Inventory</span> © 2026 — Nexus Webs.
+                <br>Todos los derechos reservados.
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- ===== MODAL CRUD ===== -->
+    <div class="modal-overlay" id="modalCRUD">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">
+                    <i class="fas fa-box"></i> Nuevo Producto
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="formProducto" onsubmit="return guardarProducto(event)">
+                <input type="hidden" id="producto_id" name="id">
+                <input type="hidden" id="accion" name="action" value="crear">
+
+                <div class="form-group">
+                    <label for="nombre">Nombre del Producto *</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Laptop Pro" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" placeholder="Breve descripción del producto"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="precio_compra">Precio de Compra</label>
+                        <input type="number" id="precio_compra" name="precio_compra" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="precio_venta">Precio de Venta *</label>
+                        <input type="number" id="precio_venta" name="precio_venta" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cantidad_actual">Stock Actual *</label>
+                        <input type="number" id="cantidad_actual" name="cantidad_actual" placeholder="0" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad_minima_aviso">Stock Mínimo de Alerta *</label>
+                        <input type="number" id="cantidad_minima_aviso" name="cantidad_minima_aviso" placeholder="5" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_categoria">Categoría</label>
+                    <select id="id_categoria" name="id_categoria">
+                        <option value="">Sin categoría</option>
+                        <option value="1">Electrónica</option>
+                        <option value="2">Accesorios</option>
+                        <option value="3">Software</option>
+                        <option value="4">Alimentos</option>
+                        <option value="5">Bebidas</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-success" id="btnSubmit">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== GENERAR FONDO =====
+        (function() {
+            const bg = document.getElementById('serverBg');
+            const ledColors = ['', 'green', 'green-soft', 'neon-red'];
+            for (let i = 0; i < 50; i++) {
+                const led = document.createElement('div');
+                led.className = 'led ' + ledColors[Math.floor(Math.random() * ledColors.length)];
+                led.style.left = Math.random() * 100 + '%';
+                led.style.top = Math.random() * 100 + '%';
+                led.style.width = (4 + Math.random() * 6) + 'px';
+                led.style.height = led.style.width;
+                led.style.animationDelay = (Math.random() * 4) + 's';
+                led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                bg.appendChild(led);
+            }
+            for (let i = 0; i < 10; i++) {
+                const cable = document.createElement('div');
+                cable.className = 'cable ' + (['', 'green', 'neon-red'][Math.floor(Math.random() * 3)]);
+                cable.style.width = (60 + Math.random() * 120) + 'px';
+                cable.style.left = (Math.random() * 90) + '%';
+                cable.style.top = (Math.random() * 90) + '%';
+                cable.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+                cable.style.opacity = 0.3 + Math.random() * 0.4;
+                bg.appendChild(cable);
+            }
+        })();
+
+        // ===== MENÚ USUARIO =====
+        document.getElementById('user-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('user-dropdown').classList.toggle('active');
+        });
+        document.addEventListener('click', () => document.getElementById('user-dropdown').classList.remove('active'));
+
+        // ===== CERRAR SESIÓN =====
+        function cerrarSesion() {
+            if (confirm('¿Deseas cerrar sesión?')) {
+                alert('✅ Sesión cerrada (DEMO)');
+                window.location.href = '../login.html';
+            }
+        }
+
+        // ===== DATOS DE PRODUCTOS DEMO =====
+        const productosData = [
+            { id: 1, nombre: 'Laptop Dell XPS 13', descripcion: 'Portátil ultraligera 13 pulgadas', precio_compra: 850, precio_venta: 1200, cantidad_actual: 12, cantidad_minima_aviso: 5, categoria_nombre: 'Electrónica', id_categoria: 1 },
+            { id: 2, nombre: 'Monitor Samsung 27"', descripcion: 'Monitor curvo 144Hz', precio_compra: 320, precio_venta: 450, cantidad_actual: 8, cantidad_minima_aviso: 5, categoria_nombre: 'Electrónica', id_categoria: 1 },
+            { id: 3, nombre: 'Teclado Mecánico RGB', descripcion: 'Teclado mecánico con iluminación', precio_compra: 45, precio_venta: 75, cantidad_actual: 3, cantidad_minima_aviso: 5, categoria_nombre: 'Accesorios', id_categoria: 2 }
+        ];
+        let nextId = 4;
+
+        // ===== FILTROS =====
+        function filterTable() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const categoria = document.getElementById('filterCategoria').value.toLowerCase();
+            const rows = document.querySelectorAll('#tablaProductos tr');
+
+            rows.forEach(row => {
+                const nombre = row.querySelector('td:first-child strong')?.textContent?.toLowerCase() || '';
+                const cat = row.dataset.categoria?.toLowerCase() || '';
+                const coincide = (nombre.includes(search)) && (categoria === '' || cat === categoria);
+                row.style.display = coincide ? '' : 'none';
+            });
+        }
+
+        // ===== MODAL CRUD =====
+        function openModal(action, data = null) {
+            const modal = document.getElementById('modalCRUD');
+            const title = document.getElementById('modalTitle');
+            const btn = document.getElementById('btnSubmit');
+
+            document.getElementById('formProducto').reset();
+            document.getElementById('producto_id').value = '';
+            document.getElementById('accion').value = 'crear';
+
+            if (action === 'create') {
+                title.innerHTML = '<i class="fas fa-box"></i> Nuevo Producto';
+                btn.innerHTML = '<i class="fas fa-save"></i> Guardar';
+            } else if (action === 'edit' && data) {
+                title.innerHTML = '<i class="fas fa-edit"></i> Editar Producto';
+                btn.innerHTML = '<i class="fas fa-save"></i> Actualizar';
+                document.getElementById('producto_id').value = data.id;
+                document.getElementById('accion').value = 'editar';
+                document.getElementById('nombre').value = data.nombre || '';
+                document.getElementById('descripcion').value = data.descripcion || '';
+                document.getElementById('precio_compra').value = data.precio_compra || '';
+                document.getElementById('precio_venta').value = data.precio_venta || '';
+                document.getElementById('cantidad_actual').value = data.cantidad_actual || '';
+                document.getElementById('cantidad_minima_aviso').value = data.cantidad_minima_aviso || '';
+                document.getElementById('id_categoria').value = data.id_categoria || '';
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalCRUD').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function editarProducto(id) {
+            const producto = productosData.find(p => p.id === id);
+            if (producto) {
+                openModal('edit', producto);
+            }
+        }
+
+        // ===== GUARDAR PRODUCTO (DEMO) =====
+        function guardarProducto(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombre').value.trim();
+            const precioVenta = parseFloat(document.getElementById('precio_venta').value) || 0;
+            const cantidadActual = parseInt(document.getElementById('cantidad_actual').value) || 0;
+            const cantidadMinima = parseInt(document.getElementById('cantidad_minima_aviso').value) || 0;
+            const accion = document.getElementById('accion').value;
+
+            if (!nombre || precioVenta <= 0 || cantidadActual < 0 || cantidadMinima < 0) {
+                showToast('Por favor, completa todos los campos obligatorios correctamente', 'error');
+                return false;
+            }
+
+            if (accion === 'crear') {
+                const nuevoProducto = {
+                    id: nextId++,
+                    nombre: nombre,
+                    descripcion: document.getElementById('descripcion').value || '',
+                    precio_compra: parseFloat(document.getElementById('precio_compra').value) || 0,
+                    precio_venta: precioVenta,
+                    cantidad_actual: cantidadActual,
+                    cantidad_minima_aviso: cantidadMinima,
+                    categoria_nombre: document.getElementById('id_categoria').options[document.getElementById('id_categoria').selectedIndex]?.text || 'Sin categoría',
+                    id_categoria: document.getElementById('id_categoria').value || null
+                };
+                productosData.push(nuevoProducto);
+                showToast('✅ Producto creado exitosamente (DEMO)', 'success');
+            } else {
+                const id = parseInt(document.getElementById('producto_id').value);
+                const index = productosData.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    productosData[index].nombre = nombre;
+                    productosData[index].descripcion = document.getElementById('descripcion').value || '';
+                    productosData[index].precio_compra = parseFloat(document.getElementById('precio_compra').value) || 0;
+                    productosData[index].precio_venta = precioVenta;
+                    productosData[index].cantidad_actual = cantidadActual;
+                    productosData[index].cantidad_minima_aviso = cantidadMinima;
+                    productosData[index].categoria_nombre = document.getElementById('id_categoria').options[document.getElementById('id_categoria').selectedIndex]?.text || 'Sin categoría';
+                    productosData[index].id_categoria = document.getElementById('id_categoria').value || null;
+                    showToast('✅ Producto actualizado exitosamente (DEMO)', 'success');
+                }
+            }
+
+            actualizarTabla();
+            setTimeout(() => closeModal(), 1500);
+            return false;
+        }
+
+        // ===== ACTUALIZAR TABLA =====
+        function actualizarTabla() {
+            const tbody = document.getElementById('tablaProductos');
+            tbody.innerHTML = '';
+
+            if (productosData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <i class="fas fa-box-open"></i>
+                                <h3>No hay productos registrados</h3>
+                                <p>Comienza agregando tu primer producto</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            productosData.forEach(producto => {
+                const stockClass = producto.cantidad_actual <= producto.cantidad_minima_aviso ? 'bajo' :
+                    producto.cantidad_actual <= producto.cantidad_minima_aviso * 2 ? 'medio' : 'normal';
+                const stockText = stockClass === 'bajo' ? '⚠️ Stock bajo' :
+                    stockClass === 'medio' ? '⚡ Stock medio' : '✅ Disponible';
+
+                const badgeClass = producto.categoria_nombre === 'Sin categoría' ? 'sin-categoria' : 'asignada';
+
+                tbody.innerHTML += `
+                    <tr data-categoria="${producto.categoria_nombre}">
+                        <td>
+                            <strong style="color:#ECF0F1;">${producto.nombre}</strong>
+                            ${producto.descripcion ? `<br><small style="color:#5A6A7A; font-size:12px;">${producto.descripcion.substring(0, 40)}${producto.descripcion.length > 40 ? '...' : ''}</small>` : ''}
+                        </td>
+                        <td>
+                            <span class="badge-categoria ${badgeClass}">
+                                ${producto.categoria_nombre === 'Sin categoría' ? '<i class="fas fa-folder-open" style="margin-right:4px;"></i>' : ''}
+                                ${producto.categoria_nombre}
+                            </span>
+                        </td>
+                        <td>$${producto.precio_compra.toFixed(2)}</td>
+                        <td><strong style="color:#00FF94;">$${producto.precio_venta.toFixed(2)}</strong></td>
+                        <td>${producto.cantidad_actual}</td>
+                        <td><span class="stock-indicator ${stockClass}">${stockText}</span></td>
+                        <td>
+                            <div class="btn-actions">
+                                <button class="btn-icon edit" onclick="editarProducto(${producto.id})" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon demo" onclick="alert('📌 Ajustar Stock\n🔒 Versión demo')" title="Ajustar Stock (Demo)"><i class="fas fa-warehouse"></i></button>
+                                <button class="btn-icon demo" onclick="alert('📌 Eliminar producto\n🔒 Versión demo')" title="Eliminar (Demo)"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ===== CERRAR MODALES CON ESC =====
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ===== CERRAR MODALES CLICK FUERA =====
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (this.id === 'modalCRUD') closeModal();
+                }
+            });
+        });
+
+        console.log('✅ Nexus Inventory · Productos DEMO cargado');
+        console.log('📦 Productos disponibles:', productosData.length);
+        console.log('🔒 Versión demo - funcionalidades limitadas');
+    </script>
+
+</body>
+</html>

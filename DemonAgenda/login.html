@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Agenda · Acceso DEMO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0A0E1A;
+            padding: 20px;
+        }
+
+        .server-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, #0D1B3E, #060A14 80%);
+            overflow: hidden;
+        }
+
+        .led {
+            position: absolute;
+            width: 16px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00D4FF;
+            box-shadow: 0 0 15px #00D4FF, 0 0 40px rgba(0, 212, 255, 0.4);
+            animation: blink 2.2s infinite alternate;
+        }
+
+        .led.blue-neon {
+            background: #0066FF;
+            box-shadow: 0 0 15px #0066FF, 0 0 40px rgba(0, 102, 255, 0.35);
+            animation-duration: 2.8s;
+        }
+
+        .led.blue-light {
+            background: #4DA6FF;
+            box-shadow: 0 0 15px #4DA6FF, 0 0 40px rgba(77, 166, 255, 0.25);
+            animation-duration: 1.6s;
+        }
+
+        .led.silver-neon {
+            background: #CBD5E1;
+            box-shadow: 0 0 15px #CBD5E1, 0 0 40px rgba(203, 213, 225, 0.15);
+            animation-duration: 2.2s;
+        }
+
+        .led.purple-neon {
+            background: #7B61FF;
+            box-shadow: 0 0 15px #7B61FF, 0 0 40px rgba(123, 97, 255, 0.3);
+            animation-duration: 2.0s;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0.15;
+                transform: scale(0.7);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        .cable {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.08), rgba(0, 212, 255, 0.5), rgba(0, 212, 255, 0.05));
+            filter: blur(1px);
+            border-radius: 2px;
+            transform: rotate(var(--rot, 0deg));
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.08);
+        }
+
+        .cable.blue {
+            background: linear-gradient(90deg, rgba(0, 102, 255, 0.08), rgba(0, 102, 255, 0.5), rgba(0, 102, 255, 0.05));
+        }
+
+        .cable.silver {
+            background: linear-gradient(90deg, rgba(203, 213, 225, 0.08), rgba(203, 213, 225, 0.5), rgba(203, 213, 225, 0.05));
+        }
+
+        .cable.purple {
+            background: linear-gradient(90deg, rgba(123, 97, 255, 0.08), rgba(123, 97, 255, 0.5), rgba(123, 97, 255, 0.05));
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            max-width: 1100px;
+            width: 100%;
+            min-height: 620px;
+            background: rgba(10, 14, 26, 0.88);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            border: 1px solid rgba(0, 212, 255, 0.12);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 212, 255, 0.04);
+            overflow: hidden;
+        }
+
+        .left-panel {
+            width: 45%;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.08), rgba(0, 212, 255, 0.04));
+            border-right: 1px solid rgba(0, 212, 255, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.03), transparent 70%);
+            pointer-events: none;
+        }
+
+        .left-panel .logo-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .left-panel .logo-mini .logo-icon {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1A2A5E, #0A0E1A);
+            border: 2px solid #00D4FF;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .left-panel .logo-mini .logo-icon img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            padding: 5px;
+        }
+
+        .left-panel .logo-mini .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #E2E8F0;
+        }
+
+        .left-panel .logo-mini .logo-text span {
+            color: #00D4FF;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .left-panel .welcome-sub {
+            font-size: 16px;
+            color: #94A3B8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-panel .features-mini {
+            list-style: none;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-panel .features-mini li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 15px;
+            color: #CBD5E1;
+            padding: 8px 0;
+        }
+
+        .left-panel .features-mini li i {
+            color: #00D4FF;
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .left-panel .switch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 212, 255, 0.06);
+            border: 1px solid rgba(0, 212, 255, 0.12);
+            color: #4DA6FF;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            width: fit-content;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        .left-panel .switch-btn:hover {
+            background: rgba(0, 212, 255, 0.12);
+            border-color: rgba(0, 212, 255, 0.25);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.05);
+            transform: translateX(4px);
+        }
+
+        .left-panel .switch-btn i {
+            font-size: 16px;
+        }
+
+        .left-panel .demo-badge-panel {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 212, 255, 0.06);
+            font-size: 12px;
+            color: #4A5A6A;
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-panel .demo-badge-panel span {
+            color: #4DA6FF;
+        }
+
+        .right-panel {
+            width: 55%;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .right-panel .form-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #E2E8F0;
+            margin-bottom: 4px;
+        }
+
+        .right-panel .form-sub {
+            font-size: 14px;
+            color: #94A3B8;
+            margin-bottom: 24px;
+        }
+
+        .right-panel .form-group {
+            margin-bottom: 18px;
+        }
+
+        .right-panel .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #CBD5E1;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .right-panel .input-field {
+            position: relative;
+        }
+
+        .right-panel .input-field input {
+            width: 100%;
+            padding: 14px 44px 14px 18px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px solid rgba(0, 212, 255, 0.08);
+            border-radius: 16px;
+            font-size: 14px;
+            color: #E2E8F0;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .right-panel .input-field input:focus {
+            border-color: rgba(0, 212, 255, 0.25);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.04), 0 0 0 3px rgba(0, 212, 255, 0.04);
+            background: rgba(0, 10, 20, 0.5);
+        }
+
+        .right-panel .input-field input::placeholder {
+            color: #4A5A6A;
+            font-weight: 300;
+        }
+
+        .right-panel .input-field .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4A5A6A;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .right-panel .input-field:focus-within .input-icon {
+            color: #4DA6FF;
+        }
+
+        .right-panel .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #4A5A6A;
+            font-size: 16px;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .right-panel .toggle-password:hover {
+            color: #4DA6FF;
+        }
+
+        .right-panel .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 6px 0 20px;
+        }
+
+        .right-panel .form-options .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .right-panel .form-options .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00D4FF;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px solid rgba(0, 212, 255, 0.08);
+            border-radius: 4px;
+        }
+
+        .right-panel .form-options .checkbox-group label {
+            font-size: 14px;
+            color: #94A3B8;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .right-panel .form-options a {
+            color: #4DA6FF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .right-panel .form-options a:hover {
+            color: #00D4FF;
+            border-bottom-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .right-panel .btn-action {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0066FF, #00D4FF);
+            border: none;
+            border-radius: 16px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 40px rgba(0, 102, 255, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .right-panel .btn-action:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .right-panel .btn-action:active {
+            transform: scale(0.97);
+        }
+
+        .right-panel .btn-action i {
+            margin-right: 10px;
+        }
+
+        .right-panel .form-footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #94A3B8;
+        }
+
+        .right-panel .form-footer a {
+            color: #4DA6FF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .right-panel .form-footer a:hover {
+            color: #00D4FF;
+            border-bottom-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .error-message {
+            color: #F87171;
+            font-size: 13px;
+            margin-top: 6px;
+            padding-left: 4px;
+            display: block;
+        }
+
+        .error-message i {
+            margin-right: 6px;
+        }
+
+        /* ===== MENSAJE DE ÉXITO ===== */
+        .success-message {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4DA6FF;
+            font-size: 14px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message i {
+            font-size: 20px;
+            color: #00D4FF;
+        }
+
+        .success-message strong {
+            color: #E2E8F0;
+        }
+
+        /* ===== BOTÓN IR AL SITIO WEB ===== */
+        .btn-website {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.08);
+            color: #94A3B8;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-top: 12px;
+            width: fit-content;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        .btn-website:hover {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.15);
+            color: #E2E8F0;
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.04);
+        }
+
+        .btn-website i {
+            color: #4DA6FF;
+        }
+
+        .register-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .register-grid .form-group {
+            margin-bottom: 14px;
+        }
+
+        .register-grid .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .auth-form {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== CREDENCIALES DEMO ===== */
+        .demo-credenciales {
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        .demo-credenciales strong {
+            color: #00D4FF;
+        }
+
+        .demo-credenciales span {
+            color: #E2E8F0;
+        }
+
+        /* ===== DEMO BADGE ===== */
+        .demo-badge-login {
+            display: inline-block;
+            background: rgba(203, 213, 225, 0.08);
+            color: #94A3B8;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 1px solid rgba(203, 213, 225, 0.1);
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                max-width: 600px;
+                min-height: auto;
+            }
+
+            .left-panel {
+                width: 100%;
+                padding: 35px 30px;
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 212, 255, 0.06);
+            }
+
+            .right-panel {
+                width: 100%;
+                padding: 35px 30px;
+            }
+
+            .register-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .register-grid .form-group.full {
+                grid-column: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-panel {
+                padding: 25px 20px;
+            }
+
+            .right-panel {
+                padding: 25px 20px;
+            }
+
+            .left-panel .logo-mini .logo-text {
+                font-size: 17px;
+            }
+
+            .left-panel .logo-mini .logo-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .left-panel .logo-mini .logo-icon img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .right-panel .form-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="server-bg" id="serverBg"></div>
+
+    <div class="container">
+
+        <div class="left-panel">
+            <div class="logo-mini">
+                <div class="logo-icon">
+                    <img src="iconos/Logotipo.png" alt="Nexus Agenda Logo">
+                </div>
+                <div class="logo-text">
+                    Nexus <span>Agenda</span>
+                    <span class="demo-badge-login" style="font-size:10px; margin-left:8px;">demo</span>
+                </div>
+            </div>
+
+            <p class="welcome-sub">
+                Gestiona tus citas, servicios y clientes de manera eficiente. Accede a tu cuenta para comenzar.
+            </p>
+
+            <ul class="features-mini">
+                <li><i class="fas fa-calendar-check"></i> Gestión de citas y horarios</li>
+                <li><i class="fas fa-concierge-bell"></i> Administración de servicios</li>
+                <li><i class="fas fa-users"></i> Control de clientes</li>
+                <li><i class="fas fa-bell"></i> Recordatorios automáticos</li>
+            </ul>
+
+            <button class="switch-btn" id="switchBtn" onclick="switchForm()">
+                <i class="fas fa-arrow-right"></i>
+                <span id="switchText">¿Nuevo? Regístrate aquí</span>
+            </button>
+
+            <!-- ===== BOTÓN IR AL SITIO WEB ===== -->
+            <a href="index.html" class="btn-website">
+                <i class="fas fa-globe"></i> IR AL SITIO WEB
+            </a>
+
+            <div class="demo-badge-panel">
+                <i class="fas fa-flask" style="margin-right: 6px;"></i>
+                Versión demo · <span>funcionalidades limitadas</span>
+            </div>
+        </div>
+
+        <div class="right-panel">
+
+            <!-- FORMULARIO LOGIN -->
+            <div class="auth-form active" id="loginForm">
+                <h3 class="form-title">Iniciar Sesión</h3>
+                <p class="form-sub">Accede a tu agenda y gestiona tus citas.</p>
+
+                <!-- ===== CREDENCIALES DEMO ===== -->
+                <div class="demo-credenciales">
+                    <i class="fas fa-flask" style="margin-right: 6px; color:#00D4FF;"></i>
+                    <strong>demo:</strong> <span>nexus@sistema.com</span> / <span>demo123</span>
+                </div>
+
+                <form id="loginForm" onsubmit="return handleLogin()">
+                    <div class="form-group">
+                        <label for="login-email">Correo electrónico</label>
+                        <div class="input-field">
+                            <input type="email" id="login-email" placeholder="correo@ejemplo.com" value="nexus@sistema.com">
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <div class="input-field">
+                            <input type="password" id="login-password" placeholder="Ingresa tu contraseña" value="demo123">
+                            <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="recordar" checked>
+                            <label for="recordar">Recordar usuario</label>
+                        </div>
+                        <a href="#" id="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <div id="login-error" class="error-message" style="display:none;">
+                        <i class="fas fa-exclamation-circle"></i> Correo o contraseña incorrectos
+                    </div>
+
+                    <button type="submit" class="btn-action">
+                        <i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN
+                    </button>
+                </form>
+            </div>
+
+            <!-- FORMULARIO REGISTRO -->
+            <div class="auth-form" id="registerForm">
+                <h3 class="form-title">Crear Cuenta</h3>
+                <p class="form-sub">Regístrate y comienza a gestionar tu agenda.</p>
+
+                <form id="registerForm" onsubmit="return handleRegister()">
+                    <div class="register-grid">
+                        <div class="form-group">
+                            <label for="reg-nombre">Nombre completo *</label>
+                            <div class="input-field">
+                                <input type="text" id="reg-nombre" placeholder="Tu nombre">
+                                <i class="fas fa-user input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-empresa">Nombre del negocio</label>
+                            <div class="input-field">
+                                <input type="text" id="reg-empresa" placeholder="Tu negocio">
+                                <i class="fas fa-store input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-telefono">Teléfono</label>
+                            <div class="input-field">
+                                <input type="text" id="reg-telefono" placeholder="Ej: 3001234567">
+                                <i class="fas fa-phone input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-correo">Correo electrónico *</label>
+                            <div class="input-field">
+                                <input type="email" id="reg-correo" placeholder="correo@ejemplo.com">
+                                <i class="fas fa-envelope input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-password">Contraseña *</label>
+                            <div class="input-field">
+                                <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres">
+                                <button type="button" class="toggle-password" onclick="togglePassword('reg-password', this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-confirm">Confirmar contraseña *</label>
+                            <div class="input-field">
+                                <input type="password" id="reg-confirm" placeholder="Repite tu contraseña">
+                                <button type="button" class="toggle-password" onclick="togglePassword('reg-confirm', this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-options" style="margin-top: 4px;">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terminos">
+                            <label for="terminos">Acepto los <a href="#" style="color:#4DA6FF; text-decoration:none; border-bottom:1px solid rgba(0,212,255,0.1);">términos y condiciones</a></label>
+                        </div>
+                    </div>
+
+                    <div id="register-error" class="error-message" style="display:none;">
+                        <i class="fas fa-exclamation-circle"></i> Error en el registro
+                    </div>
+
+                    <div id="register-success" class="success-message" style="display:none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span><strong>¡Registro exitoso!</strong> Bienvenido a Nexus Agenda. Serás redirigido al panel...</span>
+                    </div>
+
+                    <button type="submit" class="btn-action">
+                        <i class="fas fa-user-plus"></i> REGISTRARSE
+                    </button>
+                </form>
+            </div>
+
+            <div class="form-footer" id="formFooter">
+                <span id="footerText">¿No tienes cuenta?</span>
+                <a href="#" onclick="switchForm(); return false;" id="footerLink">Regístrate aquí</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // ===== GENERAR FONDO TECNOLÓGICO NEÓN =====
+        (function() {
+            const bg = document.getElementById('serverBg');
+            const ledColors = ['', 'blue-neon', 'blue-light', 'silver-neon', 'purple-neon'];
+            for (let i = 0; i < 85; i++) {
+                const led = document.createElement('div');
+                led.className = 'led ' + ledColors[Math.floor(Math.random() * ledColors.length)];
+                led.style.left = Math.random() * 100 + '%';
+                led.style.top = Math.random() * 100 + '%';
+                led.style.width = (4 + Math.random() * 6) + 'px';
+                led.style.height = led.style.width;
+                led.style.animationDelay = (Math.random() * 4) + 's';
+                led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                bg.appendChild(led);
+            }
+            for (let i = 0; i < 18; i++) {
+                const cable = document.createElement('div');
+                const types = ['', 'blue', 'silver', 'purple'];
+                cable.className = 'cable ' + types[Math.floor(Math.random() * types.length)];
+                cable.style.width = (60 + Math.random() * 120) + 'px';
+                cable.style.left = (Math.random() * 90) + '%';
+                cable.style.top = (Math.random() * 90) + '%';
+                cable.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+                cable.style.opacity = 0.15 + Math.random() * 0.3;
+                bg.appendChild(cable);
+            }
+        })();
+
+        // ===== CAMBIAR ENTRE LOGIN Y REGISTER =====
+        let isLogin = true;
+
+        function switchForm() {
+            isLogin = !isLogin;
+
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const switchText = document.getElementById('switchText');
+            const footerText = document.getElementById('footerText');
+            const footerLink = document.getElementById('footerLink');
+
+            // Ocultar mensajes de error/éxito
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('register-error').style.display = 'none';
+            document.getElementById('register-success').style.display = 'none';
+
+            if (isLogin) {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                switchText.textContent = '¿Nuevo? Regístrate aquí';
+                footerText.textContent = '¿No tienes cuenta?';
+                footerLink.textContent = 'Regístrate aquí';
+                document.querySelector('.switch-btn i').className = 'fas fa-arrow-right';
+            } else {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+                switchText.textContent = '¿Ya tienes cuenta? Inicia sesión';
+                footerText.textContent = '¿Ya tienes cuenta?';
+                footerLink.textContent = 'Inicia sesión';
+                document.querySelector('.switch-btn i').className = 'fas fa-arrow-left';
+            }
+        }
+
+        // ===== MOSTRAR/OCULTAR CONTRASEÑA =====
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // ===== MANEJAR LOGIN (DEMO) =====
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorMsg = document.getElementById('login-error');
+
+            if (email === 'nexus@sistema.com' && password === 'demo123') {
+                errorMsg.style.display = 'none';
+                alert('✅ ¡Bienvenido a Nexus Agenda! Redirigiendo al panel...');
+                window.location.href = 'panel/index.html';
+                return false;
+            } else {
+                errorMsg.style.display = 'block';
+                return false;
+            }
+        }
+
+        // ===== MANEJAR REGISTRO (DEMO) =====
+        function handleRegister() {
+            const nombre = document.getElementById('reg-nombre').value;
+            const correo = document.getElementById('reg-correo').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmar = document.getElementById('reg-confirm').value;
+            const errorMsg = document.getElementById('register-error');
+            const successMsg = document.getElementById('register-success');
+
+            if (!nombre || !correo || !password || !confirmar) {
+                errorMsg.textContent = 'Todos los campos obligatorios deben estar completos';
+                errorMsg.style.display = 'block';
+                successMsg.style.display = 'none';
+                return false;
+            }
+
+            if (password.length < 6) {
+                errorMsg.textContent = 'La contraseña debe tener al menos 6 caracteres';
+                errorMsg.style.display = 'block';
+                successMsg.style.display = 'none';
+                return false;
+            }
+
+            if (password !== confirmar) {
+                errorMsg.textContent = 'Las contraseñas no coinciden';
+                errorMsg.style.display = 'block';
+                successMsg.style.display = 'none';
+                return false;
+            }
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'flex';
+
+            setTimeout(() => {
+                alert('✅ ¡Registro exitoso! Redirigiendo al panel...');
+                window.location.href = 'panel/index.html';
+            }, 1500);
+
+            return false;
+        }
+
+        // ===== RECUPERAR CONTRASEÑA =====
+        document.getElementById('forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('📌 Versión demo: contacta al administrador del sistema para restablecer tu contraseña.');
+        });
+    </script>
+
+</body>
+
+</html>

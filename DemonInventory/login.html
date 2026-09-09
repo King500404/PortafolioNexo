@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Inventory · Acceso · Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        .logo-title,
+        .info-title,
+        .auth-tab,
+        .auth-btn,
+        .client-btn,
+        .client-access h3 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #12121F;
+            padding: 20px;
+        }
+
+        .server-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, #1A1A2E, #12121F 80%);
+            overflow: hidden;
+        }
+
+        .led {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00F0FF;
+            box-shadow: 0 0 12px #00F0FF, 0 0 30px rgba(0, 240, 255, 0.3);
+            animation: blink 2.2s infinite alternate;
+        }
+
+        .led.green {
+            background: #00FF94;
+            box-shadow: 0 0 12px #00FF94, 0 0 30px rgba(0, 255, 148, 0.3);
+            animation-duration: 1.8s;
+        }
+
+        .led.green-soft {
+            background: #39FFB0;
+            box-shadow: 0 0 12px #39FFB0, 0 0 30px rgba(57, 255, 176, 0.25);
+            animation-duration: 2.6s;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .cable {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.7), rgba(0, 240, 255, 0.1));
+            filter: blur(1px);
+            border-radius: 2px;
+            transform: rotate(var(--rot, 0deg));
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+        }
+
+        .cable.green {
+            background: linear-gradient(90deg, rgba(0, 255, 148, 0.2), rgba(0, 255, 148, 0.7), rgba(0, 255, 148, 0.1));
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            min-height: 700px;
+            background: rgba(18, 18, 31, 0.75);
+            backdrop-filter: blur(14px) saturate(1.3);
+            border-radius: 40px;
+            border: 1px solid rgba(0, 255, 148, 0.25);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 148, 0.08) inset;
+            overflow: hidden;
+        }
+
+        .left-column {
+            width: 50%;
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(0, 255, 148, 0.15);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .logo-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1E2A36, #0B1119);
+            border: 3px solid #00FF94;
+            box-shadow: 0 0 40px rgba(0, 255, 148, 0.35), 0 0 15px rgba(0, 255, 148, 0.5) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-img img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            padding: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #00F0FF;
+        }
+
+        /* ===== BADGE DEMO - TONO AZUL NEÓN ===== */
+        .demo-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.08);
+            color: #00D4FF;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .demo-notice {
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.06);
+            border-radius: 12px;
+            padding: 8px 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #94A3B8;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .demo-notice i {
+            font-size: 14px;
+            color: #00D4FF;
+        }
+
+        .demo-notice strong {
+            color: #00D4FF;
+            font-weight: 500;
+        }
+
+        /* ===== AUTH ===== */
+        .auth-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 60px;
+            padding: 4px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(0, 255, 148, 0.15);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: #94A3B8;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.25s;
+            background: transparent;
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            color: #12121F;
+            box-shadow: 0 4px 20px rgba(0, 255, 148, 0.35);
+            font-weight: 700;
+        }
+
+        .auth-tab:not(.active):hover {
+            color: #ECF0F1;
+            background: rgba(0, 255, 148, 0.08);
+        }
+
+        .auth-form {
+            display: none;
+            animation: fadeUp 0.35s ease;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #CBD5E1;
+            margin-bottom: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        .input-field {
+            position: relative;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 14px 18px 14px 18px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid rgba(0, 255, 148, 0.2);
+            border-radius: 60px;
+            font-size: 14px;
+            color: #ECF0F1;
+            transition: all 0.25s;
+            backdrop-filter: blur(4px);
+            outline: none;
+        }
+
+        .input-field input:focus {
+            border-color: #00F0FF;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15), 0 0 0 3px rgba(0, 255, 148, 0.08);
+            background: rgba(0, 10, 20, 0.7);
+        }
+
+        .input-field input::placeholder {
+            color: #5A6A7A;
+            font-weight: 300;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #00FF94;
+            font-size: 16px;
+            transition: 0.2s;
+            opacity: 0.7;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+            color: #00F0FF;
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-size: 13px;
+            margin-top: 8px;
+            padding-left: 18px;
+            display: block;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0 4px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00FF94;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid rgba(0, 255, 148, 0.2);
+            border-radius: 4px;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #94A3B8;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #12121F;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 8px 25px rgba(0, 255, 148, 0.25);
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: scale(1.01);
+            box-shadow: 0 12px 35px rgba(0, 240, 255, 0.4);
+        }
+
+        .auth-btn:active {
+            transform: scale(0.97);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .auth-link a {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: 0.2s;
+        }
+
+        .auth-link a:hover {
+            color: #00FF94;
+            border-bottom-color: #00FF94;
+        }
+
+        .auth-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 255, 148, 0.08);
+            text-align: center;
+            font-size: 12px;
+            color: #4A5A6A;
+            letter-spacing: 0.2px;
+        }
+
+        .auth-footer .demo-note {
+            color: #00D4FF;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* ===== RIGHT COLUMN ===== */
+        .right-column {
+            width: 50%;
+            padding: 48px 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(2px);
+        }
+
+        .info-title {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #ECF0F1;
+            margin-bottom: 16px;
+        }
+
+        .info-title span {
+            color: #00FF94;
+            text-shadow: 0 0 20px rgba(0, 255, 148, 0.3);
+        }
+
+        .info-subtitle {
+            font-size: 18px;
+            color: #94A3B8;
+            margin-bottom: 36px;
+            line-height: 1.5;
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .features-list li {
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            color: #CBD5E1;
+            line-height: 1.5;
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+        }
+
+        .features-list li i {
+            margin-right: 18px;
+            font-size: 20px;
+            color: #00FF94;
+            width: 28px;
+            text-align: center;
+        }
+
+        .client-access {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 32px;
+            padding: 28px 30px;
+            border: 1px solid rgba(0, 255, 148, 0.12);
+            backdrop-filter: blur(6px);
+        }
+
+        .client-access h3 {
+            color: #ECF0F1;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .client-access p {
+            color: #94A3B8;
+            font-size: 16px;
+            margin-bottom: 22px;
+            line-height: 1.5;
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+        }
+
+        .client-btn {
+            display: inline-block;
+            padding: 12px 36px;
+            background: transparent;
+            color: #00FF94;
+            font-weight: 600;
+            border-radius: 60px;
+            border: 1.5px solid #00FF94;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(0, 255, 148, 0.05);
+        }
+
+        .client-btn:hover {
+            background: #00FF94;
+            color: #12121F;
+            box-shadow: 0 8px 30px rgba(0, 255, 148, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ===== INFO BOX CASUAL - AZUL NEÓN ===== */
+        .info-box-casual {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(0, 212, 255, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.06);
+        }
+
+        .info-box-casual p {
+            font-size: 13px;
+            color: #64748B;
+            margin: 0;
+        }
+
+        .info-box-casual i {
+            color: #00D4FF;
+            margin-right: 8px;
+        }
+
+        .info-box-casual strong {
+            color: #00D4FF;
+        }
+
+        /* ===== CREDENCIALES DEMO ===== */
+        .demo-credenciales {
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        .demo-credenciales strong {
+            color: #00D4FF;
+        }
+
+        .demo-credenciales span {
+            color: #E2E8F0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                max-width: 600px;
+            }
+            .left-column,
+            .right-column {
+                width: 100%;
+            }
+            .left-column {
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 255, 148, 0.1);
+            }
+            .right-column {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-column {
+                padding: 28px 20px;
+            }
+            .right-column {
+                padding: 30px 20px;
+            }
+            .logo-title {
+                font-size: 20px;
+            }
+            .auth-tab {
+                font-size: 12px;
+                padding: 10px 6px;
+            }
+            .logo-img {
+                width: 70px;
+                height: 70px;
+            }
+            .logo-img img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="server-bg" id="serverBg"></div>
+
+    <div class="container">
+        <div class="left-column">
+            <div class="logo-container">
+                <div class="logo-img">
+                    <img src="iconos/Logotipos.png" alt="Nexus Inventory Logo">
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">
+                        Nexus Inventory
+                        <span class="demo-badge">demo</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ===== AVISO DE DEMO - AZUL NEÓN ===== -->
+            <div class="demo-notice">
+                <i class="fas fa-code-branch"></i>
+                <span>
+                    <strong>versión demo</strong> — funcionalidades limitadas · datos de prueba
+                </span>
+                <i class="fas fa-flask"></i>
+            </div>
+
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('login')">INICIAR SESIÓN</div>
+                <div class="auth-tab" onclick="switchTab('register')">REGISTRARSE</div>
+            </div>
+
+            <div class="auth-forms">
+                <!-- LOGIN -->
+                <form id="login" class="auth-form active" onsubmit="return handleLogin()">
+                    <input type="hidden" name="action" value="login">
+                    <div class="form-group">
+                        <label for="login-email">Correo electrónico</label>
+                        <div class="input-field">
+                            <input type="email" id="login-email" name="login-email" placeholder="correo@ejemplo.com" required value="admin@sistema.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <div class="input-field">
+                            <input type="password" id="login-password" name="login-password" placeholder="Ingrese su contraseña" required value="admin123">
+                            <i class="fas fa-eye toggle-password" onclick="togglePassword('login-password', this)"></i>
+                        </div>
+                    </div>
+
+                    <!-- ===== CREDENCIALES DEMO ===== -->
+                    <div class="demo-credenciales">
+                        <i class="fas fa-flask" style="margin-right: 6px; color:#00D4FF;"></i>
+                        <strong>demo:</strong> <span>admin@sistema.com</span> / <span>admin123</span>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="recordar" name="recordar">
+                        <label for="recordar">Recordar usuario</label>
+                    </div>
+                    <div id="login-error" class="error-message" style="display:none;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>Correo o contraseña incorrectos</div>
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-sign-in-alt" style="margin-right: 10px;"></i>ACCEDER
+                    </button>
+                    <div class="auth-link">
+                        <a href="#" id="forgot-password">¿Olvidó su contraseña?</a>
+                    </div>
+                </form>
+
+                <!-- REGISTRO -->
+                <form id="register" class="auth-form" onsubmit="return handleRegister()">
+                    <input type="hidden" name="action" value="register">
+                    <div class="form-group">
+                        <label for="reg-nombre">Nombre Completo</label>
+                        <div class="input-field">
+                            <input type="text" id="reg-nombre" name="reg-nombre" placeholder="Ingrese su nombre completo" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-correo">Correo Electrónico</label>
+                        <div class="input-field">
+                            <input type="email" id="reg-correo" name="reg-correo" placeholder="correo@ejemplo.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-contraseña">Contraseña</label>
+                        <div class="input-field">
+                            <input type="password" id="reg-contraseña" name="reg-contraseña" placeholder="Mínimo 6 caracteres" required>
+                            <i class="fas fa-eye toggle-password" onclick="togglePassword('reg-contraseña', this)"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-confirmar">Confirmar Contraseña</label>
+                        <div class="input-field">
+                            <input type="password" id="reg-confirmar" name="reg-confirmar" placeholder="Repita su contraseña" required>
+                            <i class="fas fa-eye toggle-password" onclick="togglePassword('reg-confirmar', this)"></i>
+                        </div>
+                    </div>
+                    <div id="register-error" class="error-message" style="display:none;"><i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>Error en el registro</div>
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-user-plus" style="margin-right: 10px;"></i>REGISTRARSE
+                    </button>
+                    <div class="auth-link">
+                        <a href="#" onclick="switchTab('login'); return false;">¿Ya tienes cuenta? Inicia sesión</a>
+                    </div>
+                    <div class="info-box-casual">
+                        <p>
+                            <i class="fas fa-info-circle"></i>
+                            <strong>demo:</strong> el registro está habilitado para pruebas
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="auth-footer">
+                Nexus Inventory © 2026 — Nexus Webs.
+                <br>Todos los derechos reservados.
+                <div class="demo-note">
+                    <i class="fas fa-flask"></i> versión demo · solo pruebas
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <h2 class="info-title">Nexus <span>Inventory</span></h2>
+            <p class="info-subtitle">Sistema de gestión de inventario diseñado para control total, seguimiento inteligente y sincronización en tiempo real.</p>
+            <ul class="features-list">
+                <li><i class="fas fa-circle-check"></i> Actualización instantánea de existencias</li>
+                <li><i class="fas fa-circle-check"></i> Alertas y notificaciones automáticas</li>
+                <li><i class="fas fa-circle-check"></i> Historial completo de movimientos y registros</li>
+                <li><i class="fas fa-circle-check"></i> Seguridad y acceso protegido</li>
+                <li><i class="fas fa-circle-check"></i> Reportes y consultas detalladas</li>
+            </ul>
+            <div class="client-access">
+                <h3>Acerca del sistema</h3>
+                <p>Consulta el estado de existencias y reportes públicos sin necesidad de iniciar sesión.</p>
+                <a href="index.html" class="client-btn"><i class="fas fa-globe" style="margin-right: 8px;"></i>IR AL SITIO WEB</a>
+            </div>
+            <div class="info-box-casual" style="margin-top: 20px;">
+                <p>
+                    <i class="fas fa-code-branch"></i>
+                    <strong>versión demo v1.0</strong> — datos de prueba · funcionalidades limitadas
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== GENERAR FONDO TECNOLÓGICO =====
+        (function() {
+            const bg = document.getElementById('serverBg');
+            const ledColors = ['', 'green', 'green-soft'];
+            for (let i = 0; i < 85; i++) {
+                const led = document.createElement('div');
+                led.className = 'led ' + ledColors[Math.floor(Math.random() * ledColors.length)];
+                led.style.left = Math.random() * 100 + '%';
+                led.style.top = Math.random() * 100 + '%';
+                led.style.width = (4 + Math.random() * 6) + 'px';
+                led.style.height = led.style.width;
+                led.style.animationDelay = (Math.random() * 4) + 's';
+                led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                bg.appendChild(led);
+            }
+            for (let i = 0; i < 18; i++) {
+                const cable = document.createElement('div');
+                cable.className = 'cable ' + (['', 'green'][Math.floor(Math.random() * 2)]);
+                cable.style.width = (60 + Math.random() * 120) + 'px';
+                cable.style.left = (Math.random() * 90) + '%';
+                cable.style.top = (Math.random() * 90) + '%';
+                cable.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+                cable.style.opacity = 0.3 + Math.random() * 0.4;
+                bg.appendChild(cable);
+            }
+        })();
+
+        // ===== CAMBIO DE PESTAÑAS =====
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.auth-tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            // Ocultar mensajes de error al cambiar
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('register-error').style.display = 'none';
+        };
+
+        // ===== MOSTRAR/OCULTAR CONTRASEÑA =====
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // ===== MANEJAR LOGIN =====
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorMsg = document.getElementById('login-error');
+
+            // Credenciales correctas: admin@sistema.com / admin123
+            if (email === 'admin@sistema.com' && password === 'admin123') {
+                errorMsg.style.display = 'none';
+                alert('✅ ¡Bienvenido! Redirigiendo al panel...');
+                // Redirigir al panel
+                window.location.href = 'panel/index.html';
+                return false;
+            } else {
+                errorMsg.style.display = 'block';
+                return false;
+            }
+        }
+
+        // ===== MANEJAR REGISTRO =====
+        function handleRegister() {
+            const nombre = document.getElementById('reg-nombre').value;
+            const correo = document.getElementById('reg-correo').value;
+            const password = document.getElementById('reg-contraseña').value;
+            const confirmar = document.getElementById('reg-confirmar').value;
+            const errorMsg = document.getElementById('register-error');
+
+            if (!nombre || !correo || !password || !confirmar) {
+                errorMsg.textContent = 'Todos los campos son obligatorios';
+                errorMsg.style.display = 'block';
+                return false;
+            }
+
+            if (password.length < 6) {
+                errorMsg.textContent = 'La contraseña debe tener al menos 6 caracteres';
+                errorMsg.style.display = 'block';
+                return false;
+            }
+
+            if (password !== confirmar) {
+                errorMsg.textContent = 'Las contraseñas no coinciden';
+                errorMsg.style.display = 'block';
+                return false;
+            }
+
+            errorMsg.style.display = 'none';
+            alert('✅ ¡Registro exitoso! Redirigiendo al panel...');
+            // Redirigir al panel
+            window.location.href = 'panel/index.html';
+            return false;
+        }
+
+        // ===== RECUPERAR CONTRASEÑA =====
+        document.getElementById('forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('📌 Versión demo: contacta al administrador del sistema para restablecer tu contraseña.');
+        });
+    </script>
+</body>
+
+</html>
