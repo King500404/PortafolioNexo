@@ -73,7 +73,6 @@
       position: relative;
       z-index: 2;
       max-width: 1400px;
-      width: 100%;
       margin: 0 auto;
       background: rgba(18, 18, 31, 0.75);
       backdrop-filter: blur(14px) saturate(1.3);
@@ -91,15 +90,12 @@
       padding-bottom: 20px;
       border-bottom: 1px solid rgba(0, 255, 148, 0.12);
       margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 12px;
     }
 
     .logo-container {
       display: flex;
       align-items: center;
       gap: 16px;
-      flex-wrap: wrap;
     }
 
     .logo-img {
@@ -223,7 +219,6 @@
       top: 100%;
       right: 0;
       width: 280px;
-      max-width: 90vw;
       background: rgba(18, 18, 31, 0.95);
       backdrop-filter: blur(12px);
       border-radius: 20px;
@@ -575,13 +570,11 @@
     .table-container {
       overflow-x: auto;
       border-radius: 16px;
-      -webkit-overflow-scrolling: touch;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 500px;
     }
 
     th, td {
@@ -630,7 +623,6 @@
       padding: 18px 24px;
       border-radius: 20px;
       max-width: 320px;
-      width: calc(100% - 60px);
       z-index: 1500;
       opacity: 0;
       transform: translateY(20px);
@@ -663,227 +655,20 @@
 
     @media (max-width: 992px) {
       .dashboard { grid-template-columns: 1fr; }
-      .container { padding: 20px; }
     }
 
     @media (max-width: 768px) {
-      .container { 
-        padding: 16px; 
-        border-radius: 24px;
-      }
-      
-      .topbar { 
-        flex-direction: column; 
-        align-items: stretch; 
-        gap: 12px;
-      }
-      
-      .logo-container { 
-        justify-content: center; 
-      }
-      
-      .logo-title { 
-        font-size: 18px; 
-      }
-      
-      .logo-subtitle { 
-        font-size: 11px; 
-      }
-      
-      .user-menu { 
-        align-self: center; 
-      }
-      
-      .user-name { 
-        font-size: 13px; 
-      }
-      
-      .navbar { 
-        border-radius: 20px; 
-        padding: 6px; 
-        gap: 4px;
-        justify-content: center;
-      }
-      
-      .navbar a { 
-        padding: 6px 12px; 
-        font-size: 12px; 
-      }
-      
-      .navbar a i { 
-        font-size: 13px; 
-      }
-      
-      .status-summary { 
-        grid-template-columns: 1fr 1fr; 
-        gap: 12px; 
-      }
-      
-      .status-card { 
-        padding: 14px 16px; 
-        gap: 10px; 
-      }
-      
-      .status-icon { 
-        width: 38px; 
-        height: 38px; 
-        font-size: 16px; 
-      }
-      
-      .status-content .status-value { 
-        font-size: 20px; 
-      }
-      
-      .status-content .status-title { 
-        font-size: 10px; 
-      }
-      
-      .status-content .status-subtitle { 
-        font-size: 10px; 
-      }
-      
-      .dashboard { 
-        gap: 16px; 
-      }
-      
-      .card { 
-        padding: 16px 18px; 
-        border-radius: 18px; 
-      }
-      
-      .card-header { 
-        gap: 10px; 
-        margin-bottom: 14px; 
-        padding-bottom: 10px; 
-      }
-      
-      .card-icon { 
-        width: 34px; 
-        height: 34px; 
-        font-size: 15px; 
-      }
-      
-      .card-title { 
-        font-size: 14px; 
-      }
-      
-      .card-subtitle { 
-        font-size: 12px; 
-      }
-      
-      .list-item { 
-        padding: 10px 12px; 
-        flex-wrap: wrap; 
-      }
-      
-      .item-name { 
-        font-size: 13px; 
-      }
-      
-      .item-meta { 
-        font-size: 11px; 
-      }
-      
-      .item-status { 
-        font-size: 10px; 
-        padding: 3px 10px; 
-        margin-left: 6px; 
-      }
-      
-      .table-container { 
-        border-radius: 12px; 
-      }
-      
-      table { 
-        min-width: 400px; 
-      }
-      
-      th, td { 
-        padding: 8px 12px; 
-        font-size: 12px; 
-      }
-      
-      .btn-demo { 
-        font-size: 11px; 
-        padding: 4px 12px; 
-      }
-      
-      .welcome-message { 
-        bottom: 80px; 
-        right: 16px; 
-        left: 16px; 
-        max-width: none; 
-        width: auto; 
-        padding: 14px 18px; 
-      }
-      
-      .welcome-title { 
-        font-size: 14px; 
-      }
-      
-      .welcome-text { 
-        font-size: 12px; 
-      }
-      
-      .user-dropdown { 
-        right: -10px; 
-        width: 260px; 
-        max-width: 90vw; 
-      }
+      .container { padding: 18px; }
+      .status-summary { grid-template-columns: 1fr 1fr; }
+      .navbar { border-radius: 24px; padding: 8px; }
+      .navbar a { padding: 8px 14px; font-size: 13px; }
+      .topbar { flex-wrap: wrap; gap: 12px; }
+      .user-dropdown { width: 260px; right: -10px; }
     }
 
     @media (max-width: 480px) {
-      body { padding: 10px; }
-      
-      .container { padding: 12px; border-radius: 18px; }
-      
-      .status-summary { grid-template-columns: 1fr 1fr; gap: 8px; }
-      
-      .status-card { padding: 12px 14px; gap: 8px; }
-      
-      .status-icon { width: 32px; height: 32px; font-size: 14px; }
-      
-      .status-content .status-value { font-size: 18px; }
-      
-      .status-content .status-title { font-size: 9px; }
-      
-      .status-content .status-subtitle { font-size: 9px; }
-      
-      .navbar a { padding: 4px 10px; font-size: 11px; }
-      
-      .navbar a i { font-size: 12px; }
-      
-      .card { padding: 14px; border-radius: 14px; }
-      
-      .card-title { font-size: 13px; }
-      
-      .card-subtitle { font-size: 11px; }
-      
-      .logo-title { font-size: 16px; }
-      
-      .logo-img { width: 44px; height: 44px; }
-      
-      .logo-img img { width: 38px; height: 38px; }
-      
+      .status-summary { grid-template-columns: 1fr; }
       .user-name { display: none; }
-      
-      .user-toggle { padding: 4px 10px 4px 6px; }
-      
-      .user-icon { width: 30px; height: 30px; font-size: 13px; margin-right: 6px; }
-      
-      .table-container { border-radius: 10px; }
-      
-      table { min-width: 320px; }
-      
-      th, td { padding: 6px 8px; font-size: 11px; }
-      
-      .badge { font-size: 10px; padding: 1px 8px; }
-      
-      .btn { font-size: 11px; padding: 6px 14px; }
-      
-      .btn-demo { font-size: 10px; padding: 3px 10px; }
-      
-      .welcome-message { bottom: 70px; right: 10px; left: 10px; padding: 12px 14px; }
     }
   </style>
 </head>
