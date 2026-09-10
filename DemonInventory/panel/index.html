@@ -1,682 +1,948 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nexus Inventory · Panel DEMO</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    }
-
-    .logo-text, .navbar a, .card-title, .status-value, .status-title {
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.5px;
-    }
-
-    body {
-      background: #12121F;
-      min-height: 100vh;
-      padding: 20px;
-      color: #ECF0F1;
-    }
-
-    /* ===== FONDO TECNOLÓGICO CON COLORES NEÓN ===== */
-    .server-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: radial-gradient(circle at 20% 30%, #1A1A2E, #12121F 80%);
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .led {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #00F0FF;
-      box-shadow: 0 0 12px #00F0FF, 0 0 30px rgba(0, 240, 255, 0.3);
-      animation: blink 2.2s infinite alternate;
-    }
-    .led.green { background: #00FF94; box-shadow: 0 0 12px #00FF94, 0 0 30px rgba(0, 255, 148, 0.3); animation-duration: 1.8s; }
-    .led.green-soft { background: #39FFB0; box-shadow: 0 0 12px #39FFB0, 0 0 30px rgba(57, 255, 176, 0.25); animation-duration: 2.6s; }
-    .led.white { background: #ECF0F1; box-shadow: 0 0 14px #ECF0F1, 0 0 40px rgba(236, 240, 241, 0.15); animation-duration: 1.2s; }
-    .led.neon-red { background: #FF0040; box-shadow: 0 0 14px #FF0040, 0 0 40px rgba(255, 0, 64, 0.3); animation-duration: 1.5s; }
-    @keyframes blink {
-      0% { opacity: 0.2; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1.2); }
-    }
-    .cable {
-      position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.7), rgba(0, 240, 255, 0.1));
-      filter: blur(1px);
-      border-radius: 2px;
-      transform: rotate(var(--rot, 0deg));
-      box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
-      animation: cableMove 20s linear infinite;
-    }
-    .cable.green { background: linear-gradient(90deg, rgba(0, 255, 148, 0.2), rgba(0, 255, 148, 0.7), rgba(0, 255, 148, 0.1)); }
-    .cable.green-soft { background: linear-gradient(90deg, rgba(57, 255, 176, 0.2), rgba(57, 255, 176, 0.5), rgba(57, 255, 176, 0.1)); }
-    .cable.neon-red { background: linear-gradient(90deg, rgba(255, 0, 64, 0.2), rgba(255, 0, 64, 0.7), rgba(255, 0, 64, 0.1)); }
-    @keyframes cableMove { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.7; } }
-
-    .container {
-      position: relative;
-      z-index: 2;
-      max-width: 1400px;
-      margin: 0 auto;
-      background: rgba(18, 18, 31, 0.75);
-      backdrop-filter: blur(14px) saturate(1.3);
-      border-radius: 40px;
-      border: 1px solid rgba(0, 255, 148, 0.25);
-      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 148, 0.08) inset;
-      padding: 28px 32px;
-    }
-
-    /* ===== TOPBAR CON LOGO ===== */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(0, 255, 148, 0.12);
-      margin-bottom: 24px;
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo-img {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #1E2A36, #0B1119);
-      border: 2px solid #00FF94;
-      box-shadow: 0 0 30px rgba(0, 255, 148, 0.2), 0 0 10px rgba(0, 255, 148, 0.3) inset;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-      position: relative;
-    }
-
-    .logo-img::after {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: 20%;
-      width: 60%;
-      height: 8px;
-      background: radial-gradient(ellipse, rgba(0, 255, 148, 0.6), transparent);
-      filter: blur(6px);
-      opacity: 0.8;
-      border-radius: 50%;
-    }
-
-    .logo-img img {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #00F0FF;
-      letter-spacing: -0.3px;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .logo-title span {
-      color: #00FF94;
-    }
-
-    .logo-subtitle {
-      font-size: 13px;
-      color: #94A3B8;
-      margin-top: 2px;
-    }
-
-    /* ===== DEMO BADGE ===== */
-    .demo-badge {
-      display: inline-block;
-      background: rgba(0, 212, 255, 0.08);
-      color: #00D4FF;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 2px 12px;
-      border-radius: 20px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      border: 1px solid rgba(0, 212, 255, 0.1);
-      margin-left: 8px;
-    }
-
-    .user-menu {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .user-toggle {
-      display: flex;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(0, 255, 148, 0.15);
-      border-radius: 60px;
-      padding: 6px 16px 6px 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .user-toggle:hover {
-      background: rgba(0, 255, 148, 0.08);
-      border-color: rgba(0, 255, 148, 0.3);
-    }
-
-    .user-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #00FF94;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #12121F;
-      font-size: 16px;
-      margin-right: 10px;
-    }
-
-    .user-name {
-      font-weight: 600;
-      font-size: 14px;
-      color: #ECF0F1;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .user-dropdown {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      width: 280px;
-      background: rgba(18, 18, 31, 0.95);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      border: 1px solid rgba(0, 255, 148, 0.15);
-      padding: 20px;
-      z-index: 1001;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .user-dropdown.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .user-info {
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(0, 255, 148, 0.1);
-    }
-
-    .user-info h3 {
-      font-size: 16px;
-      color: #ECF0F1;
-      margin-bottom: 12px;
-      text-align: center;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .user-detail {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      color: #CBD5E1;
-      margin-bottom: 8px;
-    }
-
-    .user-detail i {
-      width: 20px;
-      color: #00FF94;
-    }
-
-    /* ===== BOTÓN CERRAR SESIÓN - ROJO NEÓN ===== */
-    .logout-btn {
-      display: block;
-      width: 100%;
-      background: rgba(255, 0, 64, 0.1);
-      color: #FF0040;
-      border: 1.5px solid #FF0040;
-      padding: 12px;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-align: center;
-      text-decoration: none;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 20px rgba(255, 0, 64, 0.05);
-    }
-
-    .logout-btn:hover {
-      background: #FF0040;
-      color: #12121F;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(255, 0, 64, 0.3);
-    }
-
-    /* ===== NAVBAR ===== */
-    .navbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 60px;
-      padding: 6px 10px;
-      margin-bottom: 28px;
-      border: 1px solid rgba(0, 255, 148, 0.08);
-    }
-
-    .navbar a {
-      color: #94A3B8;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.25s;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.3px;
-    }
-
-    .navbar a i {
-      font-size: 15px;
-    }
-
-    .navbar a:hover {
-      color: #ECF0F1;
-      background: rgba(0, 255, 148, 0.08);
-    }
-
-    .navbar a.active {
-      background: linear-gradient(90deg, #00F0FF, #00FF94);
-      color: #12121F;
-      box-shadow: 0 4px 20px rgba(0, 255, 148, 0.25);
-      font-weight: 600;
-    }
-
-    /* ===== STATUS SUMMARY ===== */
-    .status-summary {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .status-card {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 20px;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border: 1px solid rgba(0, 255, 148, 0.06);
-      transition: 0.3s;
-    }
-
-    .status-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(0, 255, 148, 0.2);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .status-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .total .status-icon { background: rgba(0, 255, 148, 0.15); color: #00FF94; }
-    .operativos .status-icon { background: rgba(0, 255, 148, 0.15); color: #00FF94; }
-    .mantenimiento .status-icon { background: rgba(0, 212, 255, 0.15); color: #00D4FF; }
-    .agencias .status-icon { background: rgba(0, 240, 255, 0.15); color: #00F0FF; }
-
-    .status-content .status-title {
-      font-size: 12px;
-      color: #94A3B8;
-      margin-bottom: 4px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
-
-    .status-content .status-value {
-      font-size: 26px;
-      font-weight: 700;
-      color: #ECF0F1;
-      line-height: 1.2;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .status-content .status-subtitle {
-      font-size: 12px;
-      color: #5A6A7A;
-      margin-top: 2px;
-    }
-
-    /* ===== DASHBOARD ===== */
-    .dashboard {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    .full-width { grid-column: 1 / -1; }
-
-    .card {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 24px;
-      padding: 22px 24px;
-      border: 1px solid rgba(0, 255, 148, 0.06);
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      border-color: rgba(0, 255, 148, 0.12);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(0, 255, 148, 0.06);
-    }
-
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .productos-icon { background: rgba(0, 255, 148, 0.12); color: #00FF94; }
-    .movimientos-icon { background: rgba(0, 240, 255, 0.12); color: #00F0FF; }
-    .alertas-icon { background: rgba(0, 212, 255, 0.12); color: #00D4FF; }
-    .categorias-icon { background: rgba(155, 89, 182, 0.12); color: #9b59b6; }
-
-    .card-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #ECF0F1;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .card-subtitle {
-      font-size: 13px;
-      color: #94A3B8;
-      margin-top: 2px;
-    }
-
-    .item-list {
-      list-style: none;
-    }
-
-    .list-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 14px;
-      border-left: 3px solid #00FF94;
-      transition: 0.2s;
-    }
-
-    .list-item:hover {
-      background: rgba(0, 0, 0, 0.35);
-    }
-
-    .item-details {
-      flex: 1;
-    }
-
-    .item-name {
-      font-weight: 500;
-      font-size: 14px;
-      color: #ECF0F1;
-    }
-
-    .item-meta {
-      font-size: 12px;
-      color: #94A3B8;
-      margin-top: 3px;
-    }
-
-    .item-status {
-      font-size: 11px;
-      padding: 4px 12px;
-      border-radius: 60px;
-      font-weight: 600;
-      margin-left: 10px;
-    }
-
-    .status-operativo { color: #00FF94; background: rgba(0, 255, 148, 0.12); }
-    .status-mantenimiento { color: #00D4FF; background: rgba(0, 212, 255, 0.12); }
-    .status-falla { color: #E74C3C; background: rgba(231, 76, 60, 0.12); }
-    .status-inactivo { color: #5A6A7A; background: rgba(90, 106, 122, 0.12); }
-
-    .empty-state {
-      text-align: center;
-      padding: 30px 10px;
-      color: #5A6A7A;
-    }
-
-    .empty-state i {
-      font-size: 40px;
-      opacity: 0.3;
-      margin-bottom: 12px;
-      display: block;
-      color: #94A3B8;
-    }
-
-    .empty-state p {
-      font-size: 14px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: linear-gradient(90deg, #00F0FF, #00FF94);
-      color: #12121F;
-      padding: 8px 20px;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 13px;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      text-decoration: none;
-      margin-top: 12px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.3px;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 255, 148, 0.25);
-    }
-
-    .btn-demo {
-      display: inline-block;
-      background: rgba(0, 212, 255, 0.08);
-      color: #00D4FF;
-      padding: 6px 16px;
-      border-radius: 60px;
-      font-weight: 500;
-      font-size: 12px;
-      border: 1px solid rgba(0, 212, 255, 0.06);
-      cursor: pointer;
-      transition: 0.2s;
-      text-decoration: none;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .btn-demo:hover {
-      background: rgba(0, 212, 255, 0.12);
-    }
-
-    .table-container {
-      overflow-x: auto;
-      border-radius: 16px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    th {
-      color: #94A3B8;
-      font-weight: 600;
-      font-size: 13px;
-      background: rgba(0, 0, 0, 0.15);
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.5px;
-    }
-
-    tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 60px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-left: 4px;
-    }
-
-    .badge-success { background: rgba(0, 255, 148, 0.15); color: #00FF94; }
-    .badge-warning { background: rgba(0, 212, 255, 0.15); color: #00D4FF; }
-    .badge-danger { background: rgba(231, 76, 60, 0.15); color: #E74C3C; }
-
-    .card-spacer { margin-bottom: 1.5rem; }
-    .card-spacer:last-child { margin-bottom: 0; }
-
-    /* ===== WELCOME ===== */
-    .welcome-message {
-      position: fixed;
-      bottom: 100px;
-      right: 30px;
-      background: rgba(18, 18, 31, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 255, 148, 0.2);
-      padding: 18px 24px;
-      border-radius: 20px;
-      max-width: 320px;
-      z-index: 1500;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.5s ease;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .welcome-message.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .welcome-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #00FF94;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    .welcome-text {
-      font-size: 13px;
-      color: #CBD5E1;
-      margin-top: 4px;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1200px) {
-      .status-summary { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 992px) {
-      .dashboard { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      .container { padding: 18px; }
-      .status-summary { grid-template-columns: 1fr 1fr; }
-      .navbar { border-radius: 24px; padding: 8px; }
-      .navbar a { padding: 8px 14px; font-size: 13px; }
-      .topbar { flex-wrap: wrap; gap: 12px; }
-      .user-dropdown { width: 260px; right: -10px; }
-    }
-
-    @media (max-width: 480px) {
-      .status-summary { grid-template-columns: 1fr; }
-      .user-name { display: none; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Inventory · Movimientos DEMO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #12121F;
+            --bg-card: rgba(18, 18, 31, 0.85);
+            --bg-hover: rgba(0, 255, 148, 0.05);
+            --border-neon: rgba(0, 255, 148, 0.15);
+            --border-neon-hover: rgba(0, 255, 148, 0.3);
+            --cyan: #00F0FF;
+            --green: #00FF94;
+            --green-soft: #39FFB0;
+            --neon-red: #FF0040;
+            --text-primary: #ECF0F1;
+            --text-body: #CBD5E1;
+            --text-secondary: #94A3B8;
+            --text-muted: #5A6A7A;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .logo-text,
+        .navbar a,
+        .card-title,
+        .status-value,
+        .status-title,
+        .nav-link,
+        .section-title,
+        .btn-primary,
+        .modal-title,
+        .logout-btn {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        body {
+            background: #12121F;
+            min-height: 100vh;
+            padding: 20px;
+            color: #ECF0F1;
+        }
+
+        .server-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, #1A1A2E, #12121F 80%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .led {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00F0FF;
+            box-shadow: 0 0 12px #00F0FF, 0 0 30px rgba(0, 240, 255, 0.3);
+            animation: blink 2.2s infinite alternate;
+        }
+
+        .led.green {
+            background: #00FF94;
+            box-shadow: 0 0 12px #00FF94, 0 0 30px rgba(0, 255, 148, 0.3);
+            animation-duration: 1.8s;
+        }
+
+        .led.green-soft {
+            background: #39FFB0;
+            box-shadow: 0 0 12px #39FFB0, 0 0 30px rgba(57, 255, 176, 0.25);
+            animation-duration: 2.6s;
+        }
+
+        .led.neon-red {
+            background: #FF0040;
+            box-shadow: 0 0 14px #FF0040, 0 0 40px rgba(255, 0, 64, 0.3);
+            animation-duration: 1.5s;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .cable {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.7), rgba(0, 240, 255, 0.1));
+            filter: blur(1px);
+            border-radius: 2px;
+            transform: rotate(var(--rot, 0deg));
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+            animation: cableMove 20s linear infinite;
+        }
+
+        .cable.green {
+            background: linear-gradient(90deg, rgba(0, 255, 148, 0.2), rgba(0, 255, 148, 0.7), rgba(0, 255, 148, 0.1));
+        }
+
+        .cable.neon-red {
+            background: linear-gradient(90deg, rgba(255, 0, 64, 0.2), rgba(255, 0, 64, 0.7), rgba(255, 0, 64, 0.1));
+        }
+
+        @keyframes cableMove {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(18, 18, 31, 0.75);
+            backdrop-filter: blur(14px) saturate(1.3);
+            border-radius: 40px;
+            border: 1px solid rgba(0, 255, 148, 0.25);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 148, 0.08) inset;
+            padding: 28px 32px;
+        }
+
+        /* ===== TOPBAR CON LOGO ===== */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.12);
+            margin-bottom: 24px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1E2A36, #0B1119);
+            border: 2px solid #00FF94;
+            box-shadow: 0 0 30px rgba(0, 255, 148, 0.2), 0 0 10px rgba(0, 255, 148, 0.3) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .logo-img::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 20%;
+            width: 60%;
+            height: 8px;
+            background: radial-gradient(ellipse, rgba(0, 255, 148, 0.6), transparent);
+            filter: blur(6px);
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+
+        .logo-img img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #00F0FF;
+            letter-spacing: -0.3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .logo-title span {
+            color: #00FF94;
+        }
+
+        .logo-subtitle {
+            font-size: 13px;
+            color: #94A3B8;
+            margin-top: 2px;
+        }
+
+        /* ===== DEMO BADGE ===== */
+        .demo-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.08);
+            color: #00D4FF;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            margin-left: 8px;
+        }
+
+        .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-toggle {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 148, 0.15);
+            border-radius: 60px;
+            padding: 6px 16px 6px 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-toggle:hover {
+            background: rgba(0, 255, 148, 0.08);
+            border-color: rgba(0, 255, 148, 0.3);
+        }
+
+        .user-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #00FF94;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #12121F;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #ECF0F1;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 280px;
+            background: rgba(18, 18, 31, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 148, 0.15);
+            padding: 20px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .user-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-info {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.1);
+        }
+
+        .user-info h3 {
+            font-size: 16px;
+            color: #ECF0F1;
+            margin-bottom: 12px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .user-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #CBD5E1;
+            margin-bottom: 8px;
+        }
+
+        .user-detail i {
+            width: 20px;
+            color: #00FF94;
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            background: rgba(255, 0, 64, 0.1);
+            color: #FF0040;
+            border: 1.5px solid #FF0040;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(255, 0, 64, 0.05);
+        }
+
+        .logout-btn:hover {
+            background: #FF0040;
+            color: #12121F;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 0, 64, 0.3);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 60px;
+            padding: 6px 10px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(0, 255, 148, 0.08);
+        }
+
+        .navbar a {
+            color: #94A3B8;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .navbar a i {
+            font-size: 15px;
+        }
+
+        .navbar a:hover {
+            color: #ECF0F1;
+            background: rgba(0, 255, 148, 0.08);
+        }
+
+        .navbar a.active {
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            color: #12121F;
+            box-shadow: 0 4px 20px rgba(0, 255, 148, 0.25);
+            font-weight: 600;
+        }
+
+        /* ===== SECTION HEADER ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ECF0F1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title span {
+            color: #00FF94;
+        }
+
+        .section-title i {
+            color: #00F0FF;
+            font-size: 26px;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #12121F;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 255, 148, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        /* ===== STATUS SUMMARY ===== */
+        .status-summary {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .status-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(0, 255, 148, 0.06);
+            transition: 0.3s;
+        }
+
+        .status-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 148, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .total .status-icon { background: rgba(0, 240, 255, 0.15); color: #00F0FF; }
+        .entradas .status-icon { background: rgba(0, 255, 148, 0.15); color: #00FF94; }
+        .salidas .status-icon { background: rgba(243, 156, 18, 0.15); color: #F39C12; }
+        .ajustes .status-icon { background: rgba(155, 89, 182, 0.15); color: #9b59b6; }
+        .hoy .status-icon { background: rgba(0, 240, 255, 0.15); color: #00F0FF; }
+
+        .status-content .status-title {
+            font-size: 12px;
+            color: #94A3B8;
+            margin-bottom: 4px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .status-content .status-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ECF0F1;
+            line-height: 1.2;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .status-content .status-subtitle {
+            font-size: 12px;
+            color: #5A6A7A;
+            margin-top: 2px;
+        }
+
+        /* ===== FILTROS ===== */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 60px;
+            padding: 0 20px;
+            border: 1px solid rgba(0, 255, 148, 0.08);
+            transition: var(--transition);
+        }
+
+        .search-box:focus-within {
+            border-color: #00F0FF;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 12px 14px;
+            color: #ECF0F1;
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+        }
+
+        .search-box input::placeholder {
+            color: #5A6A7A;
+        }
+
+        .search-box i {
+            color: #5A6A7A;
+            font-size: 14px;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 148, 0.08);
+            border-radius: 60px;
+            color: #ECF0F1;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            min-width: 150px;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            border-color: #00F0FF;
+        }
+
+        .filter-select option {
+            background: #1A1A2E;
+            color: #ECF0F1;
+        }
+
+        /* ===== TABLA ===== */
+        .table-container {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: var(--radius);
+            border: 1px solid rgba(0, 255, 148, 0.06);
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        table thead th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.06);
+        }
+
+        table tbody td {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #CBD5E1;
+            border-bottom: 1px solid rgba(0, 255, 148, 0.04);
+            vertical-align: middle;
+        }
+
+        table tbody tr {
+            transition: var(--transition);
+        }
+
+        table tbody tr:hover {
+            background: rgba(0, 255, 148, 0.02);
+        }
+
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-tipo {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-tipo.entrada {
+            background: rgba(0, 255, 148, 0.15);
+            color: #00FF94;
+        }
+
+        .badge-tipo.salida {
+            background: rgba(243, 156, 18, 0.15);
+            color: #F39C12;
+        }
+
+        .badge-tipo.ajuste {
+            background: rgba(155, 89, 182, 0.15);
+            color: #9b59b6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5A6A7A;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #94A3B8;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: #94A3B8;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0 10px;
+            color: #5A6A7A;
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 255, 148, 0.04);
+            margin-top: 20px;
+        }
+
+        .footer .footer-brand {
+            font-family: 'Orbitron', sans-serif;
+            color: #39FFB0;
+            font-weight: 600;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal {
+            background: rgba(18, 18, 31, 0.95);
+            backdrop-filter: blur(14px);
+            border-radius: 24px;
+            border: 1px solid rgba(0, 255, 148, 0.25);
+            max-width: 550px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px 36px;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ECF0F1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title i {
+            color: #00F0FF;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #5A6A7A;
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: #ECF0F1;
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #94A3B8;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px solid rgba(0, 255, 148, 0.08);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #ECF0F1;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #00F0FF;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-group select option {
+            background: #1A1A2E;
+            color: #ECF0F1;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-secondary {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1.5px solid #5A6A7A;
+            border-radius: 60px;
+            color: #94A3B8;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-secondary:hover {
+            border-color: #ECF0F1;
+            color: #ECF0F1;
+        }
+
+        .btn-success {
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #00F0FF, #00FF94);
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #12121F;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-success:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #fff;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: #00FF94;
+            color: #12121F;
+        }
+
+        .toast.error {
+            background: #E74C3C;
+        }
+
+        .toast.warning {
+            background: #F39C12;
+            color: #12121F;
+        }
+
+        @media (max-width: 1200px) {
+            .status-summary { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .status-summary { grid-template-columns: repeat(2, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 18px; }
+            .topbar { flex-wrap: wrap; gap: 12px; }
+            .user-dropdown { width: 260px; right: -10px; }
+            .navbar { border-radius: 24px; padding: 8px; }
+            .navbar a { padding: 8px 14px; font-size: 13px; }
+            .section-title { font-size: 20px; }
+            .status-summary { grid-template-columns: 1fr 1fr; }
+            .filters { flex-direction: column; }
+            .search-box { min-width: unset; }
+            .filter-select { width: 100%; }
+            table thead th, table tbody td { padding: 10px 14px; font-size: 12px; }
+            .modal { padding: 24px 20px; }
+            .btn-primary { padding: 10px 20px; font-size: 13px; }
+            .form-actions { flex-direction: column; }
+            .toast { left: 20px; right: 20px; bottom: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .user-name { display: none; }
+            .section-title { font-size: 18px; }
+            .status-summary { grid-template-columns: 1fr; }
+            table thead th, table tbody td { padding: 8px 10px; font-size: 11px; }
+            .btn-primary { font-size: 12px; padding: 8px 16px; }
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- Fondo de servidores -->
-  <div class="server-bg" id="serverBg"></div>
-  <div class="container">
+    <div class="server-bg" id="serverBg"></div>
+
+    <div class="container">
+
+        <!-- TOPBAR CON LOGO -->
         <header class="topbar">
             <div class="logo-container">
                 <div class="logo-img">
@@ -707,223 +973,449 @@
             </div>
         </header>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-      <a href="index.html" class="active"><i class="fas fa-home"></i> Resumen</a>
+        <nav class="navbar">
+      <a href="index.html"><i class="fas fa-home"></i> Resumen</a>
       <a href="productos.html"><i class="fas fa-boxes"></i> Productos</a>
       <a href="movimientos.html"><i class="fas fa-history"></i> Movimientos</a>
       <a href="categorias.html"><i class="fas fa-tags"></i> Categorías</a>
       <a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a>
     </nav>
 
-    <!-- Status Summary -->
-    <div class="status-summary">
-      <div class="status-card total">
-        <div class="status-icon"><i class="fas fa-boxes"></i></div>
-        <div class="status-content">
-          <div class="status-title">Total Productos</div>
-          <div class="status-value">24</div>
-          <div class="status-subtitle">Sistema completo</div>
+        <!-- SECTION HEADER -->
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-history"></i>
+                Historial de <span>Movimientos</span>
+            </div>
+            <button class="btn-primary" onclick="openModalRegistro()">
+                <i class="fas fa-plus"></i> Nuevo Movimiento
+            </button>
         </div>
-      </div>
-      <div class="status-card operativos">
-        <div class="status-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="status-content">
-          <div class="status-title">Stock Normal</div>
-          <div class="status-value">18</div>
-          <div class="status-subtitle">75% del total</div>
+
+        <!-- STATUS SUMMARY -->
+        <div class="status-summary">
+            <div class="status-card total">
+                <div class="status-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="status-content">
+                    <div class="status-title">Total</div>
+                    <div class="status-value">3</div>
+                    <div class="status-subtitle">Movimientos registrados</div>
+                </div>
+            </div>
+            <div class="status-card entradas">
+                <div class="status-icon"><i class="fas fa-arrow-down"></i></div>
+                <div class="status-content">
+                    <div class="status-title">Entradas</div>
+                    <div class="status-value">2</div>
+                    <div class="status-subtitle">15 unidades</div>
+                </div>
+            </div>
+            <div class="status-card salidas">
+                <div class="status-icon"><i class="fas fa-arrow-up"></i></div>
+                <div class="status-content">
+                    <div class="status-title">Salidas</div>
+                    <div class="status-value">1</div>
+                    <div class="status-subtitle">2 unidades</div>
+                </div>
+            </div>
+            <div class="status-card ajustes">
+                <div class="status-icon"><i class="fas fa-sliders-h"></i></div>
+                <div class="status-content">
+                    <div class="status-title">Ajustes</div>
+                    <div class="status-value">0</div>
+                    <div class="status-subtitle">0 unidades</div>
+                </div>
+            </div>
+            <div class="status-card hoy">
+                <div class="status-icon"><i class="fas fa-calendar-day"></i></div>
+                <div class="status-content">
+                    <div class="status-title">Hoy</div>
+                    <div class="status-value">2</div>
+                    <div class="status-subtitle">Movimientos del día</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="status-card mantenimiento">
-        <div class="status-icon"><i class="fas fa-exclamation-triangle"></i></div>
-        <div class="status-content">
-          <div class="status-title">Stock Bajo</div>
-          <div class="status-value">6</div>
-          <div class="status-subtitle">25% del total</div>
+
+        <!-- FILTROS -->
+        <div class="filters">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar por producto..." oninput="filterTable()">
+            </div>
+            <select class="filter-select" id="filterTipo" onchange="filterTable()">
+                <option value="">Todos los tipos</option>
+                <option value="entrada">📥 Entrada</option>
+                <option value="salida">📤 Salida</option>
+                <option value="ajuste">⚙️ Ajuste</option>
+            </select>
+            <select class="filter-select" id="filterProducto" onchange="filterTable()">
+                <option value="">Todos los productos</option>
+                <option value="Laptop Dell XPS 13">Laptop Dell XPS 13</option>
+                <option value="Monitor Samsung 27">Monitor Samsung 27</option>
+                <option value="Teclado Mecánico RGB">Teclado Mecánico RGB</option>
+            </select>
         </div>
-      </div>
-      <div class="status-card agencias">
-        <div class="status-icon"><i class="fas fa-dollar-sign"></i></div>
-        <div class="status-content">
-          <div class="status-title">Valor Inventario</div>
-          <div class="status-value" style="font-size:20px;">$1.250.000</div>
-          <div class="status-subtitle">Total en existencias</div>
+
+        <!-- TABLA DE MOVIMIENTOS -->
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha/Hora</th>
+                            <th>Producto</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Motivo</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMovimientos">
+                        <!-- Movimiento 1 -->
+                        <tr data-tipo="entrada" data-producto="Laptop Dell XPS 13">
+                            <td>
+                                <strong style="color:#ECF0F1;">10/03/2026</strong>
+                                <br><small style="color:#5A6A7A;">14:30:00</small>
+                            </td>
+                            <td>
+                                <strong style="color:#00F0FF;">Laptop Dell XPS 13</strong>
+                            </td>
+                            <td>
+                                <span class="badge-tipo entrada">📥 Entrada</span>
+                            </td>
+                            <td>
+                                <strong style="color:#00FF94;">+5</strong>
+                            </td>
+                            <td>
+                                <span style="color:#94A3B8;">Compra a proveedor</span>
+                            </td>
+                            <td>
+                                <span style="color:#94A3B8;">
+                                    <i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i>
+                                    DEMO
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- Movimiento 2 -->
+                        <tr data-tipo="salida" data-producto="Monitor Samsung 27">
+                            <td>
+                                <strong style="color:#ECF0F1;">10/03/2026</strong>
+                                <br><small style="color:#5A6A7A;">11:20:00</small>
+                            </td>
+                            <td>
+                                <strong style="color:#00F0FF;">Monitor Samsung 27"</strong>
+                            </td>
+                            <td>
+                                <span class="badge-tipo salida">📤 Salida</span>
+                            </td>
+                            <td>
+                                <strong style="color:#F39C12;">-2</strong>
+                            </td>
+                            <td>
+                                <span style="color:#94A3B8;">Venta al cliente</span>
+                            </td>
+                            <td>
+                                <span style="color:#94A3B8;">
+                                    <i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i>
+                                    DEMO
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- Movimiento 3 -->
+                        <tr data-tipo="entrada" data-producto="Teclado Mecánico RGB">
+                            <td>
+                                <strong style="color:#ECF0F1;">09/03/2026</strong>
+                                <br><small style="color:#5A6A7A;">16:45:00</small>
+                            </td>
+                            <td>
+                                <strong style="color:#00F0FF;">Teclado Mecánico RGB</strong>
+                            </td>
+                            <td>
+                                <span class="badge-tipo entrada">📥 Entrada</span>
+                            </td>
+                            <td>
+                                <strong style="color:#00FF94;">+10</strong>
+                            </td>
+                            <td>
+                                <span style="color:#94A3B8;">Reabastecimiento</span>
+                            </td>
+                            <td>
+                                <span style="color:#94A3B8;">
+                                    <i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i>
+                                    DEMO
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>
+                <span class="footer-brand">Nexus Inventory</span> © 2026 — Nexus Webs.
+                <br>Todos los derechos reservados.
+            </p>
+        </footer>
+
     </div>
 
-    <!-- Dashboard -->
-    <div class="dashboard">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon productos-icon"><i class="fas fa-boxes"></i></div>
-          <div><div class="card-title">Productos Recientes</div><div class="card-subtitle">Últimos registrados</div></div>
+    <!-- ===== MODAL REGISTRO DE MOVIMIENTO ===== -->
+    <div class="modal-overlay" id="modalMovimiento">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-exchange-alt"></i> Nuevo Movimiento
+                </div>
+                <button class="modal-close" onclick="closeModalMovimiento()">&times;</button>
+            </div>
+            <form id="formMovimiento" onsubmit="return guardarMovimiento(event)">
+                <div class="form-group">
+                    <label for="mov_producto">Producto *</label>
+                    <select id="mov_producto" name="producto_id" required>
+                        <option value="">Selecciona un producto</option>
+                        <option value="1">Laptop Dell XPS 13 (Stock: 12)</option>
+                        <option value="2">Monitor Samsung 27" (Stock: 8)</option>
+                        <option value="3">Teclado Mecánico RGB (Stock: 3)</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mov_tipo">Tipo de Movimiento *</label>
+                        <select id="mov_tipo" name="tipo" required>
+                            <option value="entrada">📥 Entrada (Agregar stock)</option>
+                            <option value="salida">📤 Salida (Retirar stock)</option>
+                            <option value="ajuste">⚙️ Ajuste (Establecer cantidad)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mov_cantidad">Cantidad *</label>
+                        <input type="number" id="mov_cantidad" name="cantidad" placeholder="0" min="1" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mov_motivo">Motivo</label>
+                    <input type="text" id="mov_motivo" name="motivo" placeholder="Ej: Compra a proveedor, Venta al cliente">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModalMovimiento()">Cancelar</button>
+                    <button type="submit" class="btn-success" id="btnRegistrar">
+                        <i class="fas fa-check"></i> Registrar Movimiento
+                    </button>
+                </div>
+            </form>
         </div>
-        <ul class="item-list">
-          <li class="list-item">
-            <div class="item-details">
-              <div class="item-name">Laptop Dell XPS 13</div>
-              <div class="item-meta">Electrónica · Stock: 12</div>
-            </div>
-            <span class="item-status status-operativo">✅ Normal</span>
-          </li>
-          <li class="list-item">
-            <div class="item-details">
-              <div class="item-name">Monitor Samsung 27"</div>
-              <div class="item-meta">Electrónica · Stock: 8</div>
-            </div>
-            <span class="item-status status-operativo">✅ Normal</span>
-          </li>
-          <li class="list-item">
-            <div class="item-details">
-              <div class="item-name">Teclado Mecánico RGB</div>
-              <div class="item-meta">Accesorios · Stock: 3</div>
-            </div>
-            <span class="item-status status-mantenimiento">⚠️ Bajo</span>
-          </li>
-          <button class="btn-demo" onclick="alert('📌 Ver todos los productos\n🔒 Versión demo')" style="margin-top:8px;">Ver todos</button>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon movimientos-icon"><i class="fas fa-history"></i></div>
-          <div><div class="card-title">Movimientos Recientes</div><div class="card-subtitle">Últimas actividades</div></div>
-        </div>
-        <ul class="item-list">
-          <li class="list-item">
-            <div class="item-details">
-              <div class="item-name">Laptop Dell XPS 13</div>
-              <div class="item-meta">Entrada · 5 unidades</div>
-            </div>
-            <span class="item-status status-operativo">10/03 14:30</span>
-          </li>
-          <li class="list-item">
-            <div class="item-details">
-              <div class="item-name">Monitor Samsung 27"</div>
-              <div class="item-meta">Salida · 2 unidades · Venta</div>
-            </div>
-            <span class="item-status status-mantenimiento">10/03 11:20</span>
-          </li>
-          <li class="list-item">
-            <div class="item-details">
-              <div class="item-name">Teclado Mecánico RGB</div>
-              <div class="item-meta">Entrada · 10 unidades</div>
-            </div>
-            <span class="item-status status-operativo">09/03 16:45</span>
-          </li>
-          <button class="btn-demo" onclick="alert('📌 Ver todos los movimientos\n🔒 Versión demo')" style="margin-top:8px;">Ver todos</button>
-        </ul>
-      </div>
     </div>
 
-    <!-- Categorías -->
-    <div class="card full-width card-spacer">
-      <div class="card-header">
-        <div class="card-icon categorias-icon"><i class="fas fa-tags"></i></div>
-        <div><div class="card-title">Categorías</div><div class="card-subtitle">Clasificación de productos</div></div>
-      </div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Productos</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong style="color:#ECF0F1;">Electrónica</strong></td>
-              <td>Dispositivos y accesorios</td>
-              <td>12</td>
-              <td><span class="item-status status-operativo"><i class="fas fa-circle" style="font-size:8px; margin-right:4px;"></i>Activa</span></td>
-            </tr>
-            <tr>
-              <td><strong style="color:#ECF0F1;">Accesorios</strong></td>
-              <td>Periféricos y complementos</td>
-              <td>8</td>
-              <td><span class="item-status status-operativo"><i class="fas fa-circle" style="font-size:8px; margin-right:4px;"></i>Activa</span></td>
-            </tr>
-            <tr>
-              <td><strong style="color:#ECF0F1;">Software</strong></td>
-              <td>Licencias y programas</td>
-              <td>4</td>
-              <td><span class="item-status status-mantenimiento"><i class="fas fa-circle" style="font-size:8px; margin-right:4px;"></i>Inactiva</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
 
-  </div>
+    <script>
+        // ===== GENERAR FONDO =====
+        (function() {
+            const bg = document.getElementById('serverBg');
+            const ledColors = ['', 'green', 'green-soft', 'neon-red'];
+            for (let i = 0; i < 50; i++) {
+                const led = document.createElement('div');
+                led.className = 'led ' + ledColors[Math.floor(Math.random() * ledColors.length)];
+                led.style.left = Math.random() * 100 + '%';
+                led.style.top = Math.random() * 100 + '%';
+                led.style.width = (4 + Math.random() * 6) + 'px';
+                led.style.height = led.style.width;
+                led.style.animationDelay = (Math.random() * 4) + 's';
+                led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+                bg.appendChild(led);
+            }
+            for (let i = 0; i < 10; i++) {
+                const cable = document.createElement('div');
+                cable.className = 'cable ' + (['', 'green', 'neon-red'][Math.floor(Math.random() * 3)]);
+                cable.style.width = (60 + Math.random() * 120) + 'px';
+                cable.style.left = (Math.random() * 90) + '%';
+                cable.style.top = (Math.random() * 90) + '%';
+                cable.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+                cable.style.opacity = 0.3 + Math.random() * 0.4;
+                bg.appendChild(cable);
+            }
+        })();
 
-  <!-- Welcome -->
-  <div id="welcome-message" class="welcome-message">
-    <div class="welcome-title">⚡ Bienvenido</div>
-    <div class="welcome-text">Sistema de Gestión de Inventario · Versión DEMO</div>
-  </div>
+        // ===== MENÚ USUARIO =====
+        document.getElementById('user-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('user-dropdown').classList.toggle('active');
+        });
+        document.addEventListener('click', () => document.getElementById('user-dropdown').classList.remove('active'));
 
-  <script>
-    // ===== GENERAR FONDO CON COLORES NEÓN =====
-    (function() {
-      const bg = document.getElementById('serverBg');
-      const colors = ['', 'green', 'green-soft', 'white', 'neon-red'];
-      for (let i = 0; i < 70; i++) {
-        const led = document.createElement('div');
-        led.className = 'led ' + colors[Math.floor(Math.random() * colors.length)];
-        led.style.left = Math.random() * 100 + '%';
-        led.style.top = Math.random() * 100 + '%';
-        led.style.width = (4 + Math.random() * 6) + 'px';
-        led.style.height = led.style.width;
-        led.style.animationDelay = (Math.random() * 4) + 's';
-        led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
-        bg.appendChild(led);
-      }
-      for (let i = 0; i < 14; i++) {
-        const cable = document.createElement('div');
-        cable.className = 'cable ' + (['', 'green', 'green-soft', 'neon-red'][Math.floor(Math.random() * 4)]);
-        cable.style.width = (60 + Math.random() * 120) + 'px';
-        cable.style.left = (Math.random() * 90) + '%';
-        cable.style.top = (Math.random() * 90) + '%';
-        cable.style.setProperty('--rot', (Math.random() * 360) + 'deg');
-        cable.style.opacity = 0.3 + Math.random() * 0.4;
-        bg.appendChild(cable);
-      }
-    })();
+        // ===== CERRAR SESIÓN =====
+        function cerrarSesion() {
+            if (confirm('¿Deseas cerrar sesión?')) {
+                alert('✅ Sesión cerrada (DEMO)');
+                window.location.href = '../login.html';
+            }
+        }
 
-    // ===== MENÚ USUARIO =====
-    document.getElementById('user-toggle').addEventListener('click', function(e) {
-      e.stopPropagation();
-      document.getElementById('user-dropdown').classList.toggle('active');
-    });
-    document.addEventListener('click', () => document.getElementById('user-dropdown').classList.remove('active'));
+        // ===== FILTROS =====
+        function filterTable() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const tipo = document.getElementById('filterTipo').value.toLowerCase();
+            const producto = document.getElementById('filterProducto').value.toLowerCase();
+            const rows = document.querySelectorAll('#tablaMovimientos tr');
 
-    // ===== WELCOME MESSAGE =====
-    document.addEventListener('DOMContentLoaded', function() {
-      const el = document.getElementById('welcome-message');
-      setTimeout(() => el.classList.add('show'), 1000);
-      setTimeout(() => el.classList.remove('show'), 8000);
-    });
+            rows.forEach(row => {
+                const nombreProducto = row.dataset.producto?.toLowerCase() || '';
+                const tipoMovimiento = row.dataset.tipo?.toLowerCase() || '';
+                const coincide = (nombreProducto.includes(search)) &&
+                    (tipo === '' || tipoMovimiento === tipo) &&
+                    (producto === '' || nombreProducto === producto);
+                row.style.display = coincide ? '' : 'none';
+            });
+        }
 
-    // ===== CERRAR SESIÓN =====
-    function cerrarSesion() {
-      if (confirm('¿Deseas cerrar sesión?')) {
-        alert('✅ Sesión cerrada (DEMO)');
-        window.location.href = 'login.html';
-      }
-    }
+        // ===== MODAL REGISTRO =====
+        function openModalRegistro() {
+            document.getElementById('modalMovimiento').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('formMovimiento').reset();
+            document.getElementById('btnRegistrar').disabled = false;
+            document.getElementById('btnRegistrar').innerHTML = '<i class="fas fa-check"></i> Registrar Movimiento';
+        }
 
-    // ===== ACCIONES DEMO =====
-    document.querySelectorAll('.btn-demo').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-      });
-    });
+        function closeModalMovimiento() {
+            document.getElementById('modalMovimiento').classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-    console.log('✅ Nexus Inventory · Panel DEMO cargado');
-    console.log('👤 Usuario: DEMO (admin@sistema.com)');
-    console.log('🔒 Versión demo - funcionalidades limitadas');
-  </script>
+        // ===== GUARDAR MOVIMIENTO (DEMO) =====
+        function guardarMovimiento(event) {
+            event.preventDefault();
+
+            const producto = document.getElementById('mov_producto');
+            const tipo = document.getElementById('mov_tipo').value;
+            const cantidad = parseInt(document.getElementById('mov_cantidad').value) || 0;
+            const motivo = document.getElementById('mov_motivo').value || 'Sin motivo';
+            const productoNombre = producto.options[producto.selectedIndex]?.text || '';
+
+            if (!producto.value) {
+                showToast('Selecciona un producto', 'warning');
+                return false;
+            }
+
+            if (cantidad <= 0) {
+                showToast('La cantidad debe ser mayor a 0', 'warning');
+                return false;
+            }
+
+            // Validar stock para salidas (demo)
+            if (tipo === 'salida') {
+                const stockMatch = productoNombre.match(/Stock:\s*(\d+)/);
+                const stockActual = stockMatch ? parseInt(stockMatch[1]) : 0;
+                if (cantidad > stockActual) {
+                    showToast(`Stock insuficiente. Disponible: ${stockActual} unidades`, 'error');
+                    return false;
+                }
+            }
+
+            const btn = document.getElementById('btnRegistrar');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+            // Simular registro (DEMO)
+            setTimeout(() => {
+                const tipoTexto = tipo === 'entrada' ? '📥 Entrada' : tipo === 'salida' ? '📤 Salida' : '⚙️ Ajuste';
+                showToast(`✅ Movimiento registrado: ${tipoTexto} de ${cantidad} unidades (DEMO)`, 'success');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check"></i> Registrar Movimiento';
+                closeModalMovimiento();
+                // Agregar fila a la tabla (demo)
+                agregarFilaDemo(productoNombre, tipo, cantidad, motivo);
+            }, 800);
+
+            return false;
+        }
+
+        // ===== AGREGAR FILA DEMO =====
+        function agregarFilaDemo(productoNombre, tipo, cantidad, motivo) {
+            const tbody = document.getElementById('tablaMovimientos');
+            // Si hay mensaje de vacío, eliminarlo
+            const emptyRow = tbody.querySelector('.empty-state');
+            if (emptyRow) {
+                tbody.innerHTML = '';
+            }
+
+            const tipoClase = tipo === 'entrada' ? 'entrada' : tipo === 'salida' ? 'salida' : 'ajuste';
+            const tipoIcono = tipo === 'entrada' ? '📥' : tipo === 'salida' ? '📤' : '⚙️';
+            const tipoTexto = tipo === 'entrada' ? 'Entrada' : tipo === 'salida' ? 'Salida' : 'Ajuste';
+            const colorCantidad = tipo === 'entrada' ? '#00FF94' : tipo === 'salida' ? '#F39C12' : '#9b59b6';
+            const signo = tipo === 'entrada' ? '+' : tipo === 'salida' ? '-' : '=';
+
+            const fecha = new Date();
+            const fechaStr = fecha.toLocaleDateString('es-ES');
+            const horaStr = fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            const newRow = document.createElement('tr');
+            newRow.dataset.tipo = tipo;
+            newRow.dataset.producto = productoNombre;
+            newRow.innerHTML = `
+                <td>
+                    <strong style="color:#ECF0F1;">${fechaStr}</strong>
+                    <br><small style="color:#5A6A7A;">${horaStr}</small>
+                </td>
+                <td>
+                    <strong style="color:#00F0FF;">${productoNombre}</strong>
+                </td>
+                <td>
+                    <span class="badge-tipo ${tipoClase}">${tipoIcono} ${tipoTexto}</span>
+                </td>
+                <td>
+                    <strong style="color:${colorCantidad};">${signo} ${cantidad}</strong>
+                </td>
+                <td>
+                    <span style="color:#94A3B8;">${motivo}</span>
+                </td>
+                <td>
+                    <span style="color:#94A3B8;">
+                        <i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i>
+                        DEMO
+                    </span>
+                </td>
+            `;
+            tbody.prepend(newRow);
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ===== CERRAR MODAL CON ESC =====
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModalMovimiento();
+            }
+        });
+
+        // ===== CERRAR MODAL CLICK FUERA =====
+        document.getElementById('modalMovimiento').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModalMovimiento();
+            }
+        });
+
+        console.log('✅ Nexus Inventory · Movimientos DEMO cargado');
+        console.log('📊 Movimientos disponibles: 3');
+        console.log('🔒 Versión demo - funcionalidades limitadas');
+    </script>
+
 </body>
 </html>
