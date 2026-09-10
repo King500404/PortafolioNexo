@@ -72,6 +72,7 @@
     .container {
       position: relative;
       z-index: 2;
+      width: 100%;
       max-width: 1400px;
       margin: 0 auto;
       background: rgba(18, 18, 31, 0.75);
@@ -131,6 +132,7 @@
       height: 46px;
       border-radius: 50%;
       object-fit: cover;
+      max-width: 100%;
     }
 
     .logo-text {
@@ -219,6 +221,7 @@
       top: 100%;
       right: 0;
       width: 280px;
+      max-width: 90vw;
       background: rgba(18, 18, 31, 0.95);
       backdrop-filter: blur(12px);
       border-radius: 20px;
@@ -570,11 +573,15 @@
     .table-container {
       overflow-x: auto;
       border-radius: 16px;
+      width: 100%;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 500px;
     }
 
     th, td {
@@ -658,17 +665,47 @@
     }
 
     @media (max-width: 768px) {
-      .container { padding: 18px; }
-      .status-summary { grid-template-columns: 1fr 1fr; }
-      .navbar { border-radius: 24px; padding: 8px; }
-      .navbar a { padding: 8px 14px; font-size: 13px; }
-      .topbar { flex-wrap: wrap; gap: 12px; }
+      body { padding: 10px; }
+      .container { padding: 18px 14px; border-radius: 24px; }
+      .status-summary { grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+      .navbar { border-radius: 24px; padding: 8px; gap: 4px; margin-bottom: 20px; }
+      .navbar a { padding: 8px 12px; font-size: 12px; flex: 1 1 auto; justify-content: center; }
+      .topbar { flex-wrap: wrap; gap: 12px; padding-bottom: 14px; margin-bottom: 18px; }
+      .logo-container { gap: 10px; }
+      .logo-img { width: 44px; height: 44px; }
+      .logo-img img { width: 36px; height: 36px; }
+      .logo-title { font-size: 18px; }
+      .logo-subtitle { font-size: 11px; }
       .user-dropdown { width: 260px; right: -10px; }
+      .dashboard { grid-template-columns: 1fr; gap: 14px; margin-bottom: 18px; }
+      .card { padding: 16px 14px; border-radius: 18px; }
+      .card-header { gap: 10px; margin-bottom: 14px; padding-bottom: 10px; }
+      .card-icon { width: 34px; height: 34px; font-size: 15px; }
+      .card-title { font-size: 14px; }
+      .card-subtitle { font-size: 11px; }
+      .list-item { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; }
+      .item-status { margin-left: 0; align-self: flex-start; }
+      .status-card { padding: 14px 16px; gap: 10px; }
+      .status-icon { width: 40px; height: 40px; font-size: 16px; }
+      .status-content .status-value { font-size: 22px; }
+      .status-content .status-value[style] { font-size: 18px !important; }
+      .welcome-message { bottom: 20px; right: 14px; left: 14px; max-width: none; padding: 14px 18px; }
+      .table-container { border-radius: 12px; }
+      table { min-width: 460px; }
+      th, td { padding: 10px 12px; font-size: 13px; }
+      img { max-width: 100%; height: auto; }
     }
 
     @media (max-width: 480px) {
       .status-summary { grid-template-columns: 1fr; }
       .user-name { display: none; }
+      .navbar a { font-size: 11px; padding: 7px 8px; gap: 4px; }
+      .navbar a i { font-size: 12px; }
+      .logo-title { font-size: 16px; }
+      .logo-subtitle { font-size: 10px; }
+      .card-title { font-size: 13px; }
+      .status-content .status-value { font-size: 20px; }
+      .status-content .status-value[style] { font-size: 16px !important; }
     }
   </style>
 </head>
