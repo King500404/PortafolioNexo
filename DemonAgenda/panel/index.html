@@ -712,257 +712,78 @@
         .btn-actions .btn-status:hover { background: rgba(0, 212, 255, 0.08); }
 
         /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+        .sidebar {
+            width: min(300px, 85vw);
+            padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));
+            box-shadow: 4px 0 60px rgba(0,0,0,0.7);
+        }
+        .sidebar.closed { transform: translateX(-100%); }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-overlay.active { display: block; }
+        .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
+        .topbar .topbar-right .menu-toggle { display: flex; }
+        .topbar .page-title { font-size: 16px; }
+        .topbar .topbar-right .date-display { font-size: 12px; padding: 6px 10px; min-height: 40px; }
+        .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        .card-stat { padding: 14px 16px; }
+        .card-stat .card-value { font-size: 1.25rem; }
+        .welcome-section { padding: 18px 20px; }
+        .welcome-section h2 { font-size: 1rem; }
+        .table-container table th, .table-container table td { padding: 10px 12px; font-size: 12px; }
+        .table-container table { min-width: 600px; }
+        .sidebar .menu li a { min-height: 48px; padding: 12px 14px; }
+        .section-title-bar .btn-secondary { min-height: 44px; }
+        .card-stat:hover { transform: none; }
+    }
+
+    /* Móviles - Tabla como tarjetas */
+    @media (max-width: 600px) {
+        .topbar { flex-direction: row; align-items: center; padding: 4px 0 14px; }
+        .topbar .page-title { flex: 1; min-width: 0; font-size: 15px; }
+        .topbar .topbar-right { flex-shrink: 0; }
+        .topbar .topbar-right .date-display { display: none; }
+        .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .card-stat { padding: 12px 14px; border-radius: 12px; }
+        .card-stat .card-value { font-size: 1.1rem; }
+        .card-stat .card-label { font-size: 11px; }
+        .welcome-section { padding: 16px 18px; border-radius: 12px; }
+        .welcome-section h2 { font-size: 0.95rem; }
+        .welcome-section p { font-size: 12px; }
+        .welcome-section .welcome-stats { gap: 10px; }
+        .welcome-section .welcome-stats .ws-item { font-size: 11px; }
+        .section-title-bar { flex-direction: column; align-items: stretch; }
+        .section-title-bar .btn-secondary { justify-content: center; width: 100%; }
+
         
-        @media (max-width: 1024px) {
-            .cards-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 14px;
-            }
+    }
 
-            .main-content {
-                padding: 14px 16px 24px;
-            }
-        }
-
-        /* === TABLETS Y MÓVILES GRANDES (<=768px) === */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: min(300px, 85vw);
-                padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));
-                box-shadow: 4px 0 60px rgba(0, 0, 0, 0.7);
-            }
-
-            .sidebar.closed {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay.active {
-                display: block;
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 12px 14px 20px;
-            }
-
-            .topbar .topbar-right .menu-toggle {
-                display: flex;
-            }
-
-            .topbar .page-title {
-                font-size: 16px;
-            }
-
-            .topbar .topbar-right .date-display {
-                font-size: 12px;
-                padding: 6px 10px;
-                min-height: 40px;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 12px;
-            }
-
-            .card-stat {
-                padding: 14px 16px;
-            }
-
-            .card-stat .card-value {
-                font-size: 1.25rem;
-            }
-
-            .welcome-section {
-                padding: 18px 20px;
-            }
-
-            .welcome-section h2 {
-                font-size: 1rem;
-            }
-
-            .table-container table th,
-            .table-container table td {
-                padding: 10px 12px;
-                font-size: 12px;
-            }
-
-            .table-container table {
-                min-width: 600px;
-            }
-        }
-
-        /* === MÓVILES: TABLA → TARJETAS (<=600px) === */
-        @media (max-width: 600px) {
-            .topbar {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .topbar .page-title {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .topbar .topbar-right {
-                flex-shrink: 0;
-            }
-
-            .topbar .topbar-right .date-display {
-                display: none;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 10px;
-            }
-
-            .card-stat {
-                padding: 12px 14px;
-                border-radius: 12px;
-            }
-
-            .card-stat .card-value {
-                font-size: 1.1rem;
-            }
-
-            .card-stat .card-label {
-                font-size: 11px;
-            }
-
-            .welcome-section {
-                padding: 16px 18px;
-                border-radius: 12px;
-            }
-
-            .welcome-section h2 {
-                font-size: 0.95rem;
-            }
-
-            .welcome-section p {
-                font-size: 12px;
-            }
-
-            .welcome-section .welcome-stats {
-                gap: 10px;
-            }
-
-            .welcome-section .welcome-stats .ws-item {
-                font-size: 11px;
-            }
-
-            .section-title-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .section-title-bar h3 {
-                text-align: left;
-            }
-
-            .section-title-bar .btn-secondary {
-                justify-content: center;
-                width: 100%;
-            }
-
-            /* Tabla como tarjetas */
-            .table-wrapper {
-                overflow-x: visible;
-            }
-
-            .table-container table {
-                min-width: 0;
-                display: block;
-            }
-
-            .table-container table thead {
-                display: none;
-            }
-
-            .table-container table tbody,
-            .table-container table tr,
-            .table-container table td {
-                display: block;
-                width: 100%;
-            }
-
-            .table-container table tr {
-                background: rgba(0, 0, 0, 0.3);
-                border-radius: 14px;
-                margin: 10px;
-                padding: 14px;
-                border-left: 3px solid var(--cyan);
-                border-bottom: none;
-            }
-
-            .table-container table tr:last-child {
-                margin-bottom: 10px;
-            }
-
-            .table-container table td {
-                padding: 8px 0;
-                border-bottom: none;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 12px;
-                font-size: 13px;
-                text-align: right;
-            }
-
-            .table-container table td::before {
-                content: attr(data-label);
-                font-family: 'Orbitron', sans-serif;
-                font-size: 10px;
-                font-weight: 600;
-                color: var(--blue-soft);
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                flex-shrink: 0;
-                text-align: left;
-            }
-
-            .table-container table td:first-child {
-                padding-top: 0;
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
-                padding-bottom: 12px;
-                border-bottom: 1px solid rgba(0, 212, 255, 0.08);
-                margin-bottom: 8px;
-            }
-
-            .table-container table td:first-child::before {
-                display: none;
-            }
-
-            .table-container table td:last-child {
-                padding-bottom: 0;
-                padding-top: 12px;
-                border-top: 1px solid rgba(0, 212, 255, 0.08);
-                margin-top: 8px;
-                justify-content: center;
-            }
-
-            .table-container table td:last-child::before {
-                display: none;
-            }
-
-            .btn-actions {
-                width: 100%;
-                justify-content: center;
-                gap: 12px;
-            }
-
-            .btn-actions button {
-                min-width: 44px;
-                min-height: 44px;
-                font-size: 14px;
-            }
+    /* Móviles estándar */
+    @media (max-width: 480px) {
+        .main-content { padding: 10px 10px 16px; }
+        .topbar { padding: 4px 0 12px; gap: 8px; }
+        .topbar .page-title { font-size: 14px; gap: 4px; }
+        .topbar .topbar-right .menu-toggle { width: 42px; height: 42px; min-width: 42px; font-size: 17px; }
+        .demo-badge-header { font-size: 9px; padding: 2px 8px; }
+        .cards-grid { gap: 8px; }
+        .card-stat { padding: 12px; border-radius: 12px; }
+        .card-stat .card-icon { width: 34px; height: 34px; font-size: 14px; margin-bottom: 8px; }
+        .card-stat .card-value { font-size: 1rem; }
+        .card-stat .card-label { font-size: 10px; }
+        .welcome-section { padding: 14px 16px; border-radius: 12px; margin-bottom: 16px; }
+        .welcome-section h2 { font-size: 0.9rem; }
+        .welcome-section p { font-size: 11px; line-height: 1.4; }
+        .welcome-section .welcome-stats { margin-top: 10px; gap: 8px; }
+        .welcome-section .welcome-stats .ws-item { font-size: 10px; }
+        .table-container table tr { padding: 12px; margin: 8px; border-radius: 12px; }
+        .table-container table td { font-size: 12px; padding: 6px 0; gap: 8px; }
+        .table-container table td::before { font-size: 9px; }
+        .badge { font-size: 10px; padding: 3px 10px; }
+        .sidebar { width: 90vw; max-width: 320px; padding: calc(14px + var(--safe-top)) 12px calc(14px + var(--safe-bottom)); }
+        .sidebar .logo .logo-icon { width: 36px; height: 36px; font-size: 16px; }
+        .sidebar .menu li a { padding: 10px 12px; font-size: 13px; min-height: 44px; }
+        .section-title-bar h3 { font-size: 14px; }
+        .section-title-bar .btn-secondary { font-size: 12px; padding: 10px 16px; }
         }
     </style>
 </head>
@@ -980,7 +801,7 @@
         <ul class="menu">
             <li class="menu-label">Menú Principal</li>
             <li><a href="index.html" class="active"><i class="fas fa-home"></i> Panel Principal</a></li>
-            <li><a href="clientes.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
+            <li><a href="agenda.html" class="active"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
             <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
             <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
@@ -1051,7 +872,7 @@
 
         <!-- ===== PRÓXIMAS CITAS ===== -->
         <div class="section-title-bar">
-            <h3>📋 Próximas Citas</h3>
+            <h3>Próximas Citas</h3>
             <a href="#" class="btn-secondary" onclick="alert('📌 Ver todas las citas\n🔒 Versión demo')">Ver todas <i class="fas fa-arrow-right"></i></a>
         </div>
 
