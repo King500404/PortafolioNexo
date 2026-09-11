@@ -1356,9 +1356,7 @@
             const fechaStr = fecha.toISOString().split('T')[0];
             const horaStr = fecha.toLocaleTimeString();
 
-            let contenido = '═══════════════════════════════════════════════════════════════\n';
             contenido += '                   NEXUS INVENTORY - REPORTE DEMO\n';
-            contenido += '═══════════════════════════════════════════════════════════════\n\n';
             contenido += ' Fecha: ' + fecha.toLocaleDateString() + '\n';
             contenido += ' Hora: ' + horaStr + '\n';
             contenido += ' Usuario: DEMO (admin@sistema.com)\n';
@@ -1373,16 +1371,13 @@
             contenido += '  Electrónica          : 3 productos (50%)\n';
             contenido += '  Accesorios           : 2 productos (33%)\n';
             contenido += '  Software             : 1 productos (17%)\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += ' MOVIMIENTOS RECIENTES\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '  Fecha     | Producto              | Tipo   | Cantidad\n';
             contenido += '  ----------|-----------------------|--------|----------\n';
             contenido += '  10/03/26  | Laptop Dell XPS 13    | Entrada | +5\n';
             contenido += '  10/03/26  | Monitor Samsung 27"   | Salida  | -2\n';
             contenido += '  09/03/26  | Teclado Mecánico RGB  | Entrada | +10\n';
             contenido += '  08/03/26  | Mouse Logitech MX     | Ajuste  | =5\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             
             const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
