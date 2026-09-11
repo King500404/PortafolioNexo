@@ -16,6 +16,11 @@
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     }
 
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     .logo-text, .navbar a, .card-title, .status-value, .status-title {
       font-family: 'Orbitron', sans-serif;
       letter-spacing: 0.5px;
@@ -26,6 +31,7 @@
       min-height: 100vh;
       padding: 20px;
       color: #ECF0F1;
+      overflow-x: hidden;
     }
 
     /* ===== FONDO TECNOLÓGICO CON COLORES NEÓN ===== */
@@ -90,12 +96,14 @@
       padding-bottom: 20px;
       border-bottom: 1px solid rgba(0, 255, 148, 0.12);
       margin-bottom: 24px;
+      gap: 16px;
     }
 
     .logo-container {
       display: flex;
       align-items: center;
       gap: 16px;
+      min-width: 0;
     }
 
     .logo-img {
@@ -136,6 +144,7 @@
     .logo-text {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .logo-title {
@@ -144,6 +153,10 @@
       color: #00F0FF;
       letter-spacing: -0.3px;
       font-family: 'Orbitron', sans-serif;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .logo-title span {
@@ -169,13 +182,13 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
       border: 1px solid rgba(0, 212, 255, 0.1);
-      margin-left: 8px;
     }
 
     .user-menu {
       position: relative;
       display: flex;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .user-toggle {
@@ -205,6 +218,7 @@
       color: #12121F;
       font-size: 16px;
       margin-right: 10px;
+      flex-shrink: 0;
     }
 
     .user-name {
@@ -212,13 +226,15 @@
       font-size: 14px;
       color: #ECF0F1;
       font-family: 'Orbitron', sans-serif;
+      white-space: nowrap;
     }
 
     .user-dropdown {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 8px);
       right: 0;
       width: 280px;
+      max-width: calc(100vw - 40px);
       background: rgba(18, 18, 31, 0.95);
       backdrop-filter: blur(12px);
       border-radius: 20px;
@@ -259,11 +275,13 @@
       font-size: 14px;
       color: #CBD5E1;
       margin-bottom: 8px;
+      word-break: break-all;
     }
 
     .user-detail i {
       width: 20px;
       color: #00FF94;
+      flex-shrink: 0;
     }
 
     /* ===== BOTÓN CERRAR SESIÓN - ROJO NEÓN ===== */
@@ -318,6 +336,7 @@
       transition: all 0.25s;
       font-family: 'Orbitron', sans-serif;
       letter-spacing: 0.3px;
+      white-space: nowrap;
     }
 
     .navbar a i {
@@ -353,6 +372,7 @@
       gap: 14px;
       border: 1px solid rgba(0, 255, 148, 0.06);
       transition: 0.3s;
+      min-width: 0;
     }
 
     .status-card:hover {
@@ -377,6 +397,10 @@
     .mantenimiento .status-icon { background: rgba(0, 212, 255, 0.15); color: #00D4FF; }
     .agencias .status-icon { background: rgba(0, 240, 255, 0.15); color: #00F0FF; }
 
+    .status-content {
+      min-width: 0;
+    }
+
     .status-content .status-title {
       font-size: 12px;
       color: #94A3B8;
@@ -392,6 +416,7 @@
       color: #ECF0F1;
       line-height: 1.2;
       font-family: 'Orbitron', sans-serif;
+      overflow-wrap: break-word;
     }
 
     .status-content .status-subtitle {
@@ -416,6 +441,7 @@
       padding: 22px 24px;
       border: 1px solid rgba(0, 255, 148, 0.06);
       transition: 0.3s;
+      min-width: 0;
     }
 
     .card:hover {
@@ -440,6 +466,7 @@
       align-items: center;
       justify-content: center;
       font-size: 18px;
+      flex-shrink: 0;
     }
 
     .productos-icon { background: rgba(0, 255, 148, 0.12); color: #00FF94; }
@@ -467,12 +494,14 @@
     .list-item {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       padding: 12px 14px;
       margin-bottom: 8px;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 14px;
       border-left: 3px solid #00FF94;
       transition: 0.2s;
+      gap: 8px;
     }
 
     .list-item:hover {
@@ -481,12 +510,14 @@
 
     .item-details {
       flex: 1;
+      min-width: 0;
     }
 
     .item-name {
       font-weight: 500;
       font-size: 14px;
       color: #ECF0F1;
+      overflow-wrap: break-word;
     }
 
     .item-meta {
@@ -501,6 +532,7 @@
       border-radius: 60px;
       font-weight: 600;
       margin-left: 10px;
+      white-space: nowrap;
     }
 
     .status-operativo { color: #00FF94; background: rgba(0, 255, 148, 0.12); }
@@ -570,17 +602,20 @@
     .table-container {
       overflow-x: auto;
       border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 480px;
     }
 
     th, td {
       padding: 12px 16px;
       text-align: left;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      white-space: nowrap;
     }
 
     th {
@@ -649,26 +684,52 @@
     }
 
     /* ===== RESPONSIVE ===== */
+
+    /* Tablets grandes / laptops pequeñas */
     @media (max-width: 1200px) {
       .status-summary { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* Tablets */
     @media (max-width: 992px) {
       .dashboard { grid-template-columns: 1fr; }
+      .container { padding: 22px; border-radius: 28px; }
     }
 
+    /* Tablets pequeñas / móviles grandes */
     @media (max-width: 768px) {
-      .container { padding: 18px; }
-      .status-summary { grid-template-columns: 1fr 1fr; }
-      .navbar { border-radius: 24px; padding: 8px; }
+      body { padding: 12px; }
+      .container { padding: 16px; border-radius: 22px; }
+      .status-summary { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .status-card { padding: 14px; gap: 10px; }
+      .status-icon { width: 40px; height: 40px; font-size: 16px; }
+      .status-content .status-value { font-size: 20px; }
+      .navbar { border-radius: 24px; padding: 8px; justify-content: center; }
       .navbar a { padding: 8px 14px; font-size: 13px; }
       .topbar { flex-wrap: wrap; gap: 12px; }
+      .logo-title { font-size: 18px; }
+      .logo-subtitle { font-size: 12px; }
       .user-dropdown { width: 260px; right: -10px; }
+      .card { padding: 16px; }
+      .list-item { padding: 10px 12px; }
+      .welcome-message { left: 12px; right: 12px; bottom: 16px; max-width: none; }
     }
 
-    @media (max-width: 480px) {
+    /* Móviles */
+    @media (max-width: 600px) {
       .status-summary { grid-template-columns: 1fr; }
-      .user-name { display: none; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .user-menu { width: 100%; }
+      .user-toggle { width: 100%; justify-content: space-between; }
+      .logo-container { width: 100%; }
+      .logo-img { width: 46px; height: 46px; }
+      .logo-img img { width: 38px; height: 38px; }
+      .navbar { flex-direction: column; border-radius: 16px; align-items: stretch; }
+      .navbar a { justify-content: flex-start; width: 100%; }
+      .card-header { flex-wrap: wrap; }
+      .item-status { margin-left: 0; }
+      .list-item { justify-content: space-between; }
+      th, td { padding: 10px 12px; font-size: 13px; }
     }
   </style>
 </head>
@@ -722,7 +783,7 @@
         <div class="status-icon"><i class="fas fa-boxes"></i></div>
         <div class="status-content">
           <div class="status-title">Total Productos</div>
-          <div class="status-value">24</div>
+          <div class="status-value">8</div>
           <div class="status-subtitle">Sistema completo</div>
         </div>
       </div>
@@ -730,7 +791,7 @@
         <div class="status-icon"><i class="fas fa-check-circle"></i></div>
         <div class="status-content">
           <div class="status-title">Stock Normal</div>
-          <div class="status-value">18</div>
+          <div class="status-value">6</div>
           <div class="status-subtitle">75% del total</div>
         </div>
       </div>
@@ -738,7 +799,7 @@
         <div class="status-icon"><i class="fas fa-exclamation-triangle"></i></div>
         <div class="status-content">
           <div class="status-title">Stock Bajo</div>
-          <div class="status-value">6</div>
+          <div class="status-value">2</div>
           <div class="status-subtitle">25% del total</div>
         </div>
       </div>
@@ -836,19 +897,19 @@
             <tr>
               <td><strong style="color:#ECF0F1;">Electrónica</strong></td>
               <td>Dispositivos y accesorios</td>
-              <td>12</td>
+              <td>5</td>
               <td><span class="item-status status-operativo"><i class="fas fa-circle" style="font-size:8px; margin-right:4px;"></i>Activa</span></td>
             </tr>
             <tr>
               <td><strong style="color:#ECF0F1;">Accesorios</strong></td>
               <td>Periféricos y complementos</td>
-              <td>8</td>
+              <td>2</td>
               <td><span class="item-status status-operativo"><i class="fas fa-circle" style="font-size:8px; margin-right:4px;"></i>Activa</span></td>
             </tr>
             <tr>
               <td><strong style="color:#ECF0F1;">Software</strong></td>
               <td>Licencias y programas</td>
-              <td>4</td>
+              <td>1</td>
               <td><span class="item-status status-mantenimiento"><i class="fas fa-circle" style="font-size:8px; margin-right:4px;"></i>Inactiva</span></td>
             </tr>
           </tbody>
@@ -869,7 +930,9 @@
     (function() {
       const bg = document.getElementById('serverBg');
       const colors = ['', 'green', 'green-soft', 'white', 'neon-red'];
-      for (let i = 0; i < 70; i++) {
+      const ledCount = window.innerWidth < 600 ? 35 : 70;
+      const cableCount = window.innerWidth < 600 ? 7 : 14;
+      for (let i = 0; i < ledCount; i++) {
         const led = document.createElement('div');
         led.className = 'led ' + colors[Math.floor(Math.random() * colors.length)];
         led.style.left = Math.random() * 100 + '%';
@@ -880,7 +943,7 @@
         led.style.animationDuration = (1.5 + Math.random() * 2) + 's';
         bg.appendChild(led);
       }
-      for (let i = 0; i < 14; i++) {
+      for (let i = 0; i < cableCount; i++) {
         const cable = document.createElement('div');
         cable.className = 'cable ' + (['', 'green', 'green-soft', 'neon-red'][Math.floor(Math.random() * 4)]);
         cable.style.width = (60 + Math.random() * 120) + 'px';
