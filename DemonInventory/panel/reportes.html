@@ -970,16 +970,17 @@
             .toast { left: 20px; right: 20px; bottom: 20px; }
         }
 
-        @media (max-width: 480px) {
-            .user-name { display: none; }
-            .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .summary-card { padding: 14px 12px; }
-            .summary-card .summary-value { font-size: 18px; }
-            .section-title { font-size: 18px; }
-            .bar-chart { height: 140px; }
-            table thead th, table tbody td { padding: 6px 8px; font-size: 11px; }
-            .filter-date-group { flex-direction: column; width: 100%; }
-            .filter-date-group input[type="date"] { width: 100%; }
+        /* Móviles */
+        @media (max-width: 600px) {
+            .topbar { flex-direction: column; align-items: flex-start; }
+            .user-menu { width: 100%; }
+            .user-toggle { width: 100%; justify-content: space-between; }
+            .logo-container { width: 100%; }
+            .logo-img { width: 46px; height: 46px; }
+            .logo-img img { width: 38px; height: 38px; }
+            .navbar { flex-direction: column; border-radius: 16px; align-items: stretch; }
+            .navbar a { justify-content: flex-start; width: 100%; }
+            .status-summary { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -1069,7 +1070,7 @@
         <div class="summary-grid">
             <div class="summary-card">
                 <div class="summary-icon"><i class="fas fa-boxes"></i></div>
-                <div class="summary-value">6</div>
+                <div class="summary-value">8</div>
                 <div class="summary-label">Total Productos</div>
                 <div class="summary-sub">En inventario</div>
             </div>
@@ -1154,7 +1155,7 @@
                 <div class="donut-container">
                     <div class="donut" style="background: conic-gradient(#00F0FF 0% 50%, #00FF94 50% 75%, #F39C12 75% 100%);">
                         <div class="donut-hole">
-                            <span class="total">6</span>
+                            <span class="total">8</span>
                             <span class="label">Productos</span>
                         </div>
                     </div>
@@ -1203,7 +1204,7 @@
                             <td><span style="color:#94A3B8; font-size:12px;">10/03/2026 14:30</span></td>
                             <td><strong style="color:#ECF0F1;">Laptop Dell XPS 13</strong></td>
                             <td><span style="color:#94A3B8; font-size:12px;">Electrónica</span></td>
-                            <td><span class="badge-tipo entrada">📥 Entrada</span></td>
+                            <td><span class="badge-tipo entrada">Entrada</span></td>
                             <td><strong style="color:#00FF94;">+5</strong></td>
                             <td><span class="badge-stock normal">12</span></td>
                             <td><span style="color:#94A3B8; font-size:12px;"><i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i> DEMO</span></td>
@@ -1212,7 +1213,7 @@
                             <td><span style="color:#94A3B8; font-size:12px;">10/03/2026 11:20</span></td>
                             <td><strong style="color:#ECF0F1;">Monitor Samsung 27"</strong></td>
                             <td><span style="color:#94A3B8; font-size:12px;">Electrónica</span></td>
-                            <td><span class="badge-tipo salida">📤 Salida</span></td>
+                            <td><span class="badge-tipo salida">Salida</span></td>
                             <td><strong style="color:#F39C12;">-2</strong></td>
                             <td><span class="badge-stock normal">8</span></td>
                             <td><span style="color:#94A3B8; font-size:12px;"><i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i> DEMO</span></td>
@@ -1221,7 +1222,7 @@
                             <td><span style="color:#94A3B8; font-size:12px;">09/03/2026 16:45</span></td>
                             <td><strong style="color:#ECF0F1;">Teclado Mecánico RGB</strong></td>
                             <td><span style="color:#94A3B8; font-size:12px;">Accesorios</span></td>
-                            <td><span class="badge-tipo entrada">📥 Entrada</span></td>
+                            <td><span class="badge-tipo entrada">Entrada</span></td>
                             <td><strong style="color:#00FF94;">+10</strong></td>
                             <td><span class="badge-stock bajo">3</span></td>
                             <td><span style="color:#94A3B8; font-size:12px;"><i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i> DEMO</span></td>
@@ -1230,7 +1231,7 @@
                             <td><span style="color:#94A3B8; font-size:12px;">08/03/2026 09:15</span></td>
                             <td><strong style="color:#ECF0F1;">Mouse Logitech MX</strong></td>
                             <td><span style="color:#94A3B8; font-size:12px;">Accesorios</span></td>
-                            <td><span class="badge-tipo ajuste">⚙️ Ajuste</span></td>
+                            <td><span class="badge-tipo ajuste">Ajuste</span></td>
                             <td><strong style="color:#9b59b6;">= 5</strong></td>
                             <td><span class="badge-stock normal">5</span></td>
                             <td><span style="color:#94A3B8; font-size:12px;"><i class="fas fa-user" style="color:#00F0FF; margin-right:4px;"></i> DEMO</span></td>
@@ -1305,7 +1306,7 @@
             // Simular cambio de período (DEMO)
             document.querySelectorAll('.filter-group .filter-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`.filter-group .filter-btn[onclick*="${periodo}"]`).classList.add('active');
-            showToast('📊 Período cambiado a: ' + getPeriodoTexto(periodo) + ' (DEMO)', 'success');
+            showToast('Período cambiado a: ' + getPeriodoTexto(periodo) + ' (DEMO)', 'success');
         }
 
         // ===== TOGGLE PERSONALIZADO =====
@@ -1335,7 +1336,7 @@
                 return;
             }
 
-            showToast('📊 Filtro aplicado: ' + desde + ' al ' + hasta + ' (DEMO)', 'success');
+            showToast('Filtro aplicado: ' + desde + ' al ' + hasta + ' (DEMO)', 'success');
         }
 
         // ===== OBTENER TEXTO DEL PERÍODO =====
@@ -1358,26 +1359,22 @@
             let contenido = '═══════════════════════════════════════════════════════════════\n';
             contenido += '                   NEXUS INVENTORY - REPORTE DEMO\n';
             contenido += '═══════════════════════════════════════════════════════════════\n\n';
-            contenido += '📅 Fecha: ' + fecha.toLocaleDateString() + '\n';
-            contenido += '🕐 Hora: ' + horaStr + '\n';
-            contenido += '👤 Usuario: DEMO (admin@sistema.com)\n';
-            contenido += '📊 Período: Última Semana (DEMO)\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '📊 RESUMEN GENERAL\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
+            contenido += ' Fecha: ' + fecha.toLocaleDateString() + '\n';
+            contenido += ' Hora: ' + horaStr + '\n';
+            contenido += ' Usuario: DEMO (admin@sistema.com)\n';
+            contenido += ' Período: Última Semana (DEMO)\n\n';
+            contenido += ' RESUMEN GENERAL\n';
             contenido += '  Total Productos      : 6\n';
             contenido += '  Stock Bajo           : 2\n';
             contenido += '  Valor Inventario     : $12,480\n';
             contenido += '  Movimientos Período  : 4\n';
             contenido += '  Categorías Activas   : 3\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '📌 DISTRIBUCIÓN POR CATEGORÍA\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
+            contenido += ' DISTRIBUCIÓN POR CATEGORÍA\n';
             contenido += '  Electrónica          : 3 productos (50%)\n';
             contenido += '  Accesorios           : 2 productos (33%)\n';
             contenido += '  Software             : 1 productos (17%)\n\n';
             contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '📈 MOVIMIENTOS RECIENTES\n';
+            contenido += ' MOVIMIENTOS RECIENTES\n';
             contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '  Fecha     | Producto              | Tipo   | Cantidad\n';
             contenido += '  ----------|-----------------------|--------|----------\n';
@@ -1386,12 +1383,7 @@
             contenido += '  09/03/26  | Teclado Mecánico RGB  | Entrada | +10\n';
             contenido += '  08/03/26  | Mouse Logitech MX     | Ajuste  | =5\n\n';
             contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '📋 REPORTE GENERADO POR NEXUS INVENTORY\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '  Versión demo - Funcionalidades limitadas\n';
-            contenido += '  © 2026 Nexus Webs - Todos los derechos reservados.\n';
-            contenido += '═══════════════════════════════════════════════════════════════\n';
-
+            
             const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -1401,7 +1393,7 @@
             document.body.removeChild(link);
             URL.revokeObjectURL(link.href);
 
-            showToast('📥 Reporte descargado exitosamente (DEMO)', 'success');
+            showToast('Reporte descargado exitosamente (DEMO)', 'success');
         }
 
         // ===== TOAST =====
@@ -1418,7 +1410,7 @@
         }
 
         console.log('✅ Nexus Inventory · Reportes DEMO cargado');
-        console.log('📊 Datos de ejemplo: 6 productos, 4 movimientos');
+        console.log('📊 Datos de ejemplo: 8 productos, 4 movimientos');
         console.log('🔒 Versión demo - funcionalidades limitadas');
     </script>
 
