@@ -109,6 +109,25 @@
             .report-filters { flex-direction: column; }
             .report-filters select, .report-filters input { width: 100%; }
         }
+
+        /* Móviles - Tabla como tarjetas */
+    @media (max-width: 600px) {
+        .topbar { flex-direction: row; align-items: center; padding: 4px 0 14px; }
+        .topbar .page-title { flex: 1; min-width: 0; font-size: 15px; }
+        .topbar .topbar-right { flex-shrink: 0; }
+        .topbar .topbar-right .date-display { display: none; }
+        .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .card-stat { padding: 12px 14px; border-radius: 12px; }
+        .card-stat .card-value { font-size: 1.1rem; }
+        .card-stat .card-label { font-size: 11px; }
+        .welcome-section { padding: 16px 18px; border-radius: 12px; }
+        .welcome-section h2 { font-size: 0.95rem; }
+        .welcome-section p { font-size: 12px; }
+        .welcome-section .welcome-stats { gap: 10px; }
+        .welcome-section .welcome-stats .ws-item { font-size: 11px; }
+        .section-title-bar { flex-direction: column; align-items: stretch; }
+        .section-title-bar .btn-secondary { justify-content: center; width: 100%; }
+    }
     </style>
 </head>
 <body>
@@ -124,7 +143,7 @@
         <ul class="menu">
             <li class="menu-label">Menú Principal</li>
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
-            <li><a href="clientes.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
+            <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
             <li><a href="clientes.html" ><i class="fas fa-users"></i> Clientes</a></li>
             <li><a href="citas.html" ><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
