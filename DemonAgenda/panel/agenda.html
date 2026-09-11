@@ -245,7 +245,12 @@
             .section-title-bar h3 { font-size: 14px; }
             .section-title-bar .btn-secondary { font-size: 12px; padding: 10px 16px; }
         }
-        
+
+        /* Mejora de touch en móviles */
+        @media (hover: none) {
+            .section-title-bar .btn-primary:hover { transform: none; }
+            .btn-actions button:hover { background: rgba(0,212,255,0.04); }
+        }
     </style>
 </head>
 <body>
