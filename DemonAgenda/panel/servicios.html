@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Nexus Agenda · Servicios DEMO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,113 +161,503 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-        .sidebar {
-            width: min(300px, 85vw);
-            padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));
-            box-shadow: 4px 0 60px rgba(0,0,0,0.7);
+            .main-content { padding: 14px 16px 24px; }
         }
-        .sidebar.closed { transform: translateX(-100%); }
-        .sidebar.open { transform: translateX(0); }
-        .sidebar-overlay.active { display: block; }
-        .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
-        .topbar .topbar-right .menu-toggle { display: flex; }
-        .topbar .page-title { font-size: 16px; }
-        .topbar .topbar-right .date-display { font-size: 12px; padding: 6px 10px; min-height: 40px; }
-        .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-        .card-stat { padding: 14px 16px; }
-        .card-stat .card-value { font-size: 1.25rem; }
-        .welcome-section { padding: 18px 20px; }
-        .welcome-section h2 { font-size: 1rem; }
-        .table-container table th, .table-container table td { padding: 10px 12px; font-size: 12px; }
-        .table-container table { min-width: 600px; }
-        .sidebar .menu li a { min-height: 48px; padding: 12px 14px; }
-        .section-title-bar .btn-secondary { min-height: 44px; }
-        .card-stat:hover { transform: none; }
-    }
+        @media (max-width: 768px) {
+            .sidebar { width: 280px; padding: 16px; }
+            .sidebar.closed { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.active { display: block; }
+            .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
+            .topbar .topbar-right .menu-toggle { display: block; }
+            .topbar .page-title { font-size: 17px; }
+            .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
+            .section-title-bar h3 { font-size: 15px; }
+            .section-title-bar .btn-primary, .section-title-bar .btn-secondary { font-size: 12px; padding: 6px 14px; }
+            .table-container table { min-width: 550px; }
+            .table-container table th, .table-container table td { padding: 8px 10px; font-size: 12px; }
+            .modal { padding: 20px; }
+            .modal h3 { font-size: 16px; }
+            .modal .form-row { grid-template-columns: 1fr; }
+            .demo-badge-header { font-size: 9px; padding: 2px 8px; }
+            .stats-mini .stat-item { font-size: 12px; padding: 6px 12px; }
+        }
+        @media (max-width: 480px) {
+            .main-content { padding: 10px 10px 16px; }
+            .topbar .page-title { font-size: 15px; }
+            .topbar .topbar-right .date-display { font-size: 11px; padding: 4px 8px; }
+            .topbar .topbar-right .menu-toggle { font-size: 18px; padding: 4px; }
+            .section-title-bar h3 { font-size: 13px; }
+            .section-title-bar .btn-primary, .section-title-bar .btn-secondary { font-size: 11px; padding: 5px 12px; }
+            .table-container table { min-width: 420px; }
+            .table-container table th, .table-container table td { padding: 6px 8px; font-size: 11px; }
+            .badge { font-size: 10px; padding: 2px 10px; }
+            .btn-actions button { font-size: 11px; padding: 3px 8px; }
+            .modal { padding: 16px; }
+            .modal .form-group input, .modal .form-group select, .modal .form-group textarea { font-size: 12px; padding: 8px 12px; }
+            .modal .modal-actions .btn-cancel, .modal .modal-actions .btn-submit, .modal .modal-actions .btn-submit-danger { font-size: 12px; padding: 8px 16px; }
+            .sidebar { width: 260px; padding: 14px; }
+            .sidebar .logo .logo-text { font-size: 14px; }
+            .sidebar .menu li a { font-size: 13px; padding: 8px 12px; }
+            .stats-mini .stat-item { font-size: 11px; padding: 4px 10px; }
+        }
+        @media (max-width: 360px) {
+            .topbar .page-title { font-size: 14px; }
+            .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
+            .table-container table { min-width: 320px; }
+            .table-container table th, .table-container table td { padding: 4px 6px; font-size: 10px; }
+        }
 
-    /* Móviles - Tabla como tarjetas */
-    @media (max-width: 600px) {
-        .topbar { flex-direction: row; align-items: center; padding: 4px 0 14px; }
-        .topbar .page-title { flex: 1; min-width: 0; font-size: 15px; }
-        .topbar .topbar-right { flex-shrink: 0; }
-        .topbar .topbar-right .date-display { display: none; }
-        .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-        .card-stat { padding: 12px 14px; border-radius: 12px; }
-        .card-stat .card-value { font-size: 1.1rem; }
-        .card-stat .card-label { font-size: 11px; }
-        .welcome-section { padding: 16px 18px; border-radius: 12px; }
-        .welcome-section h2 { font-size: 0.95rem; }
-        .welcome-section p { font-size: 12px; }
-        .welcome-section .welcome-stats { gap: 10px; }
-        .welcome-section .welcome-stats .ws-item { font-size: 11px; }
-        .section-title-bar { flex-direction: column; align-items: stretch; }
-        .section-title-bar .btn-secondary { justify-content: center; width: 100%; }
+        /* =========================================================
+           RESPONSIVE MULTIDISPOSITIVO - SERVICIOS
+           Desktop / Tablet / Celular
+           ========================================================= */
 
-        /* Transformar la tabla en tarjetas apiladas */
-        .table-wrapper { overflow-x: visible; }
-        .table-container table { min-width: 0 !important; width: 100%; }
-        .table-container thead { display: none; }
-        .table-container table, .table-container tbody, .table-container tr, .table-container td {
-            display: block;
+        html, body {
             width: 100%;
+            min-width: 0;
         }
-        .table-container tbody tr {
-            margin: 0 0 12px;
-            border: 1px solid rgba(0,212,255,0.08);
-            background: rgba(0,0,0,0.2);
-        }
-        .table-container tbody tr:last-child { margin-bottom: 0; }
-        .table-container table td {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            text-align: right;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            white-space: normal;
-        }
-        .table-container table td:last-child { border-bottom: none; }
-        .table-container table td::before {
-            content: attr(data-label);
-            font-weight: 700;
-            color: #4DA6FF;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            text-align: left;
-            flex-shrink: 0;
-            margin-right: 10px;
-        }
-        .table-container table td[data-label="Acciones"] { justify-content: flex-start; flex-wrap: wrap; }
-        .table-container table td[data-label="Acciones"]::before { display: none; }
-        .table-container .btn-actions { width: 100%; justify-content: flex-end; }
-    }
 
-    /* Móviles estándar */
-    @media (max-width: 480px) {
-        .main-content { padding: 10px 10px 16px; }
-        .topbar { padding: 4px 0 12px; gap: 8px; }
-        .topbar .page-title { font-size: 14px; gap: 4px; }
-        .topbar .topbar-right .menu-toggle { width: 42px; height: 42px; min-width: 42px; font-size: 17px; }
-        .demo-badge-header { font-size: 9px; padding: 2px 8px; }
-        .cards-grid { gap: 8px; }
-        .card-stat { padding: 12px; border-radius: 12px; }
-        .card-stat .card-icon { width: 34px; height: 34px; font-size: 14px; margin-bottom: 8px; }
-        .card-stat .card-value { font-size: 1rem; }
-        .card-stat .card-label { font-size: 10px; }
-        .welcome-section { padding: 14px 16px; border-radius: 12px; margin-bottom: 16px; }
-        .welcome-section h2 { font-size: 0.9rem; }
-        .welcome-section p { font-size: 11px; line-height: 1.4; }
-        .welcome-section .welcome-stats { margin-top: 10px; gap: 8px; }
-        .welcome-section .welcome-stats .ws-item { font-size: 10px; }
-        .table-container table tr { padding: 12px; margin: 8px; border-radius: 12px; }
-        .table-container table td { font-size: 12px; padding: 6px 0; gap: 8px; }
-        .table-container table td::before { font-size: 9px; }
-        .badge { font-size: 10px; padding: 3px 10px; }
-        .sidebar { width: 90vw; max-width: 320px; padding: calc(14px + var(--safe-top)) 12px calc(14px + var(--safe-bottom)); }
-        .sidebar .logo .logo-icon { width: 36px; height: 36px; font-size: 16px; }
-        .sidebar .menu li a { padding: 10px 12px; font-size: 13px; min-height: 44px; }
-        .section-title-bar h3 { font-size: 14px; }
-        .section-title-bar .btn-secondary { font-size: 12px; padding: 10px 16px; }
+        .main-content {
+            min-width: 0;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+                padding: 14px 16px 24px;
+            }
+
+            .table-container table {
+                min-width: 620px;
+            }
+        }
+
+        /* Tablet vertical / móvil */
+        @media (max-width: 768px) {
+            body {
+                display: block;
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                width: min(300px, 86vw);
+                padding: 16px;
+                transform: translateX(-100%);
+                box-shadow: 8px 0 40px rgba(0,0,0,0.55);
+            }
+
+            .sidebar.closed {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .main-content,
+            .main-content.full-width {
+                margin-left: 0;
+                width: 100%;
+                min-height: 100vh;
+                padding: 12px 14px 24px;
+            }
+
+            .topbar {
+                position: sticky;
+                top: 0;
+                z-index: 50;
+                margin: -12px -14px 14px;
+                padding: 12px 14px;
+                background: rgba(6,10,20,0.94);
+                backdrop-filter: blur(14px);
+                border-bottom: 1px solid rgba(0,212,255,0.06);
+            }
+
+            .topbar .page-title {
+                min-width: 0;
+                max-width: calc(100% - 55px);
+                font-size: clamp(15px, 4vw, 18px);
+                line-height: 1.3;
+            }
+
+            .topbar .topbar-right {
+                gap: 6px;
+            }
+
+            .topbar .topbar-right .date-display {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+
+            .topbar .topbar-right .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 42px;
+                height: 42px;
+                padding: 0;
+                font-size: 20px;
+                flex-shrink: 0;
+            }
+
+            .stats-mini {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+                width: 100%;
+            }
+
+            .stats-mini .stat-item {
+                min-width: 0;
+                padding: 9px 6px;
+                text-align: center;
+                font-size: 11px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .stats-mini .stat-item i {
+                display: block;
+                margin-bottom: 3px;
+            }
+
+            .section-title-bar {
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .section-title-bar h3 {
+                font-size: 14px;
+                line-height: 1.35;
+                min-width: 0;
+            }
+
+            .section-title-bar .btn-primary,
+            .section-title-bar .btn-secondary {
+                min-height: 42px;
+                justify-content: center;
+                padding: 9px 14px;
+            }
+
+            /* Tabla desplazable en tablet/móvil */
+            .table-container {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .table-container table {
+                min-width: 620px;
+            }
+
+            .table-container table th,
+            .table-container table td {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+
+            .btn-actions {
+                gap: 6px;
+            }
+
+            .btn-actions button {
+                min-width: 38px;
+                min-height: 36px;
+                padding: 7px 10px;
+            }
+
+            /* Modal */
+            .modal-overlay {
+                padding: 10px;
+                align-items: center;
+            }
+
+            .modal {
+                width: 100%;
+                max-width: 520px;
+                max-height: calc(100vh - 20px);
+                padding: 20px;
+                border-radius: 16px;
+            }
+
+            .modal .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .modal .form-group input,
+            .modal .form-group select,
+            .modal .form-group textarea {
+                font-size: 16px;
+                min-height: 44px;
+            }
+
+            .modal .modal-actions {
+                gap: 8px;
+            }
+
+            .modal .modal-actions button {
+                min-height: 44px;
+            }
+        }
+
+        /* Celular */
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 10px 10px 20px;
+            }
+
+            .topbar {
+                margin: -10px -10px 12px;
+                padding: 10px;
+            }
+
+            .topbar .page-title {
+                font-size: 14px;
+            }
+
+            .demo-badge-header {
+                font-size: 8px;
+                padding: 2px 7px;
+            }
+
+            .topbar .topbar-right .date-display {
+                display: none;
+            }
+
+            .topbar .topbar-right .menu-toggle {
+                width: 40px;
+                height: 40px;
+            }
+
+            .stats-mini {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+
+            .stats-mini .stat-item {
+                padding: 8px 3px;
+                font-size: 10px;
+            }
+
+            .section-title-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .section-title-bar h3 {
+                font-size: 13px;
+            }
+
+            .section-title-bar .btn-primary,
+            .section-title-bar .btn-secondary {
+                width: 100%;
+                min-height: 44px;
+                font-size: 13px;
+            }
+
+            /* En celular la tabla pasa a formato de tarjetas */
+            .table-container,
+            .table-wrapper {
+                overflow: visible;
+            }
+
+            .table-container table,
+            .table-container thead,
+            .table-container tbody,
+            .table-container tr,
+            .table-container td {
+                display: block;
+                width: 100%;
+            }
+
+            .table-container table {
+                min-width: 0;
+                border-collapse: separate;
+            }
+
+            .table-container thead {
+                display: none;
+            }
+
+            .table-container tbody tr {
+                margin-bottom: 12px;
+                padding: 12px;
+                background: rgba(10,14,26,0.72);
+                border: 1px solid rgba(0,212,255,0.08);
+                border-radius: 14px;
+                box-shadow: 0 5px 25px rgba(0,0,0,0.18);
+            }
+
+            .table-container tbody tr:last-child {
+                margin-bottom: 0;
+            }
+
+            .table-container tbody td {
+                display: grid;
+                grid-template-columns: minmax(90px, 34%) 1fr;
+                align-items: center;
+                gap: 8px;
+                padding: 9px 4px;
+                border-bottom: 1px solid rgba(0,212,255,0.05);
+                font-size: 13px;
+                line-height: 1.4;
+                overflow-wrap: anywhere;
+            }
+
+            .table-container tbody td:last-child {
+                border-bottom: none;
+                padding-bottom: 4px;
+            }
+
+            .table-container tbody td::before {
+                content: attr(data-label);
+                color: #4DA6FF;
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: .3px;
+            }
+
+            .table-container tbody td strong {
+                min-width: 0;
+            }
+
+            .table-container tbody td[data-label="Acciones"] {
+                display: block;
+                padding-top: 12px;
+            }
+
+            .table-container tbody td[data-label="Acciones"]::before {
+                display: block;
+                margin-bottom: 8px;
+            }
+
+            .btn-actions {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+                gap: 7px;
+            }
+
+            .btn-actions button {
+                width: 100%;
+                min-height: 40px;
+                font-size: 13px;
+            }
+
+            .badge {
+                justify-self: start;
+            }
+
+            /* Modal en celular */
+            .modal-overlay {
+                padding: 8px;
+            }
+
+            .modal {
+                padding: 16px;
+                max-height: calc(100vh - 16px);
+                border-radius: 15px;
+            }
+
+            .modal h3 {
+                font-size: 15px;
+            }
+
+            .modal .modal-sub {
+                font-size: 12px;
+            }
+
+            .modal .modal-actions {
+                flex-direction: column-reverse;
+            }
+
+            .modal .modal-actions button {
+                width: 100%;
+                min-height: 44px;
+                flex: none;
+            }
+
+            .mensaje {
+                font-size: 12px;
+                padding: 10px 12px;
+            }
+        }
+
+        /* Celulares pequeños */
+        @media (max-width: 380px) {
+            .sidebar {
+                width: 88vw;
+            }
+
+            .topbar .page-title {
+                font-size: 13px;
+            }
+
+            .stats-mini .stat-item {
+                font-size: 9px;
+            }
+
+            .table-container tbody tr {
+                padding: 9px;
+            }
+
+            .table-container tbody td {
+                grid-template-columns: 82px 1fr;
+                font-size: 12px;
+            }
+
+            .table-container tbody td::before {
+                font-size: 9px;
+            }
+        }
+
+        /* Pantallas grandes */
+        @media (min-width: 1440px) {
+            .main-content {
+                padding-left: 28px;
+                padding-right: 28px;
+            }
+        }
+
+        /* Mejor experiencia táctil */
+        @media (pointer: coarse) {
+            .sidebar .menu li a {
+                min-height: 44px;
+            }
+
+            button,
+            a {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .btn-actions button,
+            .section-title-bar button,
+            .menu-toggle {
+                touch-action: manipulation;
+            }
+        }
+
+        select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
+        @media (hover: none) {
+            .section-title-bar .btn-primary:hover, .section-title-bar .btn-secondary:hover { transform: none; }
+            .btn-actions button:hover { background: rgba(0,212,255,0.04); }
         }
     </style>
 </head>
@@ -338,6 +728,7 @@
         </div>
     </div>
 
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
         <div class="logo">
             <div class="logo-icon"><i class="fas fa-calendar-check"></i></div>
@@ -348,8 +739,8 @@
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
             <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
-            <li><a href="clientes.html" ><i class="fas fa-users"></i> Clientes</a></li>
-            <li><a href="citas.html" ><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
+            <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+            <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
             <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
         </ul>
         <div class="user-info">
@@ -485,10 +876,14 @@
 
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
-                closeSidebar();
-                sidebar.classList.remove('closed');
+                sidebar.classList.remove('open', 'closed');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
             } else {
+                sidebar.classList.remove('open');
                 sidebar.classList.add('closed');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
 
