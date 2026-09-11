@@ -899,39 +899,55 @@
             color: #12121F;
         }
 
+        /* ===== RESPONSIVE ===== */
+
+        /* Tablets grandes / laptops pequeñas */
         @media (max-width: 1200px) {
-            .status-summary { grid-template-columns: repeat(3, 1fr); }
-        }
-
-        @media (max-width: 992px) {
             .status-summary { grid-template-columns: repeat(2, 1fr); }
-            .form-row { grid-template-columns: 1fr; }
         }
 
+        /* Tablets */
+        @media (max-width: 992px) {
+            .container { padding: 22px; border-radius: 28px; }
+        }
+
+        /* Tablets pequeñas / móviles grandes */
         @media (max-width: 768px) {
-            .container { padding: 18px; }
+            body { padding: 12px; }
+            .container { padding: 16px; border-radius: 22px; }
             .topbar { flex-wrap: wrap; gap: 12px; }
+            .logo-title { font-size: 18px; }
+            .logo-subtitle { font-size: 12px; }
             .user-dropdown { width: 260px; right: -10px; }
-            .navbar { border-radius: 24px; padding: 8px; }
+            .navbar { border-radius: 24px; padding: 8px; justify-content: center; }
             .navbar a { padding: 8px 14px; font-size: 13px; }
+            .section-header { flex-direction: column; align-items: stretch; }
             .section-title { font-size: 20px; }
-            .status-summary { grid-template-columns: 1fr 1fr; }
-            .filters { flex-direction: column; }
-            .search-box { min-width: unset; }
-            .filter-select { width: 100%; }
+            .btn-primary { width: 100%; }
+            .status-summary { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .status-card { padding: 14px; gap: 10px; }
+            .status-icon { width: 40px; height: 40px; font-size: 16px; }
+            .status-content .status-value { font-size: 20px; }
             table thead th, table tbody td { padding: 10px 14px; font-size: 12px; }
-            .modal { padding: 24px 20px; }
+            .btn-actions { gap: 4px; }
+            .btn-icon { width: 30px; height: 30px; font-size: 12px; }
+            .modal { padding: 24px 20px; border-radius: 18px; }
             .btn-primary { padding: 10px 20px; font-size: 13px; }
             .form-actions { flex-direction: column; }
-            .toast { left: 20px; right: 20px; bottom: 20px; }
+            .toast { left: 12px; right: 12px; bottom: 12px; max-width: none; }
         }
 
-        @media (max-width: 480px) {
-            .user-name { display: none; }
-            .section-title { font-size: 18px; }
+        /* Móviles */
+        @media (max-width: 600px) {
+            .topbar { flex-direction: column; align-items: flex-start; }
+            .user-menu { width: 100%; }
+            .user-toggle { width: 100%; justify-content: space-between; }
+            .logo-container { width: 100%; }
+            .logo-img { width: 46px; height: 46px; }
+            .logo-img img { width: 38px; height: 38px; }
+            .navbar { flex-direction: column; border-radius: 16px; align-items: stretch; }
+            .navbar a { justify-content: flex-start; width: 100%; }
             .status-summary { grid-template-columns: 1fr; }
-            table thead th, table tbody td { padding: 8px 10px; font-size: 11px; }
-            .btn-primary { font-size: 12px; padding: 8px 16px; }
         }
     </style>
 </head>
@@ -1044,9 +1060,9 @@
             </div>
             <select class="filter-select" id="filterTipo" onchange="filterTable()">
                 <option value="">Todos los tipos</option>
-                <option value="entrada">📥 Entrada</option>
-                <option value="salida">📤 Salida</option>
-                <option value="ajuste">⚙️ Ajuste</option>
+                <option value="entrada">Entrada</option>
+                <option value="salida"> Salida</option>
+                <option value="ajuste">Ajuste</option>
             </select>
             <select class="filter-select" id="filterProducto" onchange="filterTable()">
                 <option value="">Todos los productos</option>
@@ -1081,7 +1097,7 @@
                                 <strong style="color:#00F0FF;">Laptop Dell XPS 13</strong>
                             </td>
                             <td>
-                                <span class="badge-tipo entrada">📥 Entrada</span>
+                                <span class="badge-tipo entrada">Entrada</span>
                             </td>
                             <td>
                                 <strong style="color:#00FF94;">+5</strong>
@@ -1106,7 +1122,7 @@
                                 <strong style="color:#00F0FF;">Monitor Samsung 27"</strong>
                             </td>
                             <td>
-                                <span class="badge-tipo salida">📤 Salida</span>
+                                <span class="badge-tipo salida"> Salida</span>
                             </td>
                             <td>
                                 <strong style="color:#F39C12;">-2</strong>
@@ -1131,7 +1147,7 @@
                                 <strong style="color:#00F0FF;">Teclado Mecánico RGB</strong>
                             </td>
                             <td>
-                                <span class="badge-tipo entrada">📥 Entrada</span>
+                                <span class="badge-tipo entrada">Entrada</span>
                             </td>
                             <td>
                                 <strong style="color:#00FF94;">+10</strong>
@@ -1185,9 +1201,9 @@
                     <div class="form-group">
                         <label for="mov_tipo">Tipo de Movimiento *</label>
                         <select id="mov_tipo" name="tipo" required>
-                            <option value="entrada">📥 Entrada (Agregar stock)</option>
-                            <option value="salida">📤 Salida (Retirar stock)</option>
-                            <option value="ajuste">⚙️ Ajuste (Establecer cantidad)</option>
+                            <option value="entrada">Entrada (Agregar stock)</option>
+                            <option value="salida"> Salida (Retirar stock)</option>
+                            <option value="ajuste">Ajuste (Establecer cantidad)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1324,7 +1340,7 @@
 
             // Simular registro (DEMO)
             setTimeout(() => {
-                const tipoTexto = tipo === 'entrada' ? '📥 Entrada' : tipo === 'salida' ? '📤 Salida' : '⚙️ Ajuste';
+                const tipoTexto = tipo === 'entrada' ? 'Entrada' : tipo === 'salida' ? ' Salida' : 'Ajuste';
                 showToast(`✅ Movimiento registrado: ${tipoTexto} de ${cantidad} unidades (DEMO)`, 'success');
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-check"></i> Registrar Movimiento';
@@ -1346,7 +1362,7 @@
             }
 
             const tipoClase = tipo === 'entrada' ? 'entrada' : tipo === 'salida' ? 'salida' : 'ajuste';
-            const tipoIcono = tipo === 'entrada' ? '📥' : tipo === 'salida' ? '📤' : '⚙️';
+            const tipoIcono = tipo === 'entrada' ? '📥' : tipo === 'salida' ? '' : '⚙️';
             const tipoTexto = tipo === 'entrada' ? 'Entrada' : tipo === 'salida' ? 'Salida' : 'Ajuste';
             const colorCantidad = tipo === 'entrada' ? '#00FF94' : tipo === 'salida' ? '#F39C12' : '#9b59b6';
             const signo = tipo === 'entrada' ? '+' : tipo === 'salida' ? '-' : '=';
