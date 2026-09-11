@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -166,11 +167,33 @@
         .modal .modal-actions .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
         .modal .modal-actions .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #fff;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { background: #22C55E; color: #fff; }
+        .toast.error { background: #EF4444; }
+        .toast.warning { background: #F39C12; color: #12121F; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .main-content { padding: 14px 16px 24px; }
             .filters-row select, .filters-row input { min-width: 100px; }
         }
+
         @media (max-width: 768px) {
             .sidebar { width: 280px; padding: 16px; }
             .sidebar.closed { transform: translateX(-100%); }
@@ -192,7 +215,9 @@
             .modal h3 { font-size: 16px; }
             .demo-badge-header { font-size: 9px; padding: 2px 8px; }
             .limite-semana { font-size: 11px; padding: 4px 10px; }
+            .toast { left: 20px; right: 20px; bottom: 20px; max-width: none; }
         }
+
         @media (max-width: 480px) {
             .main-content { padding: 10px 10px 16px; }
             .topbar .page-title { font-size: 15px; }
@@ -213,6 +238,7 @@
             .filters-row select, .filters-row input { font-size: 12px; padding: 6px 10px; }
             .limite-semana { font-size: 10px; padding: 4px 8px; }
         }
+
         @media (max-width: 360px) {
             .topbar .page-title { font-size: 14px; }
             .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
@@ -220,9 +246,12 @@
             .table-container table th, .table-container table td { padding: 4px 6px; font-size: 10px; }
             .view-toggles button { font-size: 10px; padding: 4px 6px; }
         }
+
+        /* Modo oscuro para selectores */
         select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
+
+        /* Mejora de touch en móviles */
         @media (hover: none) {
-            .card-stat:hover { transform: none; }
             .section-title-bar .btn-primary:hover { transform: none; }
             .btn-actions button:hover { background: rgba(0,212,255,0.04); }
         }
@@ -262,7 +291,7 @@
 
                 <div class="form-group">
                     <label>Fecha y Hora de inicio *</label>
-                    <input type="datetime-local" id="fecha_hora" required value="<?php echo date('Y-m-d\TH:i', strtotime('+1 hour')); ?>">
+                    <input type="datetime-local" id="fecha_hora" required>
                 </div>
 
                 <div class="form-group">
@@ -278,6 +307,7 @@
         </div>
     </div>
 
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
         <div class="logo">
             <div class="logo-icon"><i class="fas fa-calendar-check"></i></div>
@@ -286,10 +316,10 @@
         <ul class="menu">
             <li class="menu-label">Menú Principal</li>
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
-            <li><a href="clientes.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
+            <li><a href="agenda.html" class="active"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
-            <li><a href="clientes.html" ><i class="fas fa-users"></i> Clientes</a></li>
-            <li><a href="citas.html" ><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
+            <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+            <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
             <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
         </ul>
         <div class="user-info">
@@ -307,7 +337,7 @@
         <div class="topbar">
             <div class="page-title">Agenda <span>/ Citas</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
             <div class="topbar-right">
-                <div class="date-display"><i class="fas fa-calendar-day"></i> <?php echo date('d/m/Y'); ?></div>
+                <div class="date-display"><i class="fas fa-calendar-day"></i> <span id="fechaActual"></span></div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -333,7 +363,7 @@
                 <option value="realizada">Realizada</option>
                 <option value="cancelada">Cancelada</option>
             </select>
-            <input type="date" value="<?php echo date('Y-m-d'); ?>">
+            <input type="date" id="filtroFecha">
         </div>
 
         <!-- ===== TÍTULO Y BOTÓN ===== -->
@@ -423,7 +453,14 @@
 
     </main>
 
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
     <script>
+        // ===== FECHA ACTUAL =====
+        document.getElementById('fechaActual').textContent = new Date().toLocaleDateString('es-ES');
+        document.getElementById('filtroFecha').value = new Date().toISOString().split('T')[0];
+
         // ===== TOGGLE SIDEBAR =====
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
@@ -499,6 +536,10 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             document.getElementById('formCita').reset();
+            // Establecer fecha y hora por defecto
+            const ahora = new Date();
+            ahora.setHours(ahora.getHours() + 1);
+            document.getElementById('fecha_hora').value = ahora.toISOString().slice(0, 16);
         }
 
         function cerrarModal() {
@@ -517,10 +558,9 @@
             const cliente = document.getElementById('id_cliente');
             const servicio = document.getElementById('id_servicio');
             const fecha = document.getElementById('fecha_hora').value;
-            const notas = document.getElementById('notas').value;
 
             if (!cliente.value || !servicio.value || !fecha) {
-                alert('⚠️ Por favor, completa todos los campos obligatorios.');
+                showToast('⚠️ Por favor, completa todos los campos obligatorios.', 'warning');
                 return false;
             }
 
@@ -543,29 +583,32 @@
                 <td data-label="Estado"><span class="badge badge-pendiente">Pendiente</span></td>
                 <td data-label="Acciones">
                     <div class="btn-actions">
-                        <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                        <button class="btn-status" onclick="alert('📌 Cambiar hora\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
-                        <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                        <button class="btn-delete" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
+                        <button class="btn-edit" onclick="alert('📌 Editar cita\\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-status" onclick="alert('📌 Cambiar hora\\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
+                        <button class="btn-status" onclick="alert('📌 Cambiar estado\\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
+                        <button class="btn-delete" onclick="alert('📌 Eliminar cita\\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             `;
 
-            tbody.appendChild(newRow);
+            tbody.prepend(newRow);
             cerrarModal();
-            alert('✅ Cita creada exitosamente (DEMO)');
-
-            // Actualizar contador
-            const limite = document.querySelector('.limite-semana strong');
-            const restantes = document.querySelector('.limite-semana .restantes');
-            if (limite && restantes) {
-                const actual = parseInt(limite.textContent) || 0;
-                limite.textContent = actual + 1;
-                const disponibles = 25 - (actual + 1);
-                restantes.textContent = `(${disponibles} disponibles)`;
-            }
+            showToast('✅ Cita creada exitosamente (DEMO)', 'success');
 
             return false;
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
         }
 
         // ===== FILTROS =====
