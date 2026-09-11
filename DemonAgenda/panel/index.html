@@ -755,7 +755,43 @@
         .section-title-bar { flex-direction: column; align-items: stretch; }
         .section-title-bar .btn-secondary { justify-content: center; width: 100%; }
 
-        
+        /* Transformar la tabla en tarjetas apiladas */
+        .table-wrapper { overflow-x: visible; }
+        .table-container table { min-width: 0 !important; width: 100%; }
+        .table-container thead { display: none; }
+        .table-container table, .table-container tbody, .table-container tr, .table-container td {
+            display: block;
+            width: 100%;
+        }
+        .table-container tbody tr {
+            margin: 0 0 12px;
+            border: 1px solid rgba(0,212,255,0.08);
+            background: rgba(0,0,0,0.2);
+        }
+        .table-container tbody tr:last-child { margin-bottom: 0; }
+        .table-container table td {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            white-space: normal;
+        }
+        .table-container table td:last-child { border-bottom: none; }
+        .table-container table td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            color: #4DA6FF;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            text-align: left;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+        .table-container table td[data-label="Acciones"] { justify-content: flex-start; flex-wrap: wrap; }
+        .table-container table td[data-label="Acciones"]::before { display: none; }
+        .table-container .btn-actions { width: 100%; justify-content: flex-end; }
     }
 
     /* Móviles estándar */

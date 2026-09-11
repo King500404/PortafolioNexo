@@ -192,15 +192,17 @@
         @media (max-width: 1024px) {
             .main-content { padding: 14px 16px 24px; }
             .filters-row select, .filters-row input { min-width: 100px; }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar { width: 280px; padding: 16px; }
+            .sidebar { width: min(280px, 85vw); }
             .sidebar.closed { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .sidebar-overlay.active { display: block; }
-            .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
+            .main-content { margin-left: 0; width: 100%; }
             .topbar .topbar-right .menu-toggle { display: block; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: min(280px, 85vw); padding: 16px; }
+            .main-content { padding: 12px 14px 20px; }
             .topbar .page-title { font-size: 17px; }
             .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
             .filters-row { flex-direction: column; align-items: stretch; }
@@ -209,13 +211,56 @@
             .view-toggles button { flex: 1; text-align: center; padding: 6px 10px; font-size: 12px; }
             .section-title-bar h3 { font-size: 15px; }
             .section-title-bar .btn-primary { font-size: 12px; padding: 6px 14px; }
-            .table-container table { min-width: 550px; }
-            .table-container table th, .table-container table td { padding: 8px 10px; font-size: 12px; }
             .modal { padding: 20px; }
             .modal h3 { font-size: 16px; }
             .demo-badge-header { font-size: 9px; padding: 2px 8px; }
             .limite-semana { font-size: 11px; padding: 4px 10px; }
             .toast { left: 20px; right: 20px; bottom: 20px; max-width: none; }
+        }
+
+        /* ===== TABLA EN TARJETAS (MÓVIL) ===== */
+        @media (max-width: 640px) {
+            .table-wrapper { overflow-x: visible; }
+            .table-container table { min-width: 0 !important; width: 100%; }
+            .table-container thead { display: none; }
+            .table-container table, .table-container tbody, .table-container tr, .table-container td {
+                display: block;
+                width: 100%;
+            }
+            .table-container tbody tr {
+                margin: 0 0 12px;
+                padding: 10px 12px;
+                border: 1px solid rgba(0,212,255,0.08);
+                border-radius: 14px;
+                background: rgba(0,0,0,0.2);
+            }
+            .table-container tbody tr:last-child { margin-bottom: 0; }
+            .table-container td {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                text-align: right;
+                padding: 7px 2px !important;
+                border-bottom: 1px solid rgba(255,255,255,0.04);
+                white-space: normal;
+                font-size: 12px !important;
+            }
+            .table-container td:last-child { border-bottom: none; }
+            .table-container td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #4DA6FF;
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+                text-align: left;
+                flex-shrink: 0;
+                margin-right: 10px;
+            }
+            .table-container td[data-label="Acciones"] { justify-content: flex-start; flex-wrap: wrap; }
+            .table-container td[data-label="Acciones"]::before { display: none; }
+            .table-container .btn-actions { width: 100%; justify-content: flex-end; }
         }
 
         @media (max-width: 480px) {
@@ -487,14 +532,14 @@
 
         document.querySelectorAll('.sidebar .menu a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 1024) {
                     closeSidebar();
                 }
             });
         });
 
         window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
+            if (window.innerWidth > 1024) {
                 closeSidebar();
                 sidebar.classList.remove('closed');
             } else {
@@ -502,7 +547,7 @@
             }
         });
 
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 1024) {
             sidebar.classList.add('closed');
         }
 

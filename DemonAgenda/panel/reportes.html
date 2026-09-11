@@ -12,7 +12,7 @@
     <style>
         /* ===== MISMO ESTILO NEÓN ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; overflow-x: hidden; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0A0E1A; }
         ::-webkit-scrollbar-thumb { background: #1A2A5E; border-radius: 10px; }
@@ -93,13 +93,13 @@
             .report-stats { grid-template-columns: repeat(2, 1fr); }
             .charts-row { grid-template-columns: 1fr; }
             .chart-full { grid-column: 1; }
-        }
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); width: 280px; }
+            .sidebar { transform: translateX(-100%); width: min(280px, 85vw); }
             .sidebar.open { transform: translateX(0); }
             .sidebar-overlay.active { display: block; }
             .main-content { margin-left: 0; padding: 16px; }
             .topbar .topbar-right .menu-toggle { display: block; }
+        }
+        @media (max-width: 768px) {
             .topbar .topbar-right .date-display { font-size: 12px; padding: 6px 12px; }
             .report-stats { grid-template-columns: 1fr 1fr; }
         }
@@ -265,7 +265,7 @@
         menuToggle.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', toggleSidebar);
         document.querySelectorAll('.sidebar .menu a').forEach(link => {
-            link.addEventListener('click', () => { if (window.innerWidth <= 768) { sidebar.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; } });
+            link.addEventListener('click', () => { if (window.innerWidth <= 1024) { sidebar.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; } });
         });
 
         // ============================================================
