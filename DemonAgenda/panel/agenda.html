@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Nexus Agenda · Citas DEMO</title>
+    <title>Nexus Agenda · Agenda DEMO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,30 +92,33 @@
         .demo-badge-header { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.06); color: #4DA6FF; font-size: 10px; padding: 2px 10px; border-radius: 20px; font-weight: 500; }
         .demo-badge-header i { color: #00D4FF; font-size: 10px; }
 
-        /* ===== ESTADÍSTICAS ===== */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        .stat-card { background: rgba(10,14,26,0.4); border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(0,212,255,0.04); text-align: center; transition: 0.3s; }
-        .stat-card:hover { border-color: rgba(0,212,255,0.12); transform: translateY(-2px); }
-        .stat-card .stat-icon { font-size: 28px; margin-bottom: 6px; display: block; }
-        .stat-card .stat-value { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 700; color: #E2E8F0; }
-        .stat-card .stat-label { font-size: 13px; color: #94A3B8; margin-top: 2px; }
-        .stat-card .stat-icon.pendiente { color: #0066FF; }
-        .stat-card .stat-icon.confirmada { color: #00D4FF; }
-        .stat-card .stat-icon.realizada { color: #22C55E; }
-        .stat-card .stat-icon.cancelada { color: #EF4444; }
-
         /* ===== FILTROS ===== */
         .filters-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
         .filters-row select, .filters-row input { padding: 8px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 13px; color: #E2E8F0; outline: none; transition: 0.2s; width: auto; min-width: 120px; }
         .filters-row select:focus, .filters-row input:focus { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
         .filters-row select option { background: #0A0E1A; }
-        .btn-filter { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: linear-gradient(135deg, #0066FF, #00D4FF); color: #FFFFFF; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 30px rgba(0,102,255,0.15); font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; white-space: nowrap; }
-        .btn-filter:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.2); }
+        .view-toggles { display: flex; gap: 4px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px; flex-wrap: wrap; }
+        .view-toggles button { padding: 5px 14px; border: none; border-radius: 8px; background: transparent; color: #94A3B8; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .view-toggles button.active { background: rgba(0,212,255,0.08); color: #00D4FF; box-shadow: 0 0 30px rgba(0,212,255,0.04); }
+        .view-toggles button:hover:not(.active) { color: #E2E8F0; }
+
+        /* ===== LÍMITE SEMANAL ===== */
+        .limite-semana { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; font-size: 12px; color: #94A3B8; flex-wrap: wrap; }
+        .limite-semana strong { color: #00D4FF; }
+        .limite-semana .restantes { color: #22C55E; }
+        .limite-semana .lleno { color: #EF4444; }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+        .section-title-bar h3 { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #E2E8F0; }
+        .section-title-bar .btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: linear-gradient(135deg, #0066FF, #00D4FF); color: #FFFFFF; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 30px rgba(0,102,255,0.2); text-decoration: none; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; white-space: nowrap; }
+        .section-title-bar .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
+        .section-title-bar .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         /* ===== TABLA ===== */
         .table-container { background: rgba(10,14,26,0.6); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(0,212,255,0.06); overflow: hidden; box-shadow: 0 4px 30px rgba(0,0,0,0.2); }
         .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .table-container table { width: 100%; border-collapse: collapse; min-width: 650px; }
+        .table-container table { width: 100%; border-collapse: collapse; min-width: 700px; }
         .table-container table th { background: rgba(0,0,0,0.2); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; color: #4DA6FF; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 1px solid rgba(0,212,255,0.04); white-space: nowrap; }
         .table-container table td { padding: 10px 14px; font-size: 13px; color: #CBD5E1; border-bottom: 1px solid rgba(0,212,255,0.03); vertical-align: middle; }
         .table-container table tr:last-child td { border-bottom: none; }
@@ -124,7 +128,7 @@
         .badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
         .badge-pendiente { background: rgba(0,102,255,0.12); color: #0066FF; }
         .badge-confirmada { background: rgba(0,212,255,0.12); color: #00D4FF; }
-        .badge-realizada { background: rgba(34,197,94,0.12); color: #22C55E; }
+        .badge-realizada { background: rgba(148,163,184,0.08); color: #94A3B8; }
         .badge-cancelada { background: rgba(239,68,68,0.12); color: #EF4444; }
 
         /* ===== BOTONES DE ACCIÓN ===== */
@@ -137,8 +141,6 @@
         .btn-actions .btn-status:hover { background: rgba(0,212,255,0.08); }
         .btn-actions .btn-delete { color: #EF4444; }
         .btn-actions .btn-delete:hover { background: rgba(239,68,68,0.08); }
-        .btn-actions .btn-demo { background: rgba(0,212,255,0.04); color: #4DA6FF; cursor: default; opacity: 0.7; }
-        .btn-actions .btn-demo:hover { transform: none; background: rgba(0,212,255,0.04); color: #4DA6FF; }
 
         /* ===== MENSAJES ===== */
         .mensaje { padding: 10px 16px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; }
@@ -146,10 +148,52 @@
         .mensaje.error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.12); color: #EF4444; }
         .mensaje i { margin-right: 6px; }
 
+        /* ===== MODAL ===== */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 16px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: rgba(10,14,26,0.95); backdrop-filter: blur(16px); border-radius: 20px; padding: 24px 28px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .modal h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E2E8F0; margin-bottom: 4px; }
+        .modal .modal-sub { color: #94A3B8; font-size: 13px; margin-bottom: 16px; }
+        .modal .form-group { margin-bottom: 14px; }
+        .modal .form-group label { display: block; font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; }
+        .modal .form-group select, .modal .form-group input, .modal .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 13px; color: #E2E8F0; outline: none; transition: 0.2s; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
+        .modal .form-group select:focus, .modal .form-group input:focus, .modal .form-group textarea:focus { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
+        .modal .form-group select option { background: #0A0E1A; }
+        .modal .form-group textarea { min-height: 50px; resize: vertical; }
+        .modal .modal-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .modal .modal-actions .btn-cancel { padding: 10px 20px; background: rgba(0,212,255,0.04); color: #94A3B8; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: 500; flex: 1; }
+        .modal .modal-actions .btn-cancel:hover { background: rgba(0,212,255,0.08); color: #E2E8F0; }
+        .modal .modal-actions .btn-submit { padding: 10px 20px; background: linear-gradient(135deg, #0066FF, #00D4FF); color: #FFFFFF; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: 600; box-shadow: 0 4px 30px rgba(0,102,255,0.2); flex: 1; }
+        .modal .modal-actions .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
+        .modal .modal-actions .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #fff;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { background: #22C55E; color: #fff; }
+        .toast.error { background: #EF4444; }
+        .toast.warning { background: #F39C12; color: #12121F; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .main-content { padding: 14px 16px 24px; }
+            .filters-row select, .filters-row input { min-width: 100px; }
         }
+
         @media (max-width: 768px) {
             .sidebar { width: 280px; padding: 16px; }
             .sidebar.closed { transform: translateX(-100%); }
@@ -159,43 +203,56 @@
             .topbar .topbar-right .menu-toggle { display: block; }
             .topbar .page-title { font-size: 17px; }
             .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .stat-card .stat-value { font-size: 22px; }
             .filters-row { flex-direction: column; align-items: stretch; }
             .filters-row select, .filters-row input { width: 100%; min-width: unset; }
-            .btn-filter { justify-content: center; }
+            .view-toggles { width: 100%; }
+            .view-toggles button { flex: 1; text-align: center; padding: 6px 10px; font-size: 12px; }
+            .section-title-bar h3 { font-size: 15px; }
+            .section-title-bar .btn-primary { font-size: 12px; padding: 6px 14px; }
             .table-container table { min-width: 550px; }
             .table-container table th, .table-container table td { padding: 8px 10px; font-size: 12px; }
+            .modal { padding: 20px; }
+            .modal h3 { font-size: 16px; }
             .demo-badge-header { font-size: 9px; padding: 2px 8px; }
+            .limite-semana { font-size: 11px; padding: 4px 10px; }
+            .toast { left: 20px; right: 20px; bottom: 20px; max-width: none; }
         }
+
         @media (max-width: 480px) {
             .main-content { padding: 10px 10px 16px; }
             .topbar .page-title { font-size: 15px; }
             .topbar .topbar-right .date-display { font-size: 11px; padding: 4px 8px; }
             .topbar .topbar-right .menu-toggle { font-size: 18px; padding: 4px; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .stat-card { padding: 14px 12px; }
-            .stat-card .stat-value { font-size: 20px; }
+            .section-title-bar h3 { font-size: 13px; }
+            .section-title-bar .btn-primary { font-size: 11px; padding: 5px 12px; }
             .table-container table { min-width: 420px; }
             .table-container table th, .table-container table td { padding: 6px 8px; font-size: 11px; }
             .badge { font-size: 10px; padding: 2px 10px; }
             .btn-actions button { font-size: 11px; padding: 3px 8px; }
+            .modal { padding: 16px; }
+            .modal .form-group select, .modal .form-group input, .modal .form-group textarea { font-size: 12px; padding: 8px 12px; }
+            .modal .modal-actions .btn-cancel, .modal .modal-actions .btn-submit { font-size: 12px; padding: 8px 16px; }
             .sidebar { width: 260px; padding: 14px; }
             .sidebar .logo .logo-text { font-size: 14px; }
             .sidebar .menu li a { font-size: 13px; padding: 8px 12px; }
             .filters-row select, .filters-row input { font-size: 12px; padding: 6px 10px; }
+            .limite-semana { font-size: 10px; padding: 4px 8px; }
         }
+
         @media (max-width: 360px) {
             .topbar .page-title { font-size: 14px; }
             .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
-            .stats-grid { grid-template-columns: 1fr; }
             .table-container table { min-width: 320px; }
             .table-container table th, .table-container table td { padding: 4px 6px; font-size: 10px; }
+            .view-toggles button { font-size: 10px; padding: 4px 6px; }
         }
+
+        /* Modo oscuro para selectores */
         select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
+
+        /* Mejora de touch en móviles */
         @media (hover: none) {
-            .stat-card:hover { transform: none; }
-            .btn-filter:hover { transform: none; }
+            .section-title-bar .btn-primary:hover { transform: none; }
             .btn-actions button:hover { background: rgba(0,212,255,0.04); }
         }
     </style>
@@ -204,6 +261,51 @@
 
     <!-- ===== OVERLAY SIDEBAR ===== -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ===== MODAL NUEVA CITA ===== -->
+    <div class="modal-overlay" id="modalCita">
+        <div class="modal">
+            <h3><i class="fas fa-calendar-plus" style="color:#00D4FF; margin-right:10px;"></i>Nueva Cita</h3>
+            <p class="modal-sub">Completa los datos para agendar una nueva cita.</p>
+
+            <form id="formCita" onsubmit="return guardarCita(event)">
+                <div class="form-group">
+                    <label>Seleccionar Cliente *</label>
+                    <select id="id_cliente" required>
+                        <option value="">-- Seleccionar cliente --</option>
+                        <option value="1">María González (3105551234)</option>
+                        <option value="2">Carlos Rodríguez (3105555678)</option>
+                        <option value="3">Ana Martínez (3105559012)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Servicio *</label>
+                    <select id="id_servicio" required>
+                        <option value="">-- Seleccionar servicio --</option>
+                        <option value="1">Corte de cabello (30 min - $35,000)</option>
+                        <option value="2">Manicura (45 min - $45,000)</option>
+                        <option value="3">Depilación (20 min - $28,000)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha y Hora de inicio *</label>
+                    <input type="datetime-local" id="fecha_hora" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Notas adicionales</label>
+                    <textarea id="notas" placeholder="Información adicional sobre la cita..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="cerrarModal()"><i class="fas fa-times"></i> Cancelar</button>
+                    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Guardar Cita</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
@@ -214,10 +316,10 @@
         <ul class="menu">
             <li class="menu-label">Menú Principal</li>
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
-            <li><a href="clientes.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
+            <li><a href="agenda.html" class="active"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
-            <li><a href="clientes.html" ><i class="fas fa-users"></i> Clientes</a></li>
-            <li><a href="citas.html" ><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
+            <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+            <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
             <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
         </ul>
         <div class="user-info">
@@ -233,54 +335,47 @@
     <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content" id="mainContent">
         <div class="topbar">
-            <div class="page-title">Citas <span>Realizadas</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
+            <div class="page-title">Agenda <span>/ Citas</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
             <div class="topbar-right">
-                <div class="date-display"><i class="fas fa-calendar-day"></i> <?php echo date('d/m/Y'); ?></div>
+                <div class="date-display"><i class="fas fa-calendar-day"></i> <span id="fechaActual"></span></div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
             </div>
         </div>
 
-        <!-- ===== ESTADÍSTICAS ===== -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-icon pendiente"><i class="fas fa-clock"></i></span>
-                <div class="stat-value">2</div>
-                <div class="stat-label">Pendientes</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-icon confirmada"><i class="fas fa-check-circle"></i></span>
-                <div class="stat-value">3</div>
-                <div class="stat-label">Confirmadas</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-icon realizada"><i class="fas fa-check-double"></i></span>
-                <div class="stat-value">4</div>
-                <div class="stat-label">Realizadas</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-icon cancelada"><i class="fas fa-times-circle"></i></span>
-                <div class="stat-value">1</div>
-                <div class="stat-label">Canceladas</div>
+        <!-- ===== LÍMITE SEMANAL ===== -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px;">
+            <div class="limite-semana">
+                <i class="fas fa-chart-simple"></i>
+                Citas esta semana: <strong>3</strong> / 25
+                <span class="restantes">(22 disponibles)</span>
             </div>
         </div>
 
         <!-- ===== FILTROS ===== -->
         <div class="filters-row">
+            <div class="view-toggles">
+                <button class="active">Día</button><button>Semana</button><button>Mes</button>
+            </div>
             <select>
-                <option value="">Todos los estados</option>
+                <option value="">Filtrar por estado</option>
                 <option value="pendiente">Pendiente</option>
                 <option value="confirmada">Confirmada</option>
                 <option value="realizada">Realizada</option>
                 <option value="cancelada">Cancelada</option>
             </select>
-            <input type="date" value="<?php echo date('Y-m-d'); ?>">
-            <input type="date" value="<?php echo date('Y-m-d'); ?>">
-            <button class="btn-filter" onclick="showToast('📊 Filtro aplicado (DEMO)', 'success')">
-                <i class="fas fa-filter"></i> Filtrar
+            <input type="date" id="filtroFecha">
+        </div>
+
+        <!-- ===== TÍTULO Y BOTÓN ===== -->
+        <div class="section-title-bar">
+            <h3>📅 Todas las Citas</h3>
+            <button class="btn-primary" onclick="abrirModal()">
+                <i class="fas fa-plus"></i> Nueva Cita
+                <span style="font-size:10px; opacity:0.7;">(22 restantes)</span>
             </button>
         </div>
 
-        <!-- ===== TABLA DE CITAS ===== -->
+        <!-- ===== TABLA ===== -->
         <div class="table-container">
             <div class="table-wrapper">
                 <table>
@@ -297,7 +392,7 @@
                         </tr>
                     </thead>
                     <tbody id="tablaCitas">
-                        <!-- Cita 1 - Realizada -->
+                        <!-- Cita 1 -->
                         <tr>
                             <td data-label="Fecha">10/03/2026</td>
                             <td data-label="Hora"><strong>09:00</strong></td>
@@ -305,18 +400,37 @@
                             <td data-label="Servicio">Corte de cabello</td>
                             <td data-label="Precio">$35,000</td>
                             <td data-label="Teléfono">3105551234</td>
-                            <td data-label="Estado"><span class="badge badge-realizada">Realizada</span></td>
+                            <td data-label="Estado"><span class="badge badge-pendiente">Pendiente</span></td>
                             <td data-label="Acciones">
                                 <div class="btn-actions">
                                     <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-status" onclick="alert('📌 Cambiar hora\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
                                     <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                                    <button class="btn-demo" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-delete" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
-                        <!-- Cita 2 - Realizada -->
+                        <!-- Cita 2 -->
                         <tr>
                             <td data-label="Fecha">10/03/2026</td>
+                            <td data-label="Hora"><strong>10:30</strong></td>
+                            <td data-label="Cliente">Carlos Rodríguez</td>
+                            <td data-label="Servicio">Manicura</td>
+                            <td data-label="Precio">$45,000</td>
+                            <td data-label="Teléfono">3105555678</td>
+                            <td data-label="Estado"><span class="badge badge-confirmada">Confirmada</span></td>
+                            <td data-label="Acciones">
+                                <div class="btn-actions">
+                                    <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-status" onclick="alert('📌 Cambiar hora\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
+                                    <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="btn-delete" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Cita 3 -->
+                        <tr>
+                            <td data-label="Fecha">09/03/2026</td>
                             <td data-label="Hora"><strong>11:45</strong></td>
                             <td data-label="Cliente">Ana Martínez</td>
                             <td data-label="Servicio">Depilación</td>
@@ -326,42 +440,9 @@
                             <td data-label="Acciones">
                                 <div class="btn-actions">
                                     <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-status" onclick="alert('📌 Cambiar hora\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
                                     <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                                    <button class="btn-demo" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Cita 3 - Pendiente -->
-                        <tr>
-                            <td data-label="Fecha">10/03/2026</td>
-                            <td data-label="Hora"><strong>14:00</strong></td>
-                            <td data-label="Cliente">Jorge Pérez</td>
-                            <td data-label="Servicio">Corte y barba</td>
-                            <td data-label="Precio">$50,000</td>
-                            <td data-label="Teléfono">3105553456</td>
-                            <td data-label="Estado"><span class="badge badge-pendiente">Pendiente</span></td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                                    <button class="btn-demo" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Cita 4 - Confirmada -->
-                        <tr>
-                            <td data-label="Fecha">10/03/2026</td>
-                            <td data-label="Hora"><strong>15:30</strong></td>
-                            <td data-label="Cliente">Laura Sánchez</td>
-                            <td data-label="Servicio">Tratamiento facial</td>
-                            <td data-label="Precio">$55,000</td>
-                            <td data-label="Teléfono">3105557890</td>
-                            <td data-label="Estado"><span class="badge badge-confirmada">Confirmada</span></td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                                    <button class="btn-demo" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
+                                    <button class="btn-delete" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -370,17 +451,16 @@
             </div>
         </div>
 
-        <!-- ===== MENSAJE DE DEMO ===== -->
-        <div style="margin-top:16px; padding:16px 20px; background:rgba(0,212,255,0.03); border-radius:12px; border:1px solid rgba(0,212,255,0.06);">
-            <p style="font-size:13px; color:#94A3B8;">
-                <i class="fas fa-info-circle" style="color:#00D4FF; margin-right:8px;"></i>
-                <strong style="color:#475569;">Funcionalidad de demo:</strong> Puedes ver todas las citas con sus estados. Las acciones de editar, cambiar estado y eliminar están deshabilitadas en esta versión de prueba.
-            </p>
-        </div>
-
     </main>
 
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
     <script>
+        // ===== FECHA ACTUAL =====
+        document.getElementById('fechaActual').textContent = new Date().toLocaleDateString('es-ES');
+        document.getElementById('filtroFecha').value = new Date().toISOString().split('T')[0];
+
         // ===== TOGGLE SIDEBAR =====
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
@@ -440,38 +520,94 @@
             }
         });
 
-        // ===== TOAST NOTIFICATIONS =====
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                padding: 14px 24px;
-                border-radius: 10px;
-                font-weight: 500;
-                font-size: 13px;
-                color: #fff;
-                background: ${type === 'success' ? '#22C55E' : '#EF4444'};
-                z-index: 2000;
-                transform: translateY(120px);
-                opacity: 0;
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                max-width: 400px;
-                font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        // ===== VIEW TOGGLES =====
+        document.querySelectorAll('.view-toggles button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-toggles button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ===== MODAL =====
+        const modal = document.getElementById('modalCita');
+        let nextId = 4;
+
+        function abrirModal() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('formCita').reset();
+            // Establecer fecha y hora por defecto
+            const ahora = new Date();
+            ahora.setHours(ahora.getHours() + 1);
+            document.getElementById('fecha_hora').value = ahora.toISOString().slice(0, 16);
+        }
+
+        function cerrarModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) cerrarModal();
+        });
+
+        // ===== GUARDAR CITA (DEMO) =====
+        function guardarCita(event) {
+            event.preventDefault();
+
+            const cliente = document.getElementById('id_cliente');
+            const servicio = document.getElementById('id_servicio');
+            const fecha = document.getElementById('fecha_hora').value;
+
+            if (!cliente.value || !servicio.value || !fecha) {
+                showToast('⚠️ Por favor, completa todos los campos obligatorios.', 'warning');
+                return false;
+            }
+
+            const clienteText = cliente.options[cliente.selectedIndex].text;
+            const servicioText = servicio.options[servicio.selectedIndex].text;
+            const fechaObj = new Date(fecha);
+            const fechaStr = fechaObj.toLocaleDateString('es-ES');
+            const horaStr = fechaObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+            // Agregar nueva fila a la tabla
+            const tbody = document.getElementById('tablaCitas');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td data-label="Fecha">${fechaStr}</td>
+                <td data-label="Hora"><strong>${horaStr}</strong></td>
+                <td data-label="Cliente">${clienteText.split('(')[0].trim()}</td>
+                <td data-label="Servicio">${servicioText.split('(')[0].trim()}</td>
+                <td data-label="Precio">$${servicioText.match(/\$([\d,]+)/)?.[1] || '0'}</td>
+                <td data-label="Teléfono">${clienteText.match(/\((\d+)\)/)?.[1] || ''}</td>
+                <td data-label="Estado"><span class="badge badge-pendiente">Pendiente</span></td>
+                <td data-label="Acciones">
+                    <div class="btn-actions">
+                        <button class="btn-edit" onclick="alert('📌 Editar cita\\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-status" onclick="alert('📌 Cambiar hora\\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
+                        <button class="btn-status" onclick="alert('📌 Cambiar estado\\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
+                        <button class="btn-delete" onclick="alert('📌 Eliminar cita\\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </td>
             `;
+
+            tbody.prepend(newRow);
+            cerrarModal();
+            showToast('✅ Cita creada exitosamente (DEMO)', 'success');
+
+            return false;
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
             toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.transform = 'translateY(0)';
-                toast.style.opacity = '1';
-            }, 10);
-            
-            setTimeout(() => {
-                toast.style.transform = 'translateY(120px)';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 400);
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
             }, 4000);
         }
 
@@ -482,9 +618,9 @@
             });
         });
 
-        console.log('✅ Nexus Agenda · Citas Realizadas DEMO cargado');
-        console.log('📊 Total citas: 4 (Realizadas: 2, Pendientes: 1, Confirmadas: 1)');
-        console.log('🔒 Versión demo - funcionalidades limitadas');
+        console.log('✅ Nexus Agenda · Agenda DEMO cargada');
+        console.log('📊 Citas: 3 registradas');
+        console.log('📱 Responsive mode activado');
     </script>
 
 </body>
