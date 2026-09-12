@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Nexus Agenda · Clientes DEMO</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nexus Agenda · Citas DEMO</title>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"rel="stylesheet">
     <style>
-        /* ===== RESET Y BASE ===== */
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; overflow-x: hidden; }
+        html { width: 100%; min-height: 100%; overflow-x: hidden; }
+        body { width: 100%; min-height: 100vh; min-height: 100dvh; font-family: 'Segoe UI', Roboto, system-ui -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; overflow-x: hidden; }
+        button, input, select, textarea { font: inherit; max-width: 100%; }
+        img, svg { max-width: 100%; display: block; }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0A0E1A; }
         ::-webkit-scrollbar-thumb { background: #1A2A5E; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #165DFF; }
 
-        /* ===== SIDEBAR ===== */
+        /*SIDEBAR*/
         .sidebar { 
             width: 260px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: rgba(10,14,26,0.95); 
             backdrop-filter: blur(16px); 
             border-right: 1px solid rgba(0,212,255,0.08); 
@@ -36,827 +41,1081 @@
             box-shadow: 4px 0 40px rgba(0,0,0,0.5);
             overflow-y: auto;
         }
-        .sidebar.closed { transform: translateX(-100%); }
+
+        .sidebar.closed { transform: translateX(-105%); }
         .sidebar.open { transform: translateX(0); }
-        
         .sidebar .logo { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,212,255,0.06); margin-bottom: 16px; flex-shrink: 0; }
-        .sidebar .logo .logo-icon { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #1A2A5E, #0A0E1A); border: 2px solid #00D4FF; box-shadow: 0 0 30px rgba(0,212,255,0.2); display: flex; align-items: center; justify-content: center; color: #00D4FF; font-size: 18px; flex-shrink: 0; }
-        .sidebar .logo .logo-text { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; color: #E2E8F0; }
-        .sidebar .logo .logo-text span { color: #00D4FF; text-shadow: 0 0 30px rgba(0,212,255,0.15); }
-        
-        .sidebar .menu { flex: 1; list-style: none; padding: 0; overflow-y: auto; }
-        .sidebar .menu li { margin-bottom: 2px; }
-        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
-        .sidebar .menu li a i { width: 20px; text-align: center; font-size: 15px; color: #4A5A6A; transition: 0.3s; }
-        .sidebar .menu li a:hover { background: rgba(0,212,255,0.04); color: #E2E8F0; }
+        .sidebar .logo .logo-icon { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient( circle at 30% 30%, #1A2A5E, #0A0E1A ); border: 2px solid #00D4FF; box-shadow:  0 0 30px rgba(0,212,255,0.2); display: flex; align-items: center; justify-content: center; color: #00D4FF; font-size: 18px; flex-shrink: 0; }
+        .sidebar .logo .logo-text {font-family: 'Orbitron', sans-serif;font-size: 15px;font-weight: 700;color: #E2E8F0; }
+        .sidebar .logo .logo-text span {color: #00D4FF;text-shadow: 0 0 30px rgba(0,212,255,0.15); }
+        .sidebar .menu {flex: 1;list-style: none;padding: 0;overflow-y: auto; }
+        .sidebar .menu li { margin-bottom: 2px; } 
+        .sidebar .menu li a {display: flex;align-items: center;gap: 12px;padding: 10px 14px;min-height: 42px;border-radius: 10px;color: #94A3B8;text-decoration: none;font-size: 14px;font-weight: 500;transition: all 0.3s;position: relative; } 
+        .sidebar .menu li a i {width: 20px;text-align: center;font-size: 15px;color: #4A5A6A;transition: 0.3s; }
+        .sidebar .menu li a:hover {background: rgba(0,212,255,0.04);color: #E2E8F0; }
         .sidebar .menu li a:hover i { color: #00D4FF; }
-        .sidebar .menu li a.active { background: rgba(0,212,255,0.06); color: #00D4FF; font-weight: 600; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 0 30px rgba(0,212,255,0.03); }
-        .sidebar .menu li a.active i { color: #00D4FF; text-shadow: 0 0 20px rgba(0,212,255,0.15); }
-        .sidebar .menu li a.active::before { content: ''; position: absolute; left: 0; top: 20%; height: 60%; width: 3px; background: linear-gradient(135deg, #0066FF, #00D4FF); border-radius: 0 4px 4px 0; box-shadow: 0 0 20px rgba(0,212,255,0.2); }
-        .sidebar .menu .menu-label { font-size: 10px; font-weight: 600; color: #4A5A6A; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px 4px; }
-        
-        .sidebar .user-info { padding-top: 12px; border-top: 1px solid rgba(0,212,255,0.06); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-        .sidebar .user-info .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0066FF, #00D4FF); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 600; font-size: 14px; flex-shrink: 0; box-shadow: 0 0 30px rgba(0,212,255,0.15); }
-        .sidebar .user-info .user-details { flex: 1; min-width: 0; }
-        .sidebar .user-info .user-details .name { font-size: 13px; font-weight: 600; color: #E2E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar .user-info .user-details .email { font-size: 11px; color: #4A5A6A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 4px; border-radius: 8px; flex-shrink: 0; }
-        .sidebar .user-info .logout-btn:hover { color: #EF4444; background: rgba(239,68,68,0.08); }
+        .sidebar .menu li a.active {background: rgba(0,212,255,0.06);color: #00D4FF;font-weight: 600;border: 1px solid rgba(0,212,255,0.08);box-shadow: 0 0 30px rgba(0,212,255,0.03); }
+        .sidebar .menu li a.active i {color: #00D4FF;text-shadow: 0 0 20px rgba(0,212,255,0.15); }
+        .sidebar .menu li a.active::before {content: '';position: absolute;left: 0; top: 20%;height: 60%; width: 3px;background: linear-gradient( 135deg, #0066FF, #00D4FF );border-radius: 0 4px 4px 0;box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+        .sidebar .menu .menu-label {font-size: 10px;font-weight: 600;color: #4A5A6A;text-transform: uppercase;letter-spacing: 0.5px;padding: 10px 14px 4px; } .sidebar .user-info {padding-top: 12px;border-top: 1px solid rgba(0,212,255,0.06);display: flex;align-items: center;gap: 10px;flex-shrink: 0; }
+        .sidebar .user-info .avatar {width: 36px; height: 36px;border-radius: 50%;background: linear-gradient( 135deg, #0066FF, #00D4FF );display: flex;align-items: center; justify-content: center;color: #FFFFFF;font-weight: 600;font-size: 14px;flex-shrink: 0;box-shadow: 0 0 30px rgba(0,212,255,0.15); }
+        .sidebar .user-info .user-details {flex: 1;min-width: 0; }
+        .sidebar .user-info .user-details .name {font-size: 13px;font-weight: 600;color: #E2E8F0;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; }
+        .sidebar .user-info .user-details .email {font-size: 11px;color: #4A5A6A;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; }
+        .sidebar .user-info .logout-btn {color: #4A5A6A;text-decoration: none;font-size: 16px;transition: 0.3s;padding: 7px;border-radius: 8px;flex-shrink: 0; }
+        .sidebar .user-info .logout-btn:hover {color: #EF4444;background: rgba(239,68,68,0.08); }
 
-        /* ===== SIDEBAR OVERLAY ===== */
-        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; backdrop-filter: blur(4px); }
-        .sidebar-overlay.active { display: block; }
 
-        /* ===== MAIN CONTENT ===== */
-        .main-content { 
-            flex: 1; 
-            padding: 16px 20px 30px; 
-            min-height: 100vh; 
-            background: radial-gradient(circle at 20% 30%, #0D1B3E, #060A14 80%);
-            margin-left: 260px;
-            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            width: calc(100% - 260px);
+        /* =========================================================
+           OVERLAY
+           ========================================================= */
+
+        .sidebar-overlay {display: none;position: fixed;inset: 0;background:
+                rgba(0,0,0,0.65);z-index: 999;backdrop-filter: blur(4px);
         }
-        .main-content.full-width { margin-left: 0; width: 100%; }
 
-        /* ===== TOP BAR ===== */
-        .topbar { display: flex; align-items: center; justify-content: space-between; padding: 4px 0 16px; flex-wrap: wrap; gap: 10px; }
-        .topbar .page-title { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; color: #E2E8F0; text-shadow: 0 0 30px rgba(0,212,255,0.05); display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-        .topbar .page-title span { color: #00D4FF; text-shadow: 0 0 40px rgba(0,212,255,0.15); }
-        .topbar .topbar-right { display: flex; align-items: center; gap: 12px; }
-        .topbar .topbar-right .date-display { font-size: 13px; color: #94A3B8; background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(0,212,255,0.06); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .topbar .topbar-right .date-display i { color: #00D4FF; }
-        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.3s; }
-        .topbar .topbar-right .menu-toggle:hover { background: rgba(0,212,255,0.04); }
-        .demo-badge-header { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.06); color: #4DA6FF; font-size: 10px; padding: 2px 10px; border-radius: 20px; font-weight: 500; }
-        .demo-badge-header i { color: #00D4FF; font-size: 10px; }
+        .sidebar-overlay.active {
+            display: block;
+        }
 
-        /* ===== ESTADÍSTICAS ===== */
-        .stats-mini { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-        .stats-mini .stat-item { background: rgba(10,14,26,0.4); padding: 8px 16px; border-radius: 10px; border: 1px solid rgba(0,212,255,0.04); font-size: 13px; color: #94A3B8; }
-        .stats-mini .stat-item strong { color: #E2E8F0; }
 
-        /* ===== SECTION TITLE ===== */
-        .section-title-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-        .section-title-bar h3 { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #E2E8F0; }
-        .section-title-bar .btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: linear-gradient(135deg, #0066FF, #00D4FF); color: #FFFFFF; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 30px rgba(0,102,255,0.2); text-decoration: none; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; white-space: nowrap; }
-        .section-title-bar .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
+        /* =========================================================
+           MAIN
+           ========================================================= */
 
-        /* ===== TABLA ===== */
-        .table-container { background: rgba(10,14,26,0.6); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(0,212,255,0.06); overflow: hidden; box-shadow: 0 4px 30px rgba(0,0,0,0.2); }
-        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .table-container table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        .table-container table th { background: rgba(0,0,0,0.2); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; color: #4DA6FF; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 1px solid rgba(0,212,255,0.04); white-space: nowrap; }
-        .table-container table td { padding: 10px 14px; font-size: 13px; color: #CBD5E1; border-bottom: 1px solid rgba(0,212,255,0.03); vertical-align: middle; }
-        .table-container table tr:last-child td { border-bottom: none; }
-        .table-container table tr:hover td { background: rgba(0,212,255,0.02); }
+        .main-content {width:
+                calc(100% - 260px);min-height: 100vh;
+            min-height: 100dvh;margin-left: 260px;padding:
+                16px 20px 30px;background:
+                radial-gradient(
+                    circle at 20% 30%,
+                    #0D1B3E,
+                    #060A14 80%
+                );transition:
+                margin-left 0.3s
+                cubic-bezier(0.4,0,0.2,1);
+        }
 
-        /* ===== BOTONES DE ACCIÓN ===== */
-        .btn-actions { display: flex; gap: 4px; flex-wrap: wrap; }
-        .btn-actions button { padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; }
-        .btn-actions button:hover { background: rgba(0,212,255,0.08); }
-        .btn-actions .btn-edit { color: #00D4FF; }
-        .btn-actions .btn-edit:hover { background: rgba(0,212,255,0.08); box-shadow: 0 0 20px rgba(0,212,255,0.04); }
-        .btn-actions .btn-status { color: #4DA6FF; }
-        .btn-actions .btn-status:hover { background: rgba(0,212,255,0.08); }
-        .btn-actions .btn-demo { background: rgba(0,212,255,0.04); color: #4DA6FF; cursor: default; opacity: 0.7; }
-        .btn-actions .btn-demo:hover { transform: none; background: rgba(0,212,255,0.04); color: #4DA6FF; }
 
-        /* ===== MENSAJES ===== */
-        .mensaje { padding: 10px 16px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; }
-        .mensaje.success { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.12); color: #22C55E; }
-        .mensaje.error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.12); color: #EF4444; }
-        .mensaje i { margin-right: 6px; }
+        /* =========================================================
+           TOPBAR
+           ========================================================= */
 
-        /* ===== MODAL ===== */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 16px; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: rgba(10,14,26,0.95); backdrop-filter: blur(16px); border-radius: 20px; padding: 24px 28px; max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
-        .modal h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E2E8F0; margin-bottom: 4px; }
-        .modal .modal-sub { color: #94A3B8; font-size: 13px; margin-bottom: 16px; }
-        .modal .form-group { margin-bottom: 14px; }
-        .modal .form-group label { display: block; font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; }
-        .modal .form-group input, .modal .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 13px; color: #E2E8F0; outline: none; transition: 0.2s; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
-        .modal .form-group input:focus, .modal .form-group textarea:focus { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
-        .modal .form-group textarea { min-height: 50px; resize: vertical; }
-        .modal .modal-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-        .modal .modal-actions .btn-cancel { padding: 10px 20px; background: rgba(0,212,255,0.04); color: #94A3B8; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: 500; flex: 1; }
-        .modal .modal-actions .btn-cancel:hover { background: rgba(0,212,255,0.08); color: #E2E8F0; }
-        .modal .modal-actions .btn-submit { padding: 10px 20px; background: linear-gradient(135deg, #0066FF, #00D4FF); color: #FFFFFF; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: 600; box-shadow: 0 4px 30px rgba(0,102,255,0.2); flex: 1; }
-        .modal .modal-actions .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
+        .topbar {display: flex;align-items: center;justify-content: space-between;gap: 10px;padding:
+                4px 0 16px;flex-wrap: wrap;
+        }
 
-        /* ===== RESPONSIVE MEJORADO ===== */
+        .topbar .page-title {font-family: 'Orbitron', sans-serif;font-size: 20px;font-weight: 700;color: #E2E8F0;display: flex;align-items: center;flex-wrap: wrap;gap: 6px;min-width: 0;
+        }
 
-        /* Tablet horizontal / pantallas medianas */
-        @media (max-width: 1100px) {
-            .sidebar {
+        .topbar .page-title span {
+            color: #00D4FF;
+        }
+
+        .topbar .topbar-right {display: flex;align-items: center;gap: 8px;flex-shrink: 0;
+        }
+
+        .date-display {font-size: 13px;color: #94A3B8;background:
+                rgba(0,0,0,0.3);padding:
+                6px 14px;border-radius: 10px;border:
+                1px solid rgba(0,212,255,0.06);display: flex;align-items: center;gap: 6px;white-space: nowrap;
+        }
+
+        .date-display i {
+            color: #00D4FF;
+        }
+
+        .menu-toggle {display: none;align-items: center;justify-content: center;width: 40px;
+            height: 40px;background: none;border: none;font-size: 21px;color: #E2E8F0;cursor: pointer;padding: 0;border-radius: 8px;transition: 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background:
+                rgba(0,212,255,0.06);
+        }
+
+        .demo-badge-header {display: inline-flex;align-items: center;gap: 4px;background:
+                rgba(0,212,255,0.06);border:
+                1px solid rgba(0,212,255,0.06);color: #4DA6FF;font-size: 10px;padding:
+                2px 10px;border-radius: 20px;font-weight: 500;
+        }
+
+        .demo-badge-header i {
+            color: #00D4FF;
+        }
+
+
+        /* =========================================================
+           ESTADÍSTICAS
+           ========================================================= */
+
+        .stats-grid {display: grid;grid-template-columns:
+                repeat(4, minmax(0,1fr));gap: 16px;margin-bottom: 24px;
+        }
+
+        .stat-card {min-width: 0;background:
+                rgba(10,14,26,0.4);border-radius: 16px;padding:
+                18px 20px;border:
+                1px solid rgba(0,212,255,0.04);text-align: center;transition: 0.3s;
+        }
+
+        .stat-card:hover {border-color:
+                rgba(0,212,255,0.12);transform: translateY(-2px);
+        }
+
+        .stat-icon {font-size: 28px;margin-bottom: 6px;display: block;
+        }
+
+        .stat-value {font-family: 'Orbitron', sans-serif;font-size: 28px;font-weight: 700;color: #E2E8F0;
+        }
+
+        .stat-label {font-size: 13px;color: #94A3B8;margin-top: 2px;
+        }
+
+        .stat-icon.pendiente {
+            color: #0066FF;
+        }
+
+        .stat-icon.confirmada {
+            color: #00D4FF;
+        }
+
+        .stat-icon.realizada {
+            color: #22C55E;
+        }
+
+        .stat-icon.cancelada {
+            color: #EF4444;
+        }
+
+
+        /* =========================================================
+           FILTROS
+           ========================================================= */
+
+        .filters-row {display: flex;gap: 10px;flex-wrap: wrap;margin-bottom: 14px;align-items: center;width: 100%;
+        }
+
+        .filters-row select,
+        .filters-row input {padding:
+                8px 14px;border:
+                1px solid rgba(0,212,255,0.06);border-radius: 10px;background:
+                rgba(0,0,0,0.3);font-size: 13px;color: #E2E8F0;outline: none;transition: 0.2s;width: auto;min-width: 120px;
+        }
+
+        .filters-row select:focus,
+        .filters-row input:focus {border-color:
+                rgba(0,212,255,0.2);box-shadow:
+                0 0 30px rgba(0,212,255,0.04);
+        }
+
+        .filters-row select option {
+            background: #0A0E1A;
+        }
+
+        .btn-filter {display: inline-flex;align-items: center;justify-content: center;gap: 6px;padding:
+                8px 18px;background:
+                linear-gradient(
+                    135deg,
+                    #0066FF,
+                    #00D4FF
+                );color: #FFFFFF;border: none;border-radius: 10px;font-weight: 600;font-size: 13px;cursor: pointer;transition: all 0.3s;box-shadow:
+                0 4px 30px rgba(0,102,255,0.15);white-space: nowrap;min-height: 38px;
+        }
+
+        .btn-filter:hover {transform: translateY(-2px);box-shadow:
+                0 8px 40px rgba(0,212,255,0.2);
+        }
+
+
+        /* =========================================================
+           TABLA
+           ========================================================= */
+
+        .table-container {width: 100%;background:
+                rgba(10,14,26,0.6);backdrop-filter: blur(12px);border-radius: 16px;border:
+                1px solid rgba(0,212,255,0.06);overflow: hidden;box-shadow:
+                0 4px 30px rgba(0,0,0,0.2);
+        }
+
+        .table-wrapper {width: 100%;overflow-x: auto;-webkit-overflow-scrolling: touch;
+        }
+
+        .table-container table {width: 100%;min-width: 750px;border-collapse: collapse;
+        }
+
+        .table-container table th {background:
+                rgba(0,0,0,0.2);padding:
+                10px 14px;text-align: left;font-size: 11px;font-weight: 600;color: #4DA6FF;text-transform: uppercase;letter-spacing: 0.3px;border-bottom:
+                1px solid rgba(0,212,255,0.04);white-space: nowrap;
+        }
+
+        .table-container table td {padding:
+                10px 14px;font-size: 13px;color: #CBD5E1;border-bottom:
+                1px solid rgba(0,212,255,0.03);vertical-align: middle;
+        }
+
+        .table-container table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-container table tr:hover td {background:
+                rgba(0,212,255,0.02);
+        }
+
+
+        /* =========================================================
+           BADGES
+           ========================================================= */
+
+        .badge {display: inline-block;padding:
+                3px 12px;border-radius: 20px;font-size: 11px;font-weight: 500;white-space: nowrap;
+        }
+
+        .badge-pendiente {background:
+                rgba(0,102,255,0.12);color: #0066FF;
+        }
+
+        .badge-confirmada {background:
+                rgba(0,212,255,0.12);color: #00D4FF;
+        }
+
+        .badge-realizada {background:
+                rgba(34,197,94,0.12);color: #22C55E;
+        }
+
+        .badge-cancelada {background:
+                rgba(239,68,68,0.12);color: #EF4444;
+        }
+
+
+        /* =========================================================
+           BOTONES DE ACCIÓN
+           ========================================================= */
+
+        .btn-actions {display: flex;gap: 4px;flex-wrap: wrap;
+        }
+
+        .btn-actions button {width: 36px;
+            height: 34px;padding: 4px;border: none;border-radius: 6px;font-size: 12px;cursor: pointer;transition: 0.3s;background:
+                rgba(0,212,255,0.04);color: #94A3B8;
+        }
+
+        .btn-actions button:hover {background:
+                rgba(0,212,255,0.08);
+        }
+
+        .btn-actions .btn-edit {
+            color: #00D4FF;
+        }
+
+        .btn-actions .btn-status {
+            color: #4DA6FF;
+        }
+
+        .btn-actions .btn-delete {
+            color: #EF4444;
+        }
+
+        .btn-actions .btn-demo {background:
+                rgba(0,212,255,0.04);color: #4DA6FF;opacity: 0.7;
+        }
+
+
+        /* =========================================================
+           MENSAJES
+           ========================================================= */
+
+        .demo-message {margin-top: 16px;padding:
+                16px 20px;background:
+                rgba(0,212,255,0.03);border-radius: 12px;border:
+                1px solid rgba(0,212,255,0.06);
+        }
+
+        .demo-message p {font-size: 13px;color: #94A3B8;line-height: 1.5;
+        }
+
+        .demo-message i {
+            color: #00D4FF;
+            margin-right: 8px;
+        }
+
+        .demo-message strong {
+            color: #475569;
+        }
+
+
+        /* =========================================================
+           TABLET
+           ========================================================= */
+
+        @media (max-width: 1100px) {.sidebar {
                 width: 230px;
-            }
-
-            .main-content {
-                margin-left: 230px;
-                width: calc(100% - 230px);
-                padding: 16px;
-            }
-
-            .table-container {
-                border-radius: 14px;
+            }.main-content {    width:
+                    calc(100% - 230px);    margin-left: 230px;    padding:
+                    16px;
+            }.stats-grid {
+                gap: 12px;
+            }.stat-card {
+                padding:
+                    16px 12px;
+            }.stat-value {
+                font-size: 24px;
             }
         }
 
-        /* Tablet vertical y móviles */
-        @media (max-width: 768px) {
-            body {
+
+        @media (max-width: 900px) {.sidebar {
+                width: 270px;
+            }.main-content {    width:
+                    calc(100% - 270px);    margin-left: 270px;
+            }.stats-grid {    grid-template-columns:
+                    repeat(2, minmax(0,1fr));
+            }.filters-row {    display: grid;    grid-template-columns:
+                    repeat(2, minmax(0,1fr));
+            }.filters-row select,
+            .filters-row input,
+            .btn-filter {    width: 100%;    min-width: 0;
+            }.table-container table {
+                min-width: 750px;
+            }
+        }
+
+
+        /* =========================================================
+           CELULAR / TABLET PEQUEÑA
+           ========================================================= */
+
+        @media (max-width: 768px) {body {
                 display: block;
-                min-width: 0;
-            }
-
-            .sidebar {
-                width: min(82vw, 300px);
-                min-height: 100dvh;
-                height: 100dvh;
-                padding: 16px;
-                transform: translateX(-105%);
-                box-shadow: 10px 0 40px rgba(0,0,0,.55);
-            }
-
-            .sidebar.closed {
-                transform: translateX(-105%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content,
-            .main-content.full-width {
-                margin-left: 0;
-                width: 100%;
-                min-height: 100dvh;
-                padding: 12px 14px 24px;
-            }
-
-            .topbar {
-                gap: 8px;
-                padding-bottom: 14px;
-            }
-
-            .topbar .page-title {
-                min-width: 0;
-                flex: 1 1 55%;
-                font-size: clamp(15px, 4vw, 18px);
-                line-height: 1.3;
-            }
-
-            .topbar .topbar-right {
-                flex: 0 0 auto;
-                gap: 5px;
-            }
-
-            .topbar .topbar-right .date-display {
+            }/* SIDEBAR */.sidebar {    width:
+                    min(82vw, 300px);    height: 100dvh;    min-height: 100dvh;    padding: 16px;    transform:
+                    translateX(-105%);    z-index: 1000;
+            }.sidebar.closed {
+                transform:
+                    translateX(-105%);
+            }.sidebar.open {
+                transform:
+                    translateX(0);
+            }/* MAIN */.main-content {    width: 100% !important;    margin-left: 0 !important;    min-height: 100dvh;    padding:
+                    12px 14px 24px;
+            }/* TOPBAR */.topbar {    width: 100%;    flex-wrap: nowrap;    align-items: center;
+            }.topbar .page-title {    flex: 1;    min-width: 0;    font-size:
+                    clamp(15px, 4vw, 18px);    line-height: 1.3;
+            }.topbar .topbar-right {    flex-shrink: 0;
+            }.date-display {    font-size: 11px;    padding:
+                    6px 8px;    max-width: 125px;    overflow: hidden;    text-overflow: ellipsis;
+            }.menu-toggle {    display: flex;
+            }/* ESTADÍSTICAS */.stats-grid {    grid-template-columns:
+                    repeat(2, minmax(0,1fr));    gap: 10px;    margin-bottom: 18px;
+            }.stat-card {    padding:
+                    14px 10px;    border-radius: 14px;
+            }.stat-icon {
+                font-size: 23px;
+            }.stat-value {
+                font-size: 21px;
+            }.stat-label {
                 font-size: 11px;
-                padding: 6px 8px;
+            }/* FILTROS */.filters-row {    display: grid;    grid-template-columns: 1fr;    gap: 9px;
+            }.filters-row select,
+            .filters-row input,
+            .btn-filter {    width: 100%;    min-width: 0;    min-height: 42px;
+            }/* =====================================================
+               TABLA COMO TARJETAS
+               ===================================================== */.table-container {    background: transparent;    border: none;    box-shadow: none;    backdrop-filter: none;    overflow: visible;
+            }.table-wrapper {
+                overflow: visible;
+            }.table-container table {    display: block;    width: 100%;    min-width: 0;
+            }.table-container thead {
+                display: none;
+            }.table-container tbody {    display: grid;    width: 100%;    gap: 12px;
+            }.table-container tbody tr {    display: grid;    grid-template-columns:
+                    repeat(2, minmax(0,1fr));    gap:
+                    0 12px;    width: 100%;    padding: 12px;    background:
+                    rgba(10,14,26,0.72);    border:
+                    1px solid rgba(0,212,255,0.08);    border-radius: 15px;    box-shadow:
+                    0 5px 20px rgba(0,0,0,0.20);
+            }.table-container table td {    display: flex;    align-items: center;    min-width: 0;    padding:
+                    9px 4px;    font-size: 12px;    line-height: 1.35;    overflow-wrap: anywhere;    border-bottom:
+                    1px solid rgba(0,212,255,0.045);
+            }.table-container table td::before {    content:
+                    attr(data-label);    flex-shrink: 0;    width: 72px;    margin-right: 7px;    color: #4DA6FF;    font-size: 8px;    font-weight: 700;    text-transform: uppercase;    letter-spacing: .35px;
+            }/* ACCIONES */.table-container table td[data-label="Acciones"] {    grid-column:
+                    1 / -1;    width: 100%;    padding-top: 11px;    border-bottom: none;
+            }.table-container table td[data-label="Acciones"]::before {
+                display: none;
+            }.btn-actions {    display: flex;    width: 100%;    gap: 7px;    flex-wrap: nowrap;
+            }.btn-actions button {    flex: 1;    width: auto;    min-width: 0;    min-height: 40px;    height: 40px;    font-size: 13px;    border-radius: 8px;    touch-action: manipulation;
+            }.badge {    max-width: 100%;    font-size: 10px;    padding:
+                    4px 9px;
             }
+        }
 
-            .topbar .topbar-right .menu-toggle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
+
+        /* =========================================================
+           CELULAR
+           ========================================================= */
+
+        @media (max-width: 480px) {.main-content {    padding:
+                    10px 10px 18px;
+            }.topbar {    gap: 5px;
+            }.topbar .page-title {    font-size: 14px;
+            }.demo-badge-header {    font-size: 8px;    padding:
+                    2px 6px;
+            }.date-display {    max-width: 95px;    font-size: 9px;    padding:
+                    5px 6px;
+            }.menu-toggle {    width: 38px;
+                height: 38px;    font-size: 18px;
+            }/* ESTADÍSTICAS */.stats-grid {    grid-template-columns:
+                    repeat(2, minmax(0,1fr));    gap: 8px;
+            }.stat-card {    padding:
+                    12px 7px;    border-radius: 12px;
+            }.stat-icon {
                 font-size: 20px;
-            }
-
-            .stats-mini {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 8px;
-            }
-
-            .stats-mini .stat-item {
-                min-width: 0;
-                padding: 9px 10px;
-                font-size: 12px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .section-title-bar {
-                align-items: stretch;
-                gap: 9px;
-            }
-
-            .section-title-bar h3 {
-                font-size: 14px;
-                line-height: 1.35;
-            }
-
-            .section-title-bar .btn-primary {
-                width: 100%;
-                justify-content: center;
-                padding: 9px 12px;
-            }
-
-            /* La tabla se transforma en tarjetas */
-            .table-container {
-                overflow: visible;
-                background: transparent;
-                border: 0;
-                box-shadow: none;
-            }
-
-            .table-wrapper {
-                overflow: visible;
-            }
-
-            .table-container table {
-                width: 100%;
-                min-width: 0;
-                display: block;
-                border-collapse: separate;
-            }
-
-            .table-container thead {
-                display: none;
-            }
-
-            .table-container tbody {
-                display: grid;
-                gap: 10px;
-            }
-
-            .table-container tbody tr {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 0 12px;
-                padding: 12px;
-                border-radius: 14px;
-                background: rgba(10,14,26,.68);
-                border: 1px solid rgba(0,212,255,.07);
-                box-shadow: 0 4px 18px rgba(0,0,0,.18);
-            }
-
-            .table-container tbody tr:hover td {
-                background: transparent;
-            }
-
-            .table-container table td {
-                display: flex;
-                align-items: center;
-                min-width: 0;
-                padding: 8px 4px;
-                border-bottom: 1px solid rgba(0,212,255,.04);
-                font-size: 12px;
-                overflow-wrap: anywhere;
-            }
-
-            .table-container table td::before {
-                content: attr(data-label);
-                display: block;
-                min-width: 82px;
-                margin-right: 8px;
-                color: #4DA6FF;
-                font-size: 9px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: .3px;
-            }
-
-            .table-container table td:last-child {
-                grid-column: 1 / -1;
-                border-bottom: 0;
-                padding-top: 10px;
-            }
-
-            .table-container table td:last-child::before {
-                display: none;
-            }
-
-            .btn-actions {
-                width: 100%;
-                gap: 7px;
-            }
-
-            .btn-actions button {
-                flex: 1;
-                min-height: 36px;
-                font-size: 12px;
-            }
-
-            .modal-overlay {
-                padding: 10px;
-                align-items: flex-end;
-            }
-
-            .modal {
-                width: 100%;
-                max-width: 520px;
-                max-height: 92dvh;
-                padding: 20px 16px;
-                border-radius: 18px 18px 12px 12px;
-            }
-
-            .modal .modal-actions {
-                flex-direction: column-reverse;
-            }
-
-            .modal .modal-actions .btn-cancel,
-            .modal .modal-actions .btn-submit {
-                width: 100%;
-                min-height: 44px;
-            }
-        }
-
-        /* Móviles pequeños */
-        @media (max-width: 480px) {
-            .main-content {
-                padding: 10px 10px 18px;
-            }
-
-            .topbar .page-title {
-                font-size: 14px;
-            }
-
-            .demo-badge-header {
-                font-size: 8px;
-                padding: 2px 6px;
-            }
-
-            .topbar .topbar-right .date-display {
-                max-width: 105px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+            }.stat-value {
+                font-size: 19px;
+            }.stat-label {
                 font-size: 10px;
-                padding: 5px 7px;
-            }
-
-            .topbar .topbar-right .menu-toggle {
-                width: 38px;
-                height: 38px;
-            }
-
-            .stats-mini {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title-bar h3 {
-                font-size: 13px;
-            }
-
-            .table-container tbody tr {
-                grid-template-columns: 1fr;
-                gap: 0;
-                padding: 10px;
-            }
-
-            .table-container table td {
-                padding: 8px 2px;
-            }
-
-            .table-container table td::before {
-                min-width: 78px;
-            }
-
-            .modal {
-                padding: 18px 14px;
-            }
-
-            .modal h3 {
-                font-size: 15px;
-            }
-
-            .modal .form-group input,
-            .modal .form-group textarea {
-                min-height: 42px;
-                font-size: 13px;
-            }
-
-            .mensaje {
-                font-size: 12px;
-                padding: 9px 11px;
+            }/* FILTROS */.filters-row {
+                gap: 8px;
+            }.filters-row select,
+            .filters-row input,
+            .btn-filter {    min-height: 40px;    font-size: 12px;    padding:
+                    8px 10px;
+            }/* TARJETAS */.table-container tbody {
+                gap: 9px;
+            }.table-container tbody tr {    grid-template-columns: 1fr;    gap: 0;    padding: 10px;    border-radius: 13px;
+            }.table-container table td {    font-size: 11px;    padding:
+                    8px 2px;
+            }.table-container table td::before {    width: 76px;    font-size: 8px;
+            }.btn-actions {
+                gap: 6px;
+            }.btn-actions button {    min-height: 40px;    height: 40px;    font-size: 12px;
+            }/* SIDEBAR */.sidebar {    width: 88vw;    padding: 14px;
+            }.sidebar .logo .logo-text {
+                font-size: 14px;
+            }.sidebar .menu li a {    padding:
+                    9px 12px;    font-size: 13px;
+            }.demo-message {    padding:
+                    13px;
+            }.demo-message p {
+                font-size: 11px;
             }
         }
 
-        /* Móviles muy pequeños */
-        @media (max-width: 360px) {
-            .topbar .page-title {
-                font-size: 13px;
-            }
 
-            .topbar .topbar-right .date-display {
+        /* =========================================================
+           CELULARES MUY PEQUEÑOS
+           ========================================================= */
+
+        @media (max-width: 360px) {.main-content {    padding-left: 8px;    padding-right: 8px;
+            }.topbar .page-title {
+                font-size: 13px;
+            }.date-display {
                 display: none;
-            }
-
-            .section-title-bar .btn-primary {
-                font-size: 11px;
-            }
-
-            .table-container table td {
-                font-size: 11px;
-            }
-
-            .table-container table td::before {
-                font-size: 8px;
-            }
-
-            .sidebar {
-                width: 88vw;
+            }.menu-toggle {    width: 36px;
+                height: 36px;
+            }.stats-grid {    grid-template-columns:
+                    repeat(2, minmax(0,1fr));    gap: 7px;
+            }.stat-card {
+                padding: 10px 5px;
+            }.stat-value {
+                font-size: 18px;
+            }.stat-label {
+                font-size: 9px;
+            }.table-container table td {
+                font-size: 10px;
+            }.table-container table td::before {    width: 70px;    font-size: 7px;
+            }.btn-actions {
+                gap: 5px;
+            }.btn-actions button {    min-height: 37px;    height: 37px;    font-size: 11px;
             }
         }
 
-        /* Pantallas táctiles: botones más cómodos */
-        @media (hover: none) and (pointer: coarse) {
+
+        /* =========================================================
+           CELULAR HORIZONTAL
+           ========================================================= */
+
+        @media (max-width: 768px) and (orientation: landscape) {.sidebar {
+                width: 260px;
+            }.main-content {    padding:
+                    10px 14px 20px;
+            }.stats-grid {    grid-template-columns:
+                    repeat(4, minmax(0,1fr));
+            }.filters-row {    grid-template-columns:
+                    repeat(4, minmax(0,1fr));
+            }.table-container tbody tr {    grid-template-columns:
+                    repeat(2, minmax(0,1fr));
+            }
+        }
+
+
+        /* =========================================================
+           TOUCH
+           ========================================================= */
+
+        @media (hover: none) and (pointer: coarse) {.btn-filter,
             .btn-actions button,
-            .btn-primary,
             .menu-toggle,
-            .logout-btn {
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .btn-actions button {
-                min-height: 40px;
-            }
-
-            .section-title-bar .btn-primary:hover,
-            .btn-actions button:hover,
-            .modal .modal-actions .btn-submit:hover {
-                transform: none;
+            .sidebar .menu li a {    -webkit-tap-highlight-color:
+                    transparent;
+            }.stat-card:hover,
+            .btn-filter:hover,
+            .btn-actions button:hover {    transform: none;
+            }.btn-actions button {    min-height: 42px;
+            }.sidebar .menu li a {    min-height: 44px;
             }
         }
 
-        /* Evita desbordamientos por textos largos */
-        img,
-        video,
-        iframe {
-            max-width: 100%;
-            height: auto;
-        }
-
-        button,
-        input,
-        textarea,
-        select {
-            max-width: 100%;
-        }
-        select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
-        @media (hover: none) {
-            .section-title-bar .btn-primary:hover { transform: none; }
-            .btn-actions button:hover { background: rgba(0,212,255,0.04); }
-        }
     </style>
 </head>
+
+
 <body>
 
-    <!-- ===== OVERLAY SIDEBAR ===== -->
+    <!-- =====================================================
+         OVERLAY
+         ===================================================== -->
+
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- ===== MODAL NUEVO CLIENTE ===== -->
-    <div class="modal-overlay" id="modalCliente">
-        <div class="modal">
-            <h3><i class="fas fa-user-plus" style="color:#00D4FF; margin-right:10px;"></i>Nuevo Cliente</h3>
-            <p class="modal-sub">Registra un nuevo cliente en tu directorio.</p>
 
-            <form id="formCliente" onsubmit="return guardarCliente(event)">
-                <input type="hidden" name="action" value="nuevo_cliente">
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
-                <div class="form-group">
-                    <label>Nombre completo *</label>
-                    <input type="text" id="nombreCliente" placeholder="Nombre del cliente" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="text" id="telefonoCliente" placeholder="Ej: 3001234567">
-                </div>
-
-                <div class="form-group">
-                    <label>Notas adicionales</label>
-                    <textarea id="notasCliente" placeholder="Información adicional sobre el cliente..."></textarea>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="cerrarModalCliente()"><i class="fas fa-times"></i> Cancelar</button>
-                    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Registrar Cliente</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
-        <div class="logo">
-            <div class="logo-icon"><i class="fas fa-calendar-check"></i></div>
-            <div class="logo-text">Nexus <span>Agenda</span></div>
-        </div>
-        <ul class="menu">
-            <li class="menu-label">Menú Principal</li>
-            <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
-            <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
-            <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
-            <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
-            <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
-            <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
-        </ul>
-        <div class="user-info">
-            <div class="avatar">DE</div>
-            <div class="user-details">
-                <div class="name">Usuario DEMO</div>
-                <div class="email">nexus@sistema.com</div>
+
+        <div class="logo"><div class="logo-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div><div class="logo-text">
+                Nexus <span>Agenda</span>
             </div>
-            <a href="../login.html" class="logout-btn" title="Cerrar sesión"><i class="fas fa-sign-out-alt"></i></a>
+
         </div>
+
+
+        <ul class="menu"><li class="menu-label">
+                Menú Principal
+            </li><li>
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Panel Principal</span>
+                </a>
+            </li><li>
+                <a href="agenda.html">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agenda / Citas</span>
+                </a>
+            </li><li>
+                <a href="servicios.html">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>Mis Servicios</span>
+                </a>
+            </li><li>
+                <a href="clientes.html">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+            </li><li>
+                <a href="citas.html" class="active">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Citas Realizadas</span>
+                </a>
+            </li><li>
+                <a href="reportes.html">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
+
+        </ul>
+
+
+        <div class="user-info"><div class="avatar">
+                DE
+            </div><div class="user-details">    <div class="name">
+                    Usuario DEMO
+                </div>    <div class="email">
+                    nexus@sistema.com
+                </div></div><a
+                href="../login.html"
+                class="logout-btn"
+                title="Cerrar sesión">    <i class="fas fa-sign-out-alt"></i></a>
+
+        </div>
+
     </aside>
 
-    <!-- ===== MAIN CONTENT ===== -->
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
     <main class="main-content" id="mainContent">
-        <div class="topbar">
-            <div class="page-title">Directorio <span>Clientes</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
-            <div class="topbar-right">
-                <div class="date-display"><i class="fas fa-calendar-day"></i> <?php echo date('d/m/Y'); ?></div>
-                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
-            </div>
+
+
+        <!-- TOPBAR -->
+
+        <div class="topbar"><div class="page-title">    Citas
+                <span>Realizadas</span>    <span class="demo-badge-header">        <i class="fas fa-flask"></i>        demo    </span></div>
+<div class="topbar-right">    <div class="date-display">        <i class="fas fa-calendar-day"></i>        <span id="fechaActual"></span>    </div>
+    <button
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Abrir menú"
+                    aria-expanded="false">        <i class="fas fa-bars"></i>    </button></div>
+
         </div>
 
-        <!-- ===== ESTADÍSTICAS ===== -->
-        <div class="stats-mini">
-            <div class="stat-item"><i class="fas fa-users" style="color:#00D4FF;"></i> Total: <strong>4</strong></div>
-            <div class="stat-item"><i class="fas fa-calendar-check" style="color:#4DA6FF;"></i> Con citas: <strong>3</strong></div>
+
+        <!-- =================================================
+             ESTADÍSTICAS
+             ================================================= -->
+
+        <div class="stats-grid"><div class="stat-card">    <span class="stat-icon pendiente">
+                    <i class="fas fa-clock"></i>
+                </span>    <div class="stat-value">
+                    2
+                </div>    <div class="stat-label">
+                    Pendientes
+                </div></div>
+<div class="stat-card">    <span class="stat-icon confirmada">
+                    <i class="fas fa-check-circle"></i>
+                </span>    <div class="stat-value">
+                    3
+                </div>    <div class="stat-label">
+                    Confirmadas
+                </div></div>
+<div class="stat-card">    <span class="stat-icon realizada">
+                    <i class="fas fa-check-double"></i>
+                </span>    <div class="stat-value">
+                    4
+                </div>    <div class="stat-label">
+                    Realizadas
+                </div></div>
+<div class="stat-card">    <span class="stat-icon cancelada">
+                    <i class="fas fa-times-circle"></i>
+                </span>    <div class="stat-value">
+                    1
+                </div>    <div class="stat-label">
+                    Canceladas
+                </div></div>
+
         </div>
 
-        <!-- ===== MENSAJES ===== -->
-        <div id="mensajeContainer"></div>
 
-        <div class="section-title-bar">
-            <h3>Directorio de Clientes</h3>
-            <button class="btn-primary" onclick="abrirModalCliente()"><i class="fas fa-plus"></i> Agregar Cliente</button>
+        <!-- =================================================
+             FILTROS
+             ================================================= -->
+
+        <div class="filters-row"><select id="filtroEstado">    <option value="">
+                    Todos los estados
+                </option>    <option value="pendiente">
+                    Pendiente
+                </option>    <option value="confirmada">
+                    Confirmada
+                </option>    <option value="realizada">
+                    Realizada
+                </option>    <option value="cancelada">
+                    Cancelada
+                </option></select>
+<input
+                type="date"
+                id="fechaInicio">
+<input
+                type="date"
+                id="fechaFin">
+<button
+                class="btn-filter"
+                id="btnFiltrar">    <i class="fas fa-filter"></i>    Filtrar</button>
+
         </div>
 
-        <div class="table-container">
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Teléfono</th>
-                            <th>Última Cita</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaClientes">
-                        <!-- Cliente 1 -->
-                        <tr>
-                            <td data-label="Nombre"><strong>María González</strong></td>
-                            <td data-label="Teléfono">3105551234</td>
-                            <td data-label="Última Cita">10/03/2026</td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cliente\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Ver historial de citas\n🔒 Versión demo')"><i class="fas fa-history"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Cliente 2 -->
-                        <tr>
-                            <td data-label="Nombre"><strong>Carlos Rodríguez</strong></td>
-                            <td data-label="Teléfono">3105555678</td>
-                            <td data-label="Última Cita">10/03/2026</td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cliente\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Ver historial de citas\n🔒 Versión demo')"><i class="fas fa-history"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Cliente 3 -->
-                        <tr>
-                            <td data-label="Nombre"><strong>Ana Martínez</strong></td>
-                            <td data-label="Teléfono">3105559012</td>
-                            <td data-label="Última Cita">09/03/2026</td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cliente\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Ver historial de citas\n🔒 Versión demo')"><i class="fas fa-history"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Cliente 4 -->
-                        <tr>
-                            <td data-label="Nombre"><strong>Jorge Pérez</strong></td>
-                            <td data-label="Teléfono">3105553456</td>
-                            <td data-label="Última Cita">Sin citas</td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cliente\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Ver historial de citas\n🔒 Versión demo')"><i class="fas fa-history"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+
+        <!-- =================================================
+             TABLA DE CITAS
+             ================================================= -->
+
+        <div class="table-container"><div class="table-wrapper">    <table>        <thead>            <tr>                <th>
+                                Fecha
+                            </th>                <th>
+                                Hora
+                            </th>                <th>
+                                Cliente
+                            </th>                <th>
+                                Servicio
+                            </th>                <th>
+                                Precio
+                            </th>                <th>
+                                Teléfono
+                            </th>                <th>
+                                Estado
+                            </th>                <th>
+                                Acciones
+                            </th>            </tr>        </thead>
+        <tbody id="tablaCitas">
+            <!-- CITA 1 -->            <tr>                <td data-label="Fecha">
+                                10/03/2026
+                            </td>                <td data-label="Hora">
+                                <strong>
+                                    09:00
+                                </strong>
+                            </td>                <td data-label="Cliente">
+                                María González
+                            </td>                <td data-label="Servicio">
+                                Corte de cabello
+                            </td>                <td data-label="Precio">
+                                $35,000
+                            </td>                <td data-label="Teléfono">
+                                3105551234
+                            </td>                <td data-label="Estado">                    <span class="badge badge-realizada">
+                                    Realizada
+                                </span>                </td>                <td data-label="Acciones">                    <div class="btn-actions">                        <button
+                                        class="btn-edit"
+                                        title="Editar"
+                                        onclick="accionDemo('Editar cita')">                            <i class="fas fa-edit"></i>                        </button>
+                        <button
+                                        class="btn-status"
+                                        title="Cambiar estado"
+                                        onclick="accionDemo('Cambiar estado')">                            <i class="fas fa-sync-alt"></i>                        </button>
+                        <button
+                                        class="btn-demo"
+                                        title="Eliminar"
+                                        onclick="accionDemo('Eliminar cita')">                            <i class="fas fa-trash"></i>                        </button>                    </div>                </td>            </tr>
+            <!-- CITA 2 -->            <tr>                <td data-label="Fecha">
+                                10/03/2026
+                            </td>                <td data-label="Hora">
+                                <strong>
+                                    11:45
+                                </strong>
+                            </td>                <td data-label="Cliente">
+                                Ana Martínez
+                            </td>                <td data-label="Servicio">
+                                Depilación
+                            </td>                <td data-label="Precio">
+                                $28,000
+                            </td>                <td data-label="Teléfono">
+                                3105559012
+                            </td>                <td data-label="Estado">                    <span class="badge badge-realizada">
+                                    Realizada
+                                </span>                </td>                <td data-label="Acciones">                    <div class="btn-actions">                        <button
+                                        class="btn-edit"
+                                        title="Editar"
+                                        onclick="accionDemo('Editar cita')">                            <i class="fas fa-edit"></i>                        </button>
+                        <button
+                                        class="btn-status"
+                                        title="Cambiar estado"
+                                        onclick="accionDemo('Cambiar estado')">                            <i class="fas fa-sync-alt"></i>                        </button>
+                        <button
+                                        class="btn-demo"
+                                        title="Eliminar"
+                                        onclick="accionDemo('Eliminar cita')">                            <i class="fas fa-trash"></i>                        </button>                    </div>                </td>            </tr>
+            <!-- CITA 3 -->            <tr>                <td data-label="Fecha">
+                                10/03/2026
+                            </td>                <td data-label="Hora">
+                                <strong>
+                                    14:00
+                                </strong>
+                            </td>                <td data-label="Cliente">
+                                Jorge Pérez
+                            </td>                <td data-label="Servicio">
+                                Corte y barba
+                            </td>                <td data-label="Precio">
+                                $50,000
+                            </td>                <td data-label="Teléfono">
+                                3105553456
+                            </td>                <td data-label="Estado">                    <span class="badge badge-pendiente">
+                                    Pendiente
+                                </span>                </td>                <td data-label="Acciones">                    <div class="btn-actions">                        <button
+                                        class="btn-edit"
+                                        title="Editar"
+                                        onclick="accionDemo('Editar cita')">                            <i class="fas fa-edit"></i>                        </button>
+                        <button
+                                        class="btn-status"
+                                        title="Cambiar estado"
+                                        onclick="accionDemo('Cambiar estado')">                            <i class="fas fa-sync-alt"></i>                        </button>
+                        <button
+                                        class="btn-demo"
+                                        title="Eliminar"
+                                        onclick="accionDemo('Eliminar cita')">                            <i class="fas fa-trash"></i>                        </button>                    </div>                </td>            </tr>        </tbody>    </table></div>
+
         </div>
+
+
+        <!-- =================================================
+             MENSAJE DEMO
+             ================================================= -->
+
+        <div class="demo-message"><p>    <i class="fas fa-info-circle"></i>    <strong>
+                    Funcionalidad de demo:
+                </strong>    Puedes ver todas las citas con sus estados.
+                Las acciones de editar, cambiar estado y eliminar
+                están deshabilitadas en esta versión de prueba.</p>
+
+        </div>
+
     </main>
 
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
     <script>
-        // ===== TOGGLE SIDEBAR =====
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        const mainContent = document.getElementById('mainContent');
 
-        function toggleSidebar() {
-            const isOpen = sidebar.classList.contains('open');
-            sidebar.classList.toggle('open');
-            sidebar.classList.toggle('closed');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = !isOpen ? 'hidden' : '';
+        /* =====================================================
+           ELEMENTOS
+           ===================================================== */
+
+        const menuToggle =
+            document.getElementById('menuToggle');
+
+        const sidebar =
+            document.getElementById('sidebar');
+
+        const overlay =
+            document.getElementById('sidebarOverlay');
+
+
+        /* =====================================================
+           FECHA ACTUAL
+           ===================================================== */
+
+        function actualizarFecha() {const fecha =
+                new Date();const opciones = {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            };document.getElementById('fechaActual')
+                .textContent =
+                fecha.toLocaleDateString(
+                    'es-MX',
+                    opciones
+                );
         }
 
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            sidebar.classList.add('closed');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
+        actualizarFecha();
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        function openSidebar() {sidebar.classList.add('open');sidebar.classList.remove('closed');overlay.classList.add('active');document.body.style.overflow =
+                'hidden';menuToggle.setAttribute(
+                'aria-expanded',
+                'true'
+            );menuToggle.setAttribute(
+                'aria-label',
+                'Cerrar menú'
+            );
         }
 
-        menuToggle.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', closeSidebar);
 
-        document.querySelectorAll('.sidebar .menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    closeSidebar();
-                }
-            });
-        });
-
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('open', 'closed');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            } else {
-                sidebar.classList.remove('open');
-                sidebar.classList.add('closed');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        if (window.innerWidth <= 768) {
-            sidebar.classList.add('closed');
+        function closeSidebar() {sidebar.classList.remove('open');sidebar.classList.add('closed');overlay.classList.remove('active');document.body.style.overflow =
+                '';menuToggle.setAttribute(
+                'aria-expanded',
+                'false'
+            );menuToggle.setAttribute(
+                'aria-label',
+                'Abrir menú'
+            );
         }
 
-        // ===== TOUCH SWIPE =====
+
+        function toggleSidebar() {if (
+                sidebar.classList.contains('open')
+            ) {    closeSidebar();} else {    openSidebar();}
+        }
+
+
+        menuToggle.addEventListener(
+            'click',
+            toggleSidebar
+        );
+
+
+        overlay.addEventListener(
+            'click',
+            closeSidebar
+        );
+
+
+        /* =====================================================
+           CERRAR AL SELECCIONAR OPCIÓN
+           ===================================================== */
+
+        document
+            .querySelectorAll('.sidebar .menu a')
+            .forEach(link => {    link.addEventListener(
+                    'click',
+                    () => {            if (
+                            window.innerWidth <= 768
+                        ) {                closeSidebar();            }        }
+                );});
+
+
+        /* =====================================================
+           CERRAR CON ESC
+           ===================================================== */
+
+        document.addEventListener(
+            'keydown',
+            function(event) {    if (
+                    event.key === 'Escape'
+                    &&
+                    sidebar.classList.contains('open')
+                ) {        closeSidebar();    }}
+        );
+
+
+        /* =====================================================
+           RESPONSIVE AL CAMBIAR TAMAÑO
+           ===================================================== */
+
+        window.addEventListener(
+            'resize',
+            function() {    if (
+                    window.innerWidth > 768
+                ) {        sidebar.classList.remove(
+                        'open'
+                    );        sidebar.classList.remove(
+                        'closed'
+                    );        overlay.classList.remove(
+                        'active'
+                    );        document.body.style.overflow =
+                        '';        menuToggle.setAttribute(
+                        'aria-expanded',
+                        'false'
+                    );    } else {        if (
+                        !sidebar.classList.contains(
+                            'open'
+                        )
+                    ) {            sidebar.classList.add(
+                            'closed'
+                        );        }    }}
+        );
+
+
+        /* =====================================================
+           ESTADO INICIAL
+           ===================================================== */
+
+        if (
+            window.innerWidth <= 768
+        ) {sidebar.classList.add(
+                'closed'
+            );
+
+        } else {sidebar.classList.remove(
+                'closed'
+            );
+
+        }
+
+
+        /* =====================================================
+           SWIPE PARA CERRAR SIDEBAR
+           ===================================================== */
+
         let startX = 0;
-        document.addEventListener('touchstart', function(e) {
-            startX = e.touches[0].clientX;
-        });
+        let startY = 0;
 
-        document.addEventListener('touchend', function(e) {
-            const endX = e.changedTouches[0].clientX;
-            const diff = startX - endX;
-            if (diff > 80 && sidebar.classList.contains('open')) {
-                closeSidebar();
-            }
-        });
+        document.addEventListener(
+            'touchstart',
+            function(event) {    startX =
+                    event.touches[0].clientX;    startY =
+                    event.touches[0].clientY;},
+            { passive: true }
+        );
 
-        // ===== DATOS DE CLIENTES DEMO =====
-        let clientesData = [
-            { id: 1, nombre: 'María González', telefono: '3105551234', ultima_cita: '10/03/2026' },
-            { id: 2, nombre: 'Carlos Rodríguez', telefono: '3105555678', ultima_cita: '10/03/2026' },
-            { id: 3, nombre: 'Ana Martínez', telefono: '3105559012', ultima_cita: '09/03/2026' },
-            { id: 4, nombre: 'Jorge Pérez', telefono: '3105553456', ultima_cita: null }
-        ];
-        let nextId = 5;
 
-        // ===== MOSTRAR MENSAJE =====
-        function showMessage(text, type = 'success') {
-            const container = document.getElementById('mensajeContainer');
-            const icons = {
-                success: 'check-circle',
-                error: 'exclamation-circle',
-                warning: 'exclamation-triangle'
-            };
-            container.innerHTML = `
-                <div class="mensaje ${type}">
-                    <i class="fas fa-${icons[type] || 'info-circle'}"></i>
-                    ${text}
-                </div>
-            `;
-            setTimeout(() => { container.innerHTML = ''; }, 4000);
+        document.addEventListener(
+            'touchend',
+            function(event) {    const endX =
+                    event.changedTouches[0].clientX;    const endY =
+                    event.changedTouches[0].clientY;    const diffX =
+                    startX - endX;    const diffY =
+                    Math.abs(startY - endY);
+    /*
+                 * Solo cerrar si el gesto
+                 * es principalmente horizontal.
+                 */    if (
+                    diffX > 80
+                    &&
+                    diffY < 100
+                    &&
+                    sidebar.classList.contains(
+                        'open'
+                    )
+                ) {        closeSidebar();    }},
+            { passive: true }
+        );
+
+        function accionDemo(accion) {showToast(
+                '📌 ' +
+                accion +
+                '\n🔒 Versión demo'
+            );
+
         }
 
-        // ===== MODAL CLIENTE =====
-        const modalCliente = document.getElementById('modalCliente');
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeSidebar();
-                if (modalCliente.classList.contains('active')) {
-                    cerrarModalCliente();
-                }
-            }
-        });
+        function showToast(
+            message,
+            type = 'success') {const toast = document.createElement( 'div' );
+            const background = type === 'success' ? '#22C55E' : '#EF4444'; toast.style.cssText = `    position: fixed;    bottom:
+                    max(20px, env(safe-area-inset-bottom));    left: 50%;    transform:
+                    translate(-50%, 120px);    opacity: 0;    width:
+                    min(
+                        calc(100vw - 30px),
+                        400px
+                    );    padding:
+                    14px 18px;    border-radius: 10px;    font-weight: 500;    font-size: 13px;    line-height: 1.4;    color: #fff;    background: ${background};    z-index: 2000;    transition:
+                    all 0.4s
+                    cubic-bezier(0.4,0,0.2,1);    font-family:
+                    'Segoe UI',
+                    Roboto,
+                    system-ui,
+                    sans-serif;    text-align: center;    white-space: pre-line;    box-shadow:
+                    0 10px 40px
+                    rgba(0,0,0,0.35);`; toast.textContent =
+                message; document.body.appendChild(toast); setTimeout(
+                () => {toast.style.transform = 'translate(-50%, 0)';        
+                       toast.style.opacity = '1';    }, 10 ); setTimeout(
+                () => {        toast.style.transform =
+                        'translate(-50%, 120px)';        toast.style.opacity =
+                        '0';        setTimeout(
+                        () => toast.remove(),
+                        400
+                    );    },
+                4000
+            );
 
-        function abrirModalCliente() {
-            modalCliente.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            document.getElementById('nombreCliente').value = '';
-            document.getElementById('telefonoCliente').value = '';
-            document.getElementById('notasCliente').value = '';
         }
 
-        function cerrarModalCliente() {
-            modalCliente.classList.remove('active');
-            document.body.style.overflow = '';
-        }
+        document
+            .getElementById('btnFiltrar')
+            .addEventListener(
+                'click',
+                function() { const estado = document.getElementById('filtroEstado').value;
+                            const inicio = document.getElementById( 'fechaInicio' ).value;
+                            const fin = document.getElementById( 'fechaFin' ).value; console.log( 'Filtro aplicado:',
+                        { estado, inicio, fin } ); showToast( 'Filtro aplicado (DEMO)','success' );    
+                    } );
 
-        modalCliente.addEventListener('click', function(e) {
-            if (e.target === this) cerrarModalCliente();
-        });
-
-        // ===== GUARDAR CLIENTE (DEMO) =====
-        function guardarCliente(event) {
-            event.preventDefault();
-
-            const nombre = document.getElementById('nombreCliente').value.trim();
-            const telefono = document.getElementById('telefonoCliente').value.trim();
-            const notas = document.getElementById('notasCliente').value.trim();
-
-            if (!nombre) {
-                showMessage('El nombre del cliente es obligatorio.', 'error');
-                return false;
-            }
-
-            const nuevoCliente = {
-                id: nextId++,
-                nombre: nombre,
-                telefono: telefono || 'Sin teléfono',
-                ultima_cita: null
-            };
-
-            clientesData.push(nuevoCliente);
-            actualizarTabla();
-            cerrarModalCliente();
-            showMessage('✅ Cliente "' + nombre + '" registrado exitosamente.', 'success');
-
-            // Actualizar estadísticas
-            actualizarEstadisticas();
-
-            return false;
-        }
-
-        // ===== ACTUALIZAR TABLA =====
-        function actualizarTabla() {
-            const tbody = document.getElementById('tablaClientes');
-            tbody.innerHTML = '';
-
-            if (clientesData.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4" style="text-align:center; color:#4A5A6A; padding:30px;">
-                            <i class="fas fa-users" style="font-size:24px; display:block; margin-bottom:8px; color:#00D4FF;"></i>
-                            No hay clientes registrados. ¡Agrega tu primer cliente!
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            clientesData.forEach(cliente => {
-                const ultimaCita = cliente.ultima_cita || 'Sin citas';
-                tbody.innerHTML += `
-                    <tr>
-                        <td data-label="Nombre"><strong>${cliente.nombre}</strong></td>
-                        <td data-label="Teléfono">${cliente.telefono}</td>
-                        <td data-label="Última Cita">${ultimaCita}</td>
-                        <td data-label="Acciones">
-                            <div class="btn-actions">
-                                <button class="btn-edit" onclick="alert('📌 Editar cliente\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                <button class="btn-status" onclick="alert('📌 Ver historial de citas\n🔒 Versión demo')"><i class="fas fa-history"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+        // ===== FILTROS =====
+        document.querySelectorAll('.filters-row select, .filters-row input').forEach(el => {
+            el.addEventListener('change', function() {
+                console.log('Filtro aplicado:', this.value);
             });
-        }
+        });
 
-        // ===== ACTUALIZAR ESTADÍSTICAS =====
-        function actualizarEstadisticas() {
-            const total = clientesData.length;
-            const conCitas = clientesData.filter(c => c.ultima_cita !== null).length;
-
-            document.querySelector('.stats-mini .stat-item:nth-child(1) strong').textContent = total;
-            document.querySelector('.stats-mini .stat-item:nth-child(2) strong').textContent = conCitas;
-        }
-
-        console.log('✅ Nexus Agenda · Clientes DEMO cargado');
-        console.log('Total clientes:', clientesData.length);
+        console.log('✅ Nexus Agenda · Citas Realizadas DEMO cargado');
+        console.log('📊 Citas de demostración cargadas');
         console.log('🔒 Versión demo - funcionalidades limitadas');
     </script>
-
 </body>
 </html>
