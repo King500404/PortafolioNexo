@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -12,7 +11,9 @@
     <style>
         /* ===== RESET Y BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; overflow-x: hidden; }
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; width: 100%; }
+        img, svg { max-width: 100%; display: block; }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0A0E1A; }
         ::-webkit-scrollbar-thumb { background: #1A2A5E; border-radius: 10px; }
@@ -22,6 +23,7 @@
         .sidebar { 
             width: 260px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: rgba(10,14,26,0.95); 
             backdrop-filter: blur(16px); 
             border-right: 1px solid rgba(0,212,255,0.08); 
@@ -47,7 +49,7 @@
         
         .sidebar .menu { flex: 1; list-style: none; padding: 0; overflow-y: auto; }
         .sidebar .menu li { margin-bottom: 2px; }
-        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
+        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
         .sidebar .menu li a i { width: 20px; text-align: center; font-size: 15px; color: #4A5A6A; transition: 0.3s; }
         .sidebar .menu li a:hover { background: rgba(0,212,255,0.04); color: #E2E8F0; }
         .sidebar .menu li a:hover i { color: #00D4FF; }
@@ -61,7 +63,7 @@
         .sidebar .user-info .user-details { flex: 1; min-width: 0; }
         .sidebar .user-info .user-details .name { font-size: 13px; font-weight: 600; color: #E2E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sidebar .user-info .user-details .email { font-size: 11px; color: #4A5A6A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 4px; border-radius: 8px; flex-shrink: 0; }
+        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 8px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         .sidebar .user-info .logout-btn:hover { color: #EF4444; background: rgba(239,68,68,0.08); }
 
         /* ===== SIDEBAR OVERLAY ===== */
@@ -73,10 +75,13 @@
             flex: 1; 
             padding: 16px 20px 30px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: radial-gradient(circle at 20% 30%, #0D1B3E, #060A14 80%);
             margin-left: 260px;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: calc(100% - 260px);
+            max-width: 100%;
+            min-width: 0;
         }
         .main-content.full-width { margin-left: 0; width: 100%; }
 
@@ -87,7 +92,7 @@
         .topbar .topbar-right { display: flex; align-items: center; gap: 12px; }
         .topbar .topbar-right .date-display { font-size: 13px; color: #94A3B8; background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(0,212,255,0.06); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .topbar .topbar-right .date-display i { color: #00D4FF; }
-        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.3s; }
+        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 8px; border-radius: 8px; transition: 0.3s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
         .topbar .topbar-right .menu-toggle:hover { background: rgba(0,212,255,0.04); }
         .demo-badge-header { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.06); color: #4DA6FF; font-size: 10px; padding: 2px 10px; border-radius: 20px; font-weight: 500; }
         .demo-badge-header i { color: #00D4FF; font-size: 10px; }
@@ -98,7 +103,7 @@
         .filters-row select:focus, .filters-row input:focus { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
         .filters-row select option { background: #0A0E1A; }
         .view-toggles { display: flex; gap: 4px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px; flex-wrap: wrap; }
-        .view-toggles button { padding: 5px 14px; border: none; border-radius: 8px; background: transparent; color: #94A3B8; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .view-toggles button { padding: 5px 14px; border: none; border-radius: 8px; background: transparent; color: #94A3B8; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.2s; min-height: 32px; }
         .view-toggles button.active { background: rgba(0,212,255,0.08); color: #00D4FF; box-shadow: 0 0 30px rgba(0,212,255,0.04); }
         .view-toggles button:hover:not(.active) { color: #E2E8F0; }
 
@@ -115,7 +120,7 @@
         .section-title-bar .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
         .section-title-bar .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* ===== TABLA ===== */
+        /* ===== TABLA (vista escritorio/tablet) ===== */
         .table-container { background: rgba(10,14,26,0.6); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(0,212,255,0.06); overflow: hidden; box-shadow: 0 4px 30px rgba(0,0,0,0.2); }
         .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-container table { width: 100%; border-collapse: collapse; min-width: 700px; }
@@ -132,8 +137,8 @@
         .badge-cancelada { background: rgba(239,68,68,0.12); color: #EF4444; }
 
         /* ===== BOTONES DE ACCIÓN ===== */
-        .btn-actions { display: flex; gap: 4px; flex-wrap: wrap; }
-        .btn-actions button { padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; }
+        .btn-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-actions button { padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; min-height: 32px; }
         .btn-actions button:hover { background: rgba(0,212,255,0.08); }
         .btn-actions .btn-edit { color: #00D4FF; }
         .btn-actions .btn-edit:hover { background: rgba(0,212,255,0.08); box-shadow: 0 0 20px rgba(0,212,255,0.04); }
@@ -151,12 +156,12 @@
         /* ===== MODAL ===== */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 16px; }
         .modal-overlay.active { display: flex; }
-        .modal { background: rgba(10,14,26,0.95); backdrop-filter: blur(16px); border-radius: 20px; padding: 24px 28px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .modal { background: rgba(10,14,26,0.95); backdrop-filter: blur(16px); border-radius: 20px; padding: 24px 28px; max-width: 500px; width: 100%; max-height: 90vh; max-height: 90dvh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
         .modal h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E2E8F0; margin-bottom: 4px; }
         .modal .modal-sub { color: #94A3B8; font-size: 13px; margin-bottom: 16px; }
         .modal .form-group { margin-bottom: 14px; }
         .modal .form-group label { display: block; font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; }
-        .modal .form-group select, .modal .form-group input, .modal .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 13px; color: #E2E8F0; outline: none; transition: 0.2s; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
+        .modal .form-group select, .modal .form-group input, .modal .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 16px; color: #E2E8F0; outline: none; transition: 0.2s; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
         .modal .form-group select:focus, .modal .form-group input:focus, .modal .form-group textarea:focus { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
         .modal .form-group select option { background: #0A0E1A; }
         .modal .form-group textarea { min-height: 50px; resize: vertical; }
@@ -167,215 +172,79 @@
         .modal .modal-actions .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
         .modal .modal-actions .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 2000;
-            padding: 16px 28px;
-            border-radius: 12px;
-            font-weight: 500;
-            font-size: 14px;
-            color: #fff;
-            transform: translateY(120px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: 400px;
-        }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast.success { background: #22C55E; color: #fff; }
-        .toast.error { background: #EF4444; }
-        .toast.warning { background: #F39C12; color: #12121F; }
-
         /* ===== RESPONSIVE ===== */
-@media (max-width: 1024px) {
-    .sidebar {
-        width: min(300px, 85vw);
-        padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom));
-        box-shadow: 4px 0 60px rgba(0,0,0,0.7);
-    }
-    .sidebar.closed { transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .sidebar-overlay.active { display: block; }
-    .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
-    .topbar .topbar-right .menu-toggle { display: flex; }
-    .topbar .page-title { font-size: 16px; }
-    .topbar .topbar-right .date-display { font-size: 12px; padding: 6px 10px; min-height: 40px; }
-    .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .card-stat { padding: 14px 16px; }
-    .card-stat .card-value { font-size: 1.25rem; }
-    .welcome-section { padding: 18px 20px; }
-    .welcome-section h2 { font-size: 1rem; }
-    .table-container table th, .table-container table td { padding: 10px 12px; font-size: 12px; }
-    .table-container table { min-width: 600px; }
-    .sidebar .menu li a { min-height: 48px; padding: 12px 14px; }
-    .section-title-bar .btn-secondary { min-height: 44px; }
-    .card-stat:hover { transform: none; }
-    .filters-row select, .filters-row input { min-width: 100px; }
-}
-
-/* Tablets y móviles grandes */
-@media (max-width: 768px) {
-    .sidebar { width: min(280px, 85vw); padding: calc(16px + var(--safe-top)) 14px calc(16px + var(--safe-bottom)); }
-    .sidebar.closed { transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .sidebar-overlay.active { display: block; }
-    .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
-    .topbar .topbar-right .menu-toggle { display: flex; }
-    .topbar .page-title { font-size: 17px; }
-    .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
-    .filters-row { flex-direction: column; align-items: stretch; }
-    .filters-row select, .filters-row input { width: 100%; min-width: unset; }
-    .view-toggles { width: 100%; }
-    .view-toggles button { flex: 1; text-align: center; padding: 6px 10px; font-size: 12px; }
-    .section-title-bar h3 { font-size: 15px; }
-    .section-title-bar .btn-primary { font-size: 12px; padding: 6px 14px; }
-    .table-container table { min-width: 550px; }
-    .table-container table th, .table-container table td { padding: 8px 10px; font-size: 12px; }
-    .modal { padding: 20px; }
-    .modal h3 { font-size: 16px; }
-    .demo-badge-header { font-size: 9px; padding: 2px 8px; }
-    .limite-semana { font-size: 11px; padding: 4px 10px; }
-    .toast { left: 20px; right: 20px; bottom: 20px; max-width: none; }
-}
-
-/* Móviles - Tabla como tarjetas apiladas */
-@media (max-width: 600px) {
-    .topbar { flex-direction: row; align-items: center; padding: 4px 0 14px; }
-    .topbar .page-title { flex: 1; min-width: 0; font-size: 15px; }
-    .topbar .topbar-right { flex-shrink: 0; }
-    .topbar .topbar-right .date-display { display: none; }
-    .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .card-stat { padding: 12px 14px; border-radius: 12px; }
-    .card-stat .card-value { font-size: 1.1rem; }
-    .card-stat .card-label { font-size: 11px; }
-    .welcome-section { padding: 16px 18px; border-radius: 12px; }
-    .welcome-section h2 { font-size: 0.95rem; }
-    .welcome-section p { font-size: 12px; }
-    .welcome-section .welcome-stats { gap: 10px; }
-    .welcome-section .welcome-stats .ws-item { font-size: 11px; }
-    .section-title-bar { flex-direction: column; align-items: stretch; }
-    .section-title-bar .btn-secondary,
-    .section-title-bar .btn-primary { justify-content: center; width: 100%; }
-
-    /* Transformar la tabla en tarjetas apiladas */
-    .table-wrapper { overflow-x: visible; }
-    .table-container table { min-width: 0 !important; width: 100%; }
-    .table-container thead { display: none; }
-    .table-container table,
-    .table-container tbody,
-    .table-container tr,
-    .table-container td { display: block; width: 100%; }
-    .table-container tbody tr {
-        margin: 0 0 12px;
-        border: 1px solid rgba(0,212,255,0.08);
-        background: rgba(0,0,0,0.2);
-        border-radius: 12px;
-        padding: 10px 12px;
-    }
-    .table-container tbody tr:last-child { margin-bottom: 0; }
-    .table-container table td {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        text-align: right;
-        border-bottom: 1px solid rgba(255,255,255,0.04);
-        white-space: normal;
-        padding: 7px 2px !important;
-        font-size: 12px !important;
-    }
-    .table-container table td:last-child { border-bottom: none; }
-    .table-container table td::before {
-        content: attr(data-label);
-        font-weight: 700;
-        color: #4DA6FF;
-        text-transform: uppercase;
-        letter-spacing: 0.4px;
-        text-align: left;
-        flex-shrink: 0;
-        margin-right: 10px;
-        font-size: 10px;
-    }
-    .table-container table td[data-label="Acciones"] { justify-content: flex-start; flex-wrap: wrap; }
-    .table-container table td[data-label="Acciones"]::before { display: none; }
-    .table-container .btn-actions { width: 100%; justify-content: flex-end; }
-}
-
-/* Móviles estándar */
-@media (max-width: 480px) {
-    .main-content { padding: 10px 10px 16px; }
-    .topbar { padding: 4px 0 12px; gap: 8px; }
-    .topbar .page-title { font-size: 14px; gap: 4px; }
-    .topbar .topbar-right .menu-toggle { width: 42px; height: 42px; min-width: 42px; font-size: 17px; }
-    .demo-badge-header { font-size: 9px; padding: 2px 8px; }
-    .cards-grid { gap: 8px; }
-    .card-stat { padding: 12px; border-radius: 12px; }
-    .card-stat .card-icon { width: 34px; height: 34px; font-size: 14px; margin-bottom: 8px; }
-    .card-stat .card-value { font-size: 1rem; }
-    .card-stat .card-label { font-size: 10px; }
-    .welcome-section { padding: 14px 16px; border-radius: 12px; margin-bottom: 16px; }
-    .welcome-section h2 { font-size: 0.9rem; }
-    .welcome-section p { font-size: 11px; line-height: 1.4; }
-    .welcome-section .welcome-stats { margin-top: 10px; gap: 8px; }
-    .welcome-section .welcome-stats .ws-item { font-size: 10px; }
-    .table-container table tr { padding: 12px; margin: 8px; border-radius: 12px; }
-    .table-container table td { font-size: 12px; padding: 6px 0; gap: 8px; }
-    .table-container table td::before { font-size: 9px; }
-    .badge { font-size: 10px; padding: 3px 10px; }
-    .sidebar { width: 90vw; max-width: 320px; padding: calc(14px + var(--safe-top)) 12px calc(14px + var(--safe-bottom)); }
-    .sidebar .logo .logo-icon { width: 36px; height: 36px; font-size: 16px; }
-    .sidebar .menu li a { padding: 10px 12px; font-size: 13px; min-height: 44px; }
-    .section-title-bar h3 { font-size: 14px; }
-    .section-title-bar .btn-secondary,
-    .section-title-bar .btn-primary { font-size: 12px; padding: 10px 16px; }
-    .filters-row select, .filters-row input { font-size: 12px; padding: 6px 10px; }
-    .limite-semana { font-size: 10px; padding: 4px 8px; }
-    .btn-actions button { font-size: 11px; padding: 3px 8px; min-width: 34px; min-height: 34px; }
-    .modal { padding: 16px; }
-    .modal .form-group select,
-    .modal .form-group input,
-    .modal .form-group textarea { font-size: 12px; padding: 8px 12px; }
-    .modal .modal-actions .btn-cancel,
-    .modal .modal-actions .btn-submit { font-size: 12px; padding: 8px 16px; }
-}
-
-/* Pantallas muy pequeñas (smartwatch, iPhone SE, etc.) */
-@media (max-width: 360px) {
-    .topbar .page-title { font-size: 13px; gap: 3px; }
-    .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
-    .topbar .topbar-right .menu-toggle { width: 38px; height: 38px; min-width: 38px; font-size: 15px; }
-    .table-container table th,
-    .table-container table td { padding: 4px 6px; font-size: 10px; }
-    .table-container table td::before { font-size: 8px; }
-    .view-toggles button { font-size: 10px; padding: 4px 6px; }
-    .badge { font-size: 9px; padding: 2px 8px; }
-    .btn-actions button { min-width: 30px; min-height: 30px; padding: 2px 6px; font-size: 10px; }
-    .section-title-bar h3 { font-size: 12px; }
-    .section-title-bar .btn-primary,
-    .section-title-bar .btn-secondary { font-size: 11px; padding: 8px 12px; min-height: 38px; }
-    .sidebar { width: 95vw; max-width: 300px; padding: calc(12px + var(--safe-top)) 10px calc(12px + var(--safe-bottom)); }
-    .sidebar .logo .logo-icon { width: 32px; height: 32px; font-size: 14px; }
-    .sidebar .logo .logo-text { font-size: 13px; }
-    .sidebar .menu li a { font-size: 12px; padding: 8px 10px; min-height: 40px; }
-}
-
-/* Modo oscuro para selectores */
-select, input, textarea {
-    background: rgba(0,0,0,0.3);
-    color: #E2E8F0;
-    border: 1px solid rgba(0,212,255,0.06);
-}
-
-/* Mejora de touch en móviles */
-@media (hover: none) {
-    .section-title-bar .btn-primary:hover,
-    .section-title-bar .btn-secondary:hover { transform: none; }
-    .btn-actions button:hover { background: rgba(0,212,255,0.04); }
-    .card-stat:hover { transform: none; }
-    .sidebar .menu li a:hover { background: rgba(0,212,255,0.04); }
-}
+        @media (max-width: 1024px) {
+            .main-content { padding: 14px 16px 24px; }
+            .filters-row select, .filters-row input { min-width: 100px; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { width: min(280px, 82vw); padding: 16px; }
+            .sidebar.closed { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.active { display: block; }
+            .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
+            .topbar .topbar-right .menu-toggle { display: flex; }
+            .topbar .page-title { font-size: 17px; }
+            .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
+            .filters-row { flex-direction: column; align-items: stretch; }
+            .filters-row select, .filters-row input { width: 100%; min-width: unset; }
+            .view-toggles { width: 100%; }
+            .view-toggles button { flex: 1; text-align: center; padding: 6px 10px; font-size: 12px; }
+            .section-title-bar h3 { font-size: 15px; }
+            .section-title-bar .btn-primary { font-size: 12px; padding: 6px 14px; }
+            .table-container table { min-width: 550px; }
+            .table-container table th, .table-container table td { padding: 8px 10px; font-size: 12px; }
+            .modal { padding: 20px; }
+            .modal h3 { font-size: 16px; }
+            .demo-badge-header { font-size: 9px; padding: 2px 8px; }
+            .limite-semana { font-size: 11px; padding: 4px 10px; }
+        }
+        /* Móviles: la tabla se convierte en tarjetas apiladas para evitar scroll horizontal */
+        @media (max-width: 680px) {
+            .table-wrapper { overflow-x: visible; }
+            .table-container table { min-width: 0; width: 100%; }
+            .table-container table thead { display: none; }
+            .table-container table, .table-container table tbody, .table-container table tr, .table-container table td { display: block; width: 100%; }
+            .table-container table tr { padding: 12px 14px; border-bottom: 1px solid rgba(0,212,255,0.06); }
+            .table-container table tr:last-child { border-bottom: none; }
+            .table-container table td { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: none; font-size: 13px; text-align: right; }
+            .table-container table td::before { content: attr(data-label); font-size: 11px; font-weight: 600; color: #4DA6FF; text-transform: uppercase; letter-spacing: 0.3px; text-align: left; flex-shrink: 0; }
+            .table-container table td[data-label="Acciones"] .btn-actions { justify-content: flex-end; width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .main-content { padding: 10px 10px 16px; }
+            .topbar .page-title { font-size: 15px; }
+            .topbar .topbar-right .date-display { font-size: 11px; padding: 4px 8px; }
+            .topbar .topbar-right .menu-toggle { font-size: 18px; padding: 4px; }
+            .section-title-bar h3 { font-size: 13px; }
+            .section-title-bar .btn-primary { font-size: 11px; padding: 5px 12px; }
+            .badge { font-size: 10px; padding: 2px 10px; }
+            .btn-actions button { font-size: 11px; padding: 5px 10px; }
+            .modal { padding: 16px; }
+            .modal .form-group select, .modal .form-group input, .modal .form-group textarea { font-size: 13px; padding: 8px 12px; }
+            .modal .modal-actions .btn-cancel, .modal .modal-actions .btn-submit { font-size: 12px; padding: 8px 16px; }
+            .sidebar { width: min(260px, 85vw); padding: 14px; }
+            .sidebar .logo .logo-text { font-size: 14px; }
+            .sidebar .menu li a { font-size: 13px; padding: 10px 12px; }
+            .filters-row select, .filters-row input { font-size: 12px; padding: 6px 10px; }
+            .limite-semana { font-size: 10px; padding: 4px 8px; }
+        }
+        @media (max-width: 360px) {
+            .topbar .page-title { font-size: 14px; }
+            .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
+            .view-toggles button { font-size: 10px; padding: 4px 6px; }
+            .table-container table td { font-size: 12px; }
+            .table-container table td::before { font-size: 10px; }
+        }
+        select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
+        @media (hover: none) {
+            .card-stat:hover { transform: none; }
+            .section-title-bar .btn-primary:hover { transform: none; }
+            .btn-actions button:hover { background: rgba(0,212,255,0.04); }
+        }
+        @media (min-width: 1600px) {
+            .main-content { padding-left: 40px; padding-right: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -458,7 +327,7 @@ select, input, textarea {
         <div class="topbar">
             <div class="page-title">Agenda <span>/ Citas</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
             <div class="topbar-right">
-                <div class="date-display"><i class="fas fa-calendar-day"></i> <span id="fechaActual"></span></div>
+                <div class="date-display"><i class="fas fa-calendar-day"></i> <span id="currentDate"></span></div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -574,13 +443,20 @@ select, input, textarea {
 
     </main>
 
-    <!-- ===== TOAST ===== -->
-    <div class="toast" id="toast"></div>
-
     <script>
-        // ===== FECHA ACTUAL =====
-        document.getElementById('fechaActual').textContent = new Date().toLocaleDateString('es-ES');
-        document.getElementById('filtroFecha').value = new Date().toISOString().split('T')[0];
+        // ===== FECHA ACTUAL Y VALORES POR DEFECTO (reemplaza <?php echo date(...) ?>) =====
+        const hoy = new Date();
+        document.getElementById('currentDate').textContent = hoy.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+        const yyyy = hoy.getFullYear();
+        const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dd = String(hoy.getDate()).padStart(2, '0');
+        document.getElementById('filtroFecha').value = `${yyyy}-${mm}-${dd}`;
+
+        const enUnaHora = new Date(hoy.getTime() + 60 * 60 * 1000);
+        const hh = String(enUnaHora.getHours()).padStart(2, '0');
+        const min = String(enUnaHora.getMinutes()).padStart(2, '0');
+        document.getElementById('fecha_hora').value = `${enUnaHora.getFullYear()}-${String(enUnaHora.getMonth() + 1).padStart(2, '0')}-${String(enUnaHora.getDate()).padStart(2, '0')}T${hh}:${min}`;
 
         // ===== TOGGLE SIDEBAR =====
         const menuToggle = document.getElementById('menuToggle');
@@ -614,13 +490,17 @@ select, input, textarea {
             });
         });
 
+        let resizeTimer;
         window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                closeSidebar();
-                sidebar.classList.remove('closed');
-            } else {
-                sidebar.classList.add('closed');
-            }
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 768) {
+                    closeSidebar();
+                    sidebar.classList.remove('closed');
+                } else if (!sidebar.classList.contains('open')) {
+                    sidebar.classList.add('closed');
+                }
+            }, 100);
         });
 
         if (window.innerWidth <= 768) {
@@ -631,7 +511,7 @@ select, input, textarea {
         let startX = 0;
         document.addEventListener('touchstart', function(e) {
             startX = e.touches[0].clientX;
-        });
+        }, { passive: true });
 
         document.addEventListener('touchend', function(e) {
             const endX = e.changedTouches[0].clientX;
@@ -639,7 +519,10 @@ select, input, textarea {
             if (diff > 80 && sidebar.classList.contains('open')) {
                 closeSidebar();
             }
-        });
+            if (diff < -80 && startX < 30 && window.innerWidth <= 768 && !sidebar.classList.contains('open')) {
+                toggleSidebar();
+            }
+        }, { passive: true });
 
         // ===== VIEW TOGGLES =====
         document.querySelectorAll('.view-toggles button').forEach(btn => {
@@ -657,10 +540,7 @@ select, input, textarea {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             document.getElementById('formCita').reset();
-            // Establecer fecha y hora por defecto
-            const ahora = new Date();
-            ahora.setHours(ahora.getHours() + 1);
-            document.getElementById('fecha_hora').value = ahora.toISOString().slice(0, 16);
+            document.getElementById('fecha_hora').value = `${enUnaHora.getFullYear()}-${String(enUnaHora.getMonth() + 1).padStart(2, '0')}-${String(enUnaHora.getDate()).padStart(2, '0')}T${hh}:${min}`;
         }
 
         function cerrarModal() {
@@ -679,9 +559,10 @@ select, input, textarea {
             const cliente = document.getElementById('id_cliente');
             const servicio = document.getElementById('id_servicio');
             const fecha = document.getElementById('fecha_hora').value;
+            const notas = document.getElementById('notas').value;
 
             if (!cliente.value || !servicio.value || !fecha) {
-                showToast('⚠️ Por favor, completa todos los campos obligatorios.', 'warning');
+                alert('⚠️ Por favor, completa todos los campos obligatorios.');
                 return false;
             }
 
@@ -704,32 +585,29 @@ select, input, textarea {
                 <td data-label="Estado"><span class="badge badge-pendiente">Pendiente</span></td>
                 <td data-label="Acciones">
                     <div class="btn-actions">
-                        <button class="btn-edit" onclick="alert('📌 Editar cita\\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                        <button class="btn-status" onclick="alert('📌 Cambiar hora\\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
-                        <button class="btn-status" onclick="alert('📌 Cambiar estado\\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                        <button class="btn-delete" onclick="alert('📌 Eliminar cita\\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
+                        <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-status" onclick="alert('📌 Cambiar hora\n🔒 Versión demo')"><i class="fas fa-clock"></i></button>
+                        <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
+                        <button class="btn-delete" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             `;
 
-            tbody.prepend(newRow);
+            tbody.appendChild(newRow);
             cerrarModal();
-            showToast('✅ Cita creada exitosamente (DEMO)', 'success');
+            alert('✅ Cita creada exitosamente (DEMO)');
+
+            // Actualizar contador
+            const limite = document.querySelector('.limite-semana strong');
+            const restantes = document.querySelector('.limite-semana .restantes');
+            if (limite && restantes) {
+                const actual = parseInt(limite.textContent) || 0;
+                limite.textContent = actual + 1;
+                const disponibles = 25 - (actual + 1);
+                restantes.textContent = `(${disponibles} disponibles)`;
+            }
 
             return false;
-        }
-
-        // ===== TOAST =====
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast ' + type;
-            toast.classList.add('show');
-
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
         }
 
         // ===== FILTROS =====
@@ -741,7 +619,7 @@ select, input, textarea {
 
         console.log('✅ Nexus Agenda · Agenda DEMO cargada');
         console.log('📊 Citas: 3 registradas');
-        console.log('📱 Responsive mode activado');
+        console.log('📱 Responsive mode activado (móvil, tablet, escritorio)');
     </script>
 
 </body>
