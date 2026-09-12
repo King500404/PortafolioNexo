@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Nexus Agenda · Servicios DEMO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,9 @@
     <style>
         /* ===== RESET Y BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; overflow-x: hidden; }
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; width: 100%; }
+        img, svg { max-width: 100%; display: block; }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0A0E1A; }
         ::-webkit-scrollbar-thumb { background: #1A2A5E; border-radius: 10px; }
@@ -21,6 +23,7 @@
         .sidebar { 
             width: 260px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: rgba(10,14,26,0.95); 
             backdrop-filter: blur(16px); 
             border-right: 1px solid rgba(0,212,255,0.08); 
@@ -46,7 +49,7 @@
         
         .sidebar .menu { flex: 1; list-style: none; padding: 0; overflow-y: auto; }
         .sidebar .menu li { margin-bottom: 2px; }
-        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
+        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
         .sidebar .menu li a i { width: 20px; text-align: center; font-size: 15px; color: #4A5A6A; transition: 0.3s; }
         .sidebar .menu li a:hover { background: rgba(0,212,255,0.04); color: #E2E8F0; }
         .sidebar .menu li a:hover i { color: #00D4FF; }
@@ -60,7 +63,7 @@
         .sidebar .user-info .user-details { flex: 1; min-width: 0; }
         .sidebar .user-info .user-details .name { font-size: 13px; font-weight: 600; color: #E2E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sidebar .user-info .user-details .email { font-size: 11px; color: #4A5A6A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 4px; border-radius: 8px; flex-shrink: 0; }
+        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 8px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         .sidebar .user-info .logout-btn:hover { color: #EF4444; background: rgba(239,68,68,0.08); }
 
         /* ===== SIDEBAR OVERLAY ===== */
@@ -72,10 +75,13 @@
             flex: 1; 
             padding: 16px 20px 30px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: radial-gradient(circle at 20% 30%, #0D1B3E, #060A14 80%);
             margin-left: 260px;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: calc(100% - 260px);
+            max-width: 100%;
+            min-width: 0;
         }
         .main-content.full-width { margin-left: 0; width: 100%; }
 
@@ -86,7 +92,7 @@
         .topbar .topbar-right { display: flex; align-items: center; gap: 12px; }
         .topbar .topbar-right .date-display { font-size: 13px; color: #94A3B8; background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(0,212,255,0.06); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .topbar .topbar-right .date-display i { color: #00D4FF; }
-        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.3s; }
+        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 8px; border-radius: 8px; transition: 0.3s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
         .topbar .topbar-right .menu-toggle:hover { background: rgba(0,212,255,0.04); }
         .demo-badge-header { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.06); color: #4DA6FF; font-size: 10px; padding: 2px 10px; border-radius: 20px; font-weight: 500; }
         .demo-badge-header i { color: #00D4FF; font-size: 10px; }
@@ -119,8 +125,8 @@
         .badge-inactivo { background: rgba(148,163,184,0.08); color: #94A3B8; }
 
         /* ===== BOTONES DE ACCIÓN ===== */
-        .btn-actions { display: flex; gap: 4px; flex-wrap: wrap; }
-        .btn-actions button { padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; }
+        .btn-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-actions button { padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; min-height: 32px; }
         .btn-actions button:hover { background: rgba(0,212,255,0.08); }
         .btn-actions .btn-edit { color: #00D4FF; }
         .btn-actions .btn-edit:hover { background: rgba(0,212,255,0.08); box-shadow: 0 0 20px rgba(0,212,255,0.04); }
@@ -141,12 +147,12 @@
         /* ===== MODAL ===== */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 16px; }
         .modal-overlay.active { display: flex; }
-        .modal { background: rgba(10,14,26,0.95); backdrop-filter: blur(16px); border-radius: 20px; padding: 24px 28px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .modal { background: rgba(10,14,26,0.95); backdrop-filter: blur(16px); border-radius: 20px; padding: 24px 28px; max-width: 520px; width: 100%; max-height: 90vh; max-height: 90dvh; overflow-y: auto; border: 1px solid rgba(0,212,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
         .modal h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E2E8F0; margin-bottom: 4px; }
         .modal .modal-sub { color: #94A3B8; font-size: 13px; margin-bottom: 16px; }
         .modal .form-group { margin-bottom: 14px; }
         .modal .form-group label { display: block; font-size: 12px; font-weight: 600; color: #94A3B8; margin-bottom: 4px; }
-        .modal .form-group input, .modal .form-group select, .modal .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 13px; color: #E2E8F0; outline: none; transition: 0.2s; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
+        .modal .form-group input, .modal .form-group select, .modal .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid rgba(0,212,255,0.06); border-radius: 10px; background: rgba(0,0,0,0.3); font-size: 16px; color: #E2E8F0; outline: none; transition: 0.2s; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
         .modal .form-group input:focus, .modal .form-group select:focus, .modal .form-group textarea:focus { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
         .modal .form-group select option { background: #0A0E1A; }
         .modal .form-group textarea { min-height: 50px; resize: vertical; }
@@ -164,12 +170,12 @@
             .main-content { padding: 14px 16px 24px; }
         }
         @media (max-width: 768px) {
-            .sidebar { width: 280px; padding: 16px; }
+            .sidebar { width: min(280px, 82vw); padding: 16px; }
             .sidebar.closed { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .sidebar-overlay.active { display: block; }
             .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
-            .topbar .topbar-right .menu-toggle { display: block; }
+            .topbar .topbar-right .menu-toggle { display: flex; }
             .topbar .page-title { font-size: 17px; }
             .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
             .section-title-bar h3 { font-size: 15px; }
@@ -182,6 +188,19 @@
             .demo-badge-header { font-size: 9px; padding: 2px 8px; }
             .stats-mini .stat-item { font-size: 12px; padding: 6px 12px; }
         }
+        /* Móviles: la tabla se convierte en tarjetas apiladas para evitar scroll horizontal */
+        @media (max-width: 680px) {
+            .table-wrapper { overflow-x: visible; }
+            .table-container table { min-width: 0; width: 100%; }
+            .table-container table thead { display: none; }
+            .table-container table, .table-container table tbody, .table-container table tr, .table-container table td { display: block; width: 100%; }
+            .table-container table tr { padding: 12px 14px; border-bottom: 1px solid rgba(0,212,255,0.06); }
+            .table-container table tr:last-child { border-bottom: none; }
+            .table-container table td { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: none; font-size: 13px; text-align: right; }
+            .table-container table td::before { content: attr(data-label); font-size: 11px; font-weight: 600; color: #4DA6FF; text-transform: uppercase; letter-spacing: 0.3px; text-align: left; flex-shrink: 0; }
+            .table-container table td[data-label="Descripción"] { text-align: right; }
+            .table-container table td[data-label="Acciones"] .btn-actions { justify-content: flex-end; width: 100%; }
+        }
         @media (max-width: 480px) {
             .main-content { padding: 10px 10px 16px; }
             .topbar .page-title { font-size: 15px; }
@@ -189,475 +208,29 @@
             .topbar .topbar-right .menu-toggle { font-size: 18px; padding: 4px; }
             .section-title-bar h3 { font-size: 13px; }
             .section-title-bar .btn-primary, .section-title-bar .btn-secondary { font-size: 11px; padding: 5px 12px; }
-            .table-container table { min-width: 420px; }
-            .table-container table th, .table-container table td { padding: 6px 8px; font-size: 11px; }
             .badge { font-size: 10px; padding: 2px 10px; }
-            .btn-actions button { font-size: 11px; padding: 3px 8px; }
+            .btn-actions button { font-size: 11px; padding: 5px 10px; }
             .modal { padding: 16px; }
-            .modal .form-group input, .modal .form-group select, .modal .form-group textarea { font-size: 12px; padding: 8px 12px; }
+            .modal .form-group input, .modal .form-group select, .modal .form-group textarea { font-size: 13px; padding: 8px 12px; }
             .modal .modal-actions .btn-cancel, .modal .modal-actions .btn-submit, .modal .modal-actions .btn-submit-danger { font-size: 12px; padding: 8px 16px; }
-            .sidebar { width: 260px; padding: 14px; }
+            .sidebar { width: min(260px, 85vw); padding: 14px; }
             .sidebar .logo .logo-text { font-size: 14px; }
-            .sidebar .menu li a { font-size: 13px; padding: 8px 12px; }
+            .sidebar .menu li a { font-size: 13px; padding: 10px 12px; }
             .stats-mini .stat-item { font-size: 11px; padding: 4px 10px; }
         }
         @media (max-width: 360px) {
             .topbar .page-title { font-size: 14px; }
             .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
-            .table-container table { min-width: 320px; }
-            .table-container table th, .table-container table td { padding: 4px 6px; font-size: 10px; }
+            .table-container table td { font-size: 12px; }
+            .table-container table td::before { font-size: 10px; }
         }
-
-        /* =========================================================
-           RESPONSIVE MULTIDISPOSITIVO - SERVICIOS
-           Desktop / Tablet / Celular
-           ========================================================= */
-
-        html, body {
-            width: 100%;
-            min-width: 0;
-        }
-
-        .main-content {
-            min-width: 0;
-        }
-
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Tablet */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
-            }
-
-            .main-content {
-                margin-left: 240px;
-                width: calc(100% - 240px);
-                padding: 14px 16px 24px;
-            }
-
-            .table-container table {
-                min-width: 620px;
-            }
-        }
-
-        /* Tablet vertical / móvil */
-        @media (max-width: 768px) {
-            body {
-                display: block;
-                min-height: 100vh;
-            }
-
-            .sidebar {
-                width: min(300px, 86vw);
-                padding: 16px;
-                transform: translateX(-100%);
-                box-shadow: 8px 0 40px rgba(0,0,0,0.55);
-            }
-
-            .sidebar.closed {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay.active {
-                display: block;
-            }
-
-            .main-content,
-            .main-content.full-width {
-                margin-left: 0;
-                width: 100%;
-                min-height: 100vh;
-                padding: 12px 14px 24px;
-            }
-
-            .topbar {
-                position: sticky;
-                top: 0;
-                z-index: 50;
-                margin: -12px -14px 14px;
-                padding: 12px 14px;
-                background: rgba(6,10,20,0.94);
-                backdrop-filter: blur(14px);
-                border-bottom: 1px solid rgba(0,212,255,0.06);
-            }
-
-            .topbar .page-title {
-                min-width: 0;
-                max-width: calc(100% - 55px);
-                font-size: clamp(15px, 4vw, 18px);
-                line-height: 1.3;
-            }
-
-            .topbar .topbar-right {
-                gap: 6px;
-            }
-
-            .topbar .topbar-right .date-display {
-                font-size: 11px;
-                padding: 5px 8px;
-            }
-
-            .topbar .topbar-right .menu-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 42px;
-                height: 42px;
-                padding: 0;
-                font-size: 20px;
-                flex-shrink: 0;
-            }
-
-            .stats-mini {
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 8px;
-                width: 100%;
-            }
-
-            .stats-mini .stat-item {
-                min-width: 0;
-                padding: 9px 6px;
-                text-align: center;
-                font-size: 11px;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            .stats-mini .stat-item i {
-                display: block;
-                margin-bottom: 3px;
-            }
-
-            .section-title-bar {
-                align-items: stretch;
-                gap: 8px;
-            }
-
-            .section-title-bar h3 {
-                font-size: 14px;
-                line-height: 1.35;
-                min-width: 0;
-            }
-
-            .section-title-bar .btn-primary,
-            .section-title-bar .btn-secondary {
-                min-height: 42px;
-                justify-content: center;
-                padding: 9px 14px;
-            }
-
-            /* Tabla desplazable en tablet/móvil */
-            .table-container {
-                width: 100%;
-                overflow: hidden;
-            }
-
-            .table-container table {
-                min-width: 620px;
-            }
-
-            .table-container table th,
-            .table-container table td {
-                padding: 9px 10px;
-                font-size: 12px;
-            }
-
-            .btn-actions {
-                gap: 6px;
-            }
-
-            .btn-actions button {
-                min-width: 38px;
-                min-height: 36px;
-                padding: 7px 10px;
-            }
-
-            /* Modal */
-            .modal-overlay {
-                padding: 10px;
-                align-items: center;
-            }
-
-            .modal {
-                width: 100%;
-                max-width: 520px;
-                max-height: calc(100vh - 20px);
-                padding: 20px;
-                border-radius: 16px;
-            }
-
-            .modal .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .modal .form-group input,
-            .modal .form-group select,
-            .modal .form-group textarea {
-                font-size: 16px;
-                min-height: 44px;
-            }
-
-            .modal .modal-actions {
-                gap: 8px;
-            }
-
-            .modal .modal-actions button {
-                min-height: 44px;
-            }
-        }
-
-        /* Celular */
-        @media (max-width: 600px) {
-            .main-content {
-                padding: 10px 10px 20px;
-            }
-
-            .topbar {
-                margin: -10px -10px 12px;
-                padding: 10px;
-            }
-
-            .topbar .page-title {
-                font-size: 14px;
-            }
-
-            .demo-badge-header {
-                font-size: 8px;
-                padding: 2px 7px;
-            }
-
-            .topbar .topbar-right .date-display {
-                display: none;
-            }
-
-            .topbar .topbar-right .menu-toggle {
-                width: 40px;
-                height: 40px;
-            }
-
-            .stats-mini {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 6px;
-            }
-
-            .stats-mini .stat-item {
-                padding: 8px 3px;
-                font-size: 10px;
-            }
-
-            .section-title-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .section-title-bar h3 {
-                font-size: 13px;
-            }
-
-            .section-title-bar .btn-primary,
-            .section-title-bar .btn-secondary {
-                width: 100%;
-                min-height: 44px;
-                font-size: 13px;
-            }
-
-            /* En celular la tabla pasa a formato de tarjetas */
-            .table-container,
-            .table-wrapper {
-                overflow: visible;
-            }
-
-            .table-container table,
-            .table-container thead,
-            .table-container tbody,
-            .table-container tr,
-            .table-container td {
-                display: block;
-                width: 100%;
-            }
-
-            .table-container table {
-                min-width: 0;
-                border-collapse: separate;
-            }
-
-            .table-container thead {
-                display: none;
-            }
-
-            .table-container tbody tr {
-                margin-bottom: 12px;
-                padding: 12px;
-                background: rgba(10,14,26,0.72);
-                border: 1px solid rgba(0,212,255,0.08);
-                border-radius: 14px;
-                box-shadow: 0 5px 25px rgba(0,0,0,0.18);
-            }
-
-            .table-container tbody tr:last-child {
-                margin-bottom: 0;
-            }
-
-            .table-container tbody td {
-                display: grid;
-                grid-template-columns: minmax(90px, 34%) 1fr;
-                align-items: center;
-                gap: 8px;
-                padding: 9px 4px;
-                border-bottom: 1px solid rgba(0,212,255,0.05);
-                font-size: 13px;
-                line-height: 1.4;
-                overflow-wrap: anywhere;
-            }
-
-            .table-container tbody td:last-child {
-                border-bottom: none;
-                padding-bottom: 4px;
-            }
-
-            .table-container tbody td::before {
-                content: attr(data-label);
-                color: #4DA6FF;
-                font-size: 10px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: .3px;
-            }
-
-            .table-container tbody td strong {
-                min-width: 0;
-            }
-
-            .table-container tbody td[data-label="Acciones"] {
-                display: block;
-                padding-top: 12px;
-            }
-
-            .table-container tbody td[data-label="Acciones"]::before {
-                display: block;
-                margin-bottom: 8px;
-            }
-
-            .btn-actions {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
-                gap: 7px;
-            }
-
-            .btn-actions button {
-                width: 100%;
-                min-height: 40px;
-                font-size: 13px;
-            }
-
-            .badge {
-                justify-self: start;
-            }
-
-            /* Modal en celular */
-            .modal-overlay {
-                padding: 8px;
-            }
-
-            .modal {
-                padding: 16px;
-                max-height: calc(100vh - 16px);
-                border-radius: 15px;
-            }
-
-            .modal h3 {
-                font-size: 15px;
-            }
-
-            .modal .modal-sub {
-                font-size: 12px;
-            }
-
-            .modal .modal-actions {
-                flex-direction: column-reverse;
-            }
-
-            .modal .modal-actions button {
-                width: 100%;
-                min-height: 44px;
-                flex: none;
-            }
-
-            .mensaje {
-                font-size: 12px;
-                padding: 10px 12px;
-            }
-        }
-
-        /* Celulares pequeños */
-        @media (max-width: 380px) {
-            .sidebar {
-                width: 88vw;
-            }
-
-            .topbar .page-title {
-                font-size: 13px;
-            }
-
-            .stats-mini .stat-item {
-                font-size: 9px;
-            }
-
-            .table-container tbody tr {
-                padding: 9px;
-            }
-
-            .table-container tbody td {
-                grid-template-columns: 82px 1fr;
-                font-size: 12px;
-            }
-
-            .table-container tbody td::before {
-                font-size: 9px;
-            }
-        }
-
-        /* Pantallas grandes */
-        @media (min-width: 1440px) {
-            .main-content {
-                padding-left: 28px;
-                padding-right: 28px;
-            }
-        }
-
-        /* Mejor experiencia táctil */
-        @media (pointer: coarse) {
-            .sidebar .menu li a {
-                min-height: 44px;
-            }
-
-            button,
-            a {
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .btn-actions button,
-            .section-title-bar button,
-            .menu-toggle {
-                touch-action: manipulation;
-            }
-        }
-
         select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
         @media (hover: none) {
             .section-title-bar .btn-primary:hover, .section-title-bar .btn-secondary:hover { transform: none; }
             .btn-actions button:hover { background: rgba(0,212,255,0.04); }
+        }
+        @media (min-width: 1600px) {
+            .main-content { padding-left: 40px; padding-right: 40px; }
         }
     </style>
 </head>
@@ -738,7 +311,7 @@
             <li class="menu-label">Menú Principal</li>
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
             <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
-            <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
+            <li><a href="servicios.html" class="active"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
             <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
             <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
             <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
@@ -758,7 +331,7 @@
         <div class="topbar">
             <div class="page-title">Mis <span>Servicios</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
             <div class="topbar-right">
-                <div class="date-display"><i class="fas fa-calendar-day"></i> <?php echo date('d/m/Y'); ?></div>
+                <div class="date-display"><i class="fas fa-calendar-day"></i> <span id="currentDate"></span></div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -842,6 +415,9 @@
     </main>
 
     <script>
+        // ===== FECHA ACTUAL (reemplaza <?php echo date(...) ?>) =====
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
         // ===== TOGGLE SIDEBAR =====
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
@@ -874,17 +450,17 @@
             });
         });
 
+        let resizeTimer;
         window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('open', 'closed');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            } else {
-                sidebar.classList.remove('open');
-                sidebar.classList.add('closed');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 768) {
+                    closeSidebar();
+                    sidebar.classList.remove('closed');
+                } else if (!sidebar.classList.contains('open')) {
+                    sidebar.classList.add('closed');
+                }
+            }, 100);
         });
 
         if (window.innerWidth <= 768) {
@@ -895,7 +471,7 @@
         let startX = 0;
         document.addEventListener('touchstart', function(e) {
             startX = e.touches[0].clientX;
-        });
+        }, { passive: true });
 
         document.addEventListener('touchend', function(e) {
             const endX = e.changedTouches[0].clientX;
@@ -903,7 +479,10 @@
             if (diff > 80 && sidebar.classList.contains('open')) {
                 closeSidebar();
             }
-        });
+            if (diff < -80 && startX < 30 && window.innerWidth <= 768 && !sidebar.classList.contains('open')) {
+                toggleSidebar();
+            }
+        }, { passive: true });
 
         // ===== DATOS DE SERVICIOS DEMO =====
         let serviciosData = [
@@ -1134,6 +713,7 @@
         console.log('✅ Nexus Agenda · Servicios DEMO cargado');
         console.log('📦 Servicios disponibles:', serviciosData.length);
         console.log('🔒 Versión demo - funcionalidades limitadas');
+        console.log('📱 Responsive mode activado (móvil, tablet, escritorio)');
     </script>
 
 </body>
