@@ -12,7 +12,7 @@
     <style>
         /* ===== MISMO ESTILO NEÓN ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; overflow-x: hidden; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0A0E1A; }
         ::-webkit-scrollbar-thumb { background: #1A2A5E; border-radius: 10px; }
@@ -86,48 +86,209 @@
         .btn-reporte { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: linear-gradient(135deg, #0066FF, #00D4FF); color: #FFFFFF; border: none; border-radius: 16px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 30px rgba(0,102,255,0.2); font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; margin-top: 10px; }
         .btn-reporte:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,212,255,0.25); }
         .btn-reporte i { font-size: 18px; }
-
         .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; backdrop-filter: blur(4px); }
 
+        /* ===== RESPONSIVE PARA REPORTES ===== */
+
+        /* ---------- TABLET (≤1024px) ---------- */
         @media (max-width: 1024px) {
-            .report-stats { grid-template-columns: repeat(2, 1fr); }
-            .charts-row { grid-template-columns: 1fr; }
-            .chart-full { grid-column: 1; }
-            .sidebar { transform: translateX(-100%); width: min(280px, 85vw); }
-            .sidebar.open { transform: translateX(0); }
-            .sidebar-overlay.active { display: block; }
-            .main-content { margin-left: 0; padding: 16px; }
-            .topbar .topbar-right .menu-toggle { display: block; }
-        }
-        @media (max-width: 768px) {
-            .topbar .topbar-right .date-display { font-size: 12px; padding: 6px 12px; }
-            .report-stats { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 480px) {
-            .topbar .page-title { font-size: 18px; }
-            .report-stats { grid-template-columns: 1fr; }
-            .report-filters { flex-direction: column; }
-            .report-filters select, .report-filters input { width: 100%; }
+            .main-content { 
+                padding: 14px 16px 24px; 
+            }
+
+            /* Filtros en 2 columnas */
+            .report-filters {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .report-filters select,
+            .report-filters input,
+            .report-filters button {
+                width: 100%;
+                min-width: 0;
+            }
+
+            /* Estadísticas en 2 columnas */
+            .report-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            /* Tabla con scroll horizontal */
+            .report-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .report-table {
+                min-width: 720px;
+            }
         }
 
-        /* Móviles - Tabla como tarjetas */
-    @media (max-width: 600px) {
-        .topbar { flex-direction: row; align-items: center; padding: 4px 0 14px; }
-        .topbar .page-title { flex: 1; min-width: 0; font-size: 15px; }
-        .topbar .topbar-right { flex-shrink: 0; }
-        .topbar .topbar-right .date-display { display: none; }
-        .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-        .card-stat { padding: 12px 14px; border-radius: 12px; }
-        .card-stat .card-value { font-size: 1.1rem; }
-        .card-stat .card-label { font-size: 11px; }
-        .welcome-section { padding: 16px 18px; border-radius: 12px; }
-        .welcome-section h2 { font-size: 0.95rem; }
-        .welcome-section p { font-size: 12px; }
-        .welcome-section .welcome-stats { gap: 10px; }
-        .welcome-section .welcome-stats .ws-item { font-size: 11px; }
-        .section-title-bar { flex-direction: column; align-items: stretch; }
-        .section-title-bar .btn-secondary { justify-content: center; width: 100%; }
-    }
+        /* ---------- MÓVIL (≤768px) ---------- */
+        @media (max-width: 768px) {
+            /* Sidebar tipo drawer */
+            .sidebar { 
+                transform: translateX(-100%); 
+                width: 280px; 
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+            .sidebar.open { 
+                transform: translateX(0); 
+            }
+            .sidebar-overlay.active { 
+                display: block; 
+            }
+
+            .main-content { 
+                margin-left: 0; 
+                padding: 16px; 
+            }
+
+            /* Topbar ajustes */
+            .topbar .topbar-right .menu-toggle { 
+                display: block; 
+            }
+            .topbar .topbar-right .date-display { 
+                font-size: 12px; 
+                padding: 6px 12px; 
+            }
+
+            /* Header del reporte */
+            .report-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .report-header .report-title {
+                font-size: 18px;
+            }
+            .report-header .report-actions {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .report-header .report-actions button {
+                flex: 1 1 auto;
+                min-width: 120px;
+            }
+
+            /* Filtros en 1 columna */
+            .report-filters {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 12px;
+            }
+            .report-filters select,
+            .report-filters input,
+            .report-filters button {
+                width: 100%;
+                height: 42px;
+                font-size: 14px;
+            }
+
+            /* Estadísticas en 2 columnas */
+            .report-stats { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 10px;
+            }
+            .report-stats .stat-card {
+                padding: 12px;
+            }
+            .report-stats .stat-card .stat-value {
+                font-size: 20px;
+            }
+            .report-stats .stat-card .stat-label {
+                font-size: 12px;
+            }
+
+            /* Tabla */
+            .report-table-wrapper {
+                overflow-x: auto;
+                border-radius: 10px;
+            }
+            .report-table {
+                min-width: 640px;
+                font-size: 13px;
+            }
+            .report-table th,
+            .report-table td {
+                padding: 8px 10px;
+                white-space: nowrap;
+            }
+
+            /* Paginación */
+            .report-pagination {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            .report-pagination .page-info {
+                font-size: 12px;
+            }
+            .report-pagination .page-buttons {
+                display: flex;
+                gap: 6px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* ---------- MÓVIL PEQUEÑO  ---------- */
+        @media (max-width: 480px) {
+            .topbar .page-title { 
+                font-size: 16px; 
+            }
+
+            /* Estadísticas en 1 columna */
+            .report-stats { 
+                grid-template-columns: 1fr; 
+            }
+            .report-stats .stat-card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 14px 16px;
+            }
+            .report-stats .stat-card .stat-value {
+                font-size: 22px;
+            }
+
+            /* Filtros en columna */
+            .report-filters { 
+                flex-direction: column; 
+                padding: 10px;
+            }
+            .report-filters select, 
+            .report-filters input,
+            .report-filters button { 
+                width: 100%; 
+            }
+
+            /* Botones de acción del header */
+            .report-header .report-actions button {
+                flex: 1 1 100%;
+                min-width: 0;
+            }
+
+            /* Tabla más compacta */
+            .report-table {
+                min-width: 560px;
+                font-size: 12px;
+            }
+            .report-table th,
+            .report-table td {
+                padding: 6px 8px;
+            }
+
+            /* Paginación compacta */
+            .report-pagination .page-buttons button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -145,8 +306,8 @@
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
             <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
-            <li><a href="clientes.html" ><i class="fas fa-users"></i> Clientes</a></li>
-            <li><a href="citas.html" ><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
+            <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+            <li><a href="citas.html"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
             <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
         </ul>
         <div class="user-info">
@@ -265,7 +426,7 @@
         menuToggle.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', toggleSidebar);
         document.querySelectorAll('.sidebar .menu a').forEach(link => {
-            link.addEventListener('click', () => { if (window.innerWidth <= 1024) { sidebar.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; } });
+            link.addEventListener('click', () => { if (window.innerWidth <= 768) { sidebar.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; } });
         });
 
         // ============================================================
@@ -407,34 +568,25 @@
             const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
             const horaStr = fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
 
-            let contenido = '═══════════════════════════════════════════════════════════════\n';
-            contenido += '                   NEXUS AGENDA - REPORTE DE ESTADÍSTICAS\n';
-            contenido += '═══════════════════════════════════════════════════════════════\n\n';
+            contenido += '                   NEXUS AGENDA - REPORTE DE ESTADÍSTICAS\n'; 
             contenido += '📅 Fecha: ' + fechaStr + '\n';
             contenido += '🕐 Hora: ' + horaStr + '\n';
             contenido += '👤 Usuario: Usuario DEMO\n';
-            contenido += '📧 Correo: nexus@sistema.com\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '📊 RESUMEN GENERAL\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
+            contenido += '📧 Correo: nexus@sistema.com\n\n'; 
+            contenido += '📊 RESUMEN GENERAL\n'; 
             contenido += '  Total de citas        : 8\n';
             contenido += '  Ingresos totales      : $280,000\n';
             contenido += '  Servicios activos     : 3\n';
             contenido += '  Clientes registrados  : 4\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '📌 ESTADO DE CITAS\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '  Pendientes   : 2\n';
             contenido += '  Confirmadas  : 3\n';
             contenido += '  Realizadas   : 2\n';
-            contenido += '  Canceladas   : 1\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
+            contenido += '  Canceladas   : 1\n\n'; 
             contenido += '🏆 SERVICIOS MÁS SOLICITADOS\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '  #1 Corte de cabello   5 citas   $175,000\n';
             contenido += '  #2 Manicura           3 citas   $135,000\n';
             contenido += '  #3 Depilación         1 cita    $28,000\n\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '📈 CITAS POR DÍA (ÚLTIMOS 7 DÍAS)\n';
             contenido += '───────────────────────────────────────────────────────────────\n';
             contenido += '  Lun  ████████████ 5\n';
@@ -445,11 +597,6 @@
             contenido += '  Sáb  ██ 1\n';
             contenido += '  Dom  █ 0\n\n';
             contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '📋 REPORTE GENERADO POR NEXUS AGENDA\n';
-            contenido += '───────────────────────────────────────────────────────────────\n';
-            contenido += '  Versión demo - Funcionalidades limitadas\n';
-            contenido += '  © 2026 Nexus Webs Oacaxa - Todos los derechos reservados.\n';
-            contenido += '═══════════════════════════════════════════════════════════════\n';
 
             const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
