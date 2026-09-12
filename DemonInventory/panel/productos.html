@@ -1042,15 +1042,14 @@
             </div>
             <select class="filter-select" id="filterCategoria" onchange="filterTable()">
                 <option value="">Todas las categorías</option>
-                <option value="Sin categoría">📂 Sin categoría</option>
-                <option value="Electrónica">💻 Electrónica</option>
-                <option value="Accesorios">🎧 Accesorios</option>
-                <option value="Software">💿 Software</option>
-                <option value="Alimentos">🍎 Alimentos</option>
-                <option value="Bebidas">🥤 Bebidas</option>
-                <option value="Limpieza">🧹 Limpieza</option>
-                <option value="Papelería">📄 Papelería</option>
-                <option value="Ropa">👕 Ropa</option>
+                <option value="Sin categoría">Sin categoría</option>
+                <option value="Electrónica">Electrónica</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Alimentos">Alimentos</option>
+                <option value="Bebidas">Bebidas</option>
+                <option value="Limpieza">Limpieza</option>
+                <option value="Papelería">Papelería</option>
+                <option value="Ropa">Ropa</option>
             </select>
         </div>
 
@@ -1076,11 +1075,11 @@
                                 <strong style="color:#ECF0F1;">Laptop Dell XPS 13</strong>
                                 <br><small style="color:#5A6A7A; font-size:12px;">Portátil ultraligera 13 pulgadas</small>
                             </td>
-                            <td><span class="badge-categoria asignada">💻 Electrónica</span></td>
+                            <td><span class="badge-categoria asignada">Electrónica</span></td>
                             <td>$850.00</td>
                             <td><strong style="color:#00FF94;">$1,200.00</strong></td>
                             <td>12</td>
-                            <td><span class="stock-indicator normal">✅ Disponible</span></td>
+                            <td><span class="stock-indicator normal">Disponible</span></td>
                             <td>
                                 <div class="btn-actions">
                                     <button class="btn-icon edit" onclick="editarProducto(1)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -1095,11 +1094,11 @@
                                 <strong style="color:#ECF0F1;">Monitor Samsung 27"</strong>
                                 <br><small style="color:#5A6A7A; font-size:12px;">Monitor curvo 144Hz</small>
                             </td>
-                            <td><span class="badge-categoria asignada">💻 Electrónica</span></td>
+                            <td><span class="badge-categoria asignada">Electrónica</span></td>
                             <td>$320.00</td>
                             <td><strong style="color:#00FF94;">$450.00</strong></td>
                             <td>8</td>
-                            <td><span class="stock-indicator normal">✅ Disponible</span></td>
+                            <td><span class="stock-indicator normal">Disponible</span></td>
                             <td>
                                 <div class="btn-actions">
                                     <button class="btn-icon edit" onclick="editarProducto(2)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -1114,11 +1113,11 @@
                                 <strong style="color:#ECF0F1;">Teclado Mecánico RGB</strong>
                                 <br><small style="color:#5A6A7A; font-size:12px;">Teclado mecánico con iluminación</small>
                             </td>
-                            <td><span class="badge-categoria asignada">🎧 Accesorios</span></td>
+                            <td><span class="badge-categoria asignada">Accesorios</span></td>
                             <td>$45.00</td>
                             <td><strong style="color:#00FF94;">$75.00</strong></td>
                             <td>3</td>
-                            <td><span class="stock-indicator bajo">⚠️ Stock bajo</span></td>
+                            <td><span class="stock-indicator bajo">Stock bajo</span></td>
                             <td>
                                 <div class="btn-actions">
                                     <button class="btn-icon edit" onclick="editarProducto(3)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -1132,7 +1131,6 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <p>
                 <span class="footer-brand">Nexus Inventory</span> © 2026 — Nexus Webs.
@@ -1141,8 +1139,7 @@
         </footer>
 
     </div>
-
-    <!-- ===== MODAL CRUD ===== -->
+    
     <div class="modal-overlay" id="modalCRUD">
         <div class="modal">
             <div class="modal-header">
@@ -1208,12 +1205,11 @@
             </form>
         </div>
     </div>
-
-    <!-- ===== TOAST ===== -->
+    
     <div class="toast" id="toast"></div>
 
     <script>
-        // ===== GENERAR FONDO =====
+        
         (function() {
             const bg = document.getElementById('serverBg');
             const ledColors = ['', 'green', 'green-soft', 'neon-red'];
@@ -1239,23 +1235,20 @@
                 bg.appendChild(cable);
             }
         })();
-
-        // ===== MENÚ USUARIO =====
+        
         document.getElementById('user-toggle').addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById('user-dropdown').classList.toggle('active');
         });
         document.addEventListener('click', () => document.getElementById('user-dropdown').classList.remove('active'));
 
-        // ===== CERRAR SESIÓN =====
         function cerrarSesion() {
             if (confirm('¿Deseas cerrar sesión?')) {
                 alert('✅ Sesión cerrada (DEMO)');
                 window.location.href = '../login.html';
             }
         }
-
-        // ===== DATOS DE PRODUCTOS DEMO =====
+        
         const productosData = [
             { id: 1, nombre: 'Laptop Dell XPS 13', descripcion: 'Portátil ultraligera 13 pulgadas', precio_compra: 850, precio_venta: 1200, cantidad_actual: 12, cantidad_minima_aviso: 5, categoria_nombre: 'Electrónica', id_categoria: 1 },
             { id: 2, nombre: 'Monitor Samsung 27"', descripcion: 'Monitor curvo 144Hz', precio_compra: 320, precio_venta: 450, cantidad_actual: 8, cantidad_minima_aviso: 5, categoria_nombre: 'Electrónica', id_categoria: 1 },
@@ -1276,8 +1269,7 @@
                 row.style.display = coincide ? '' : 'none';
             });
         }
-
-        // ===== MODAL CRUD =====
+        
         function openModal(action, data = null) {
             const modal = document.getElementById('modalCRUD');
             const title = document.getElementById('modalTitle');
@@ -1319,8 +1311,7 @@
                 openModal('edit', producto);
             }
         }
-
-        // ===== GUARDAR PRODUCTO (DEMO) =====
+        
         function guardarProducto(event) {
             event.preventDefault();
 
@@ -1370,7 +1361,7 @@
             return false;
         }
 
-        // ===== ACTUALIZAR TABLA =====
+        
         function actualizarTabla() {
             const tbody = document.getElementById('tablaProductos');
             tbody.innerHTML = '';
@@ -1393,7 +1384,7 @@
             productosData.forEach(producto => {
                 const stockClass = producto.cantidad_actual <= producto.cantidad_minima_aviso ? 'bajo' :
                     producto.cantidad_actual <= producto.cantidad_minima_aviso * 2 ? 'medio' : 'normal';
-                const stockText = stockClass === 'bajo' ? '⚠️ Stock bajo' :
+                const stockText = stockClass === 'bajo' ? 'Stock bajo' :
                     stockClass === 'medio' ? '⚡ Stock medio' : '✅ Disponible';
 
                 const badgeClass = producto.categoria_nombre === 'Sin categoría' ? 'sin-categoria' : 'asignada';
@@ -1425,8 +1416,7 @@
                 `;
             });
         }
-
-        // ===== TOAST =====
+        
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -1438,15 +1428,13 @@
                 toast.classList.remove('show');
             }, 4000);
         }
-
-        // ===== CERRAR MODALES CON ESC =====
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeModal();
             }
         });
-
-        // ===== CERRAR MODALES CLICK FUERA =====
+        
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) {
                 if (e.target === this) {
