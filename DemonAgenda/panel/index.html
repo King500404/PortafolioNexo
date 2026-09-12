@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Nexus Agenda · Panel DEMO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,14 +17,23 @@
             box-sizing: border-box; 
         }
         
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        
         body { 
             font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; 
             background: #0A0E1A; 
             color: #E2E8F0; 
             display: flex; 
             min-height: 100vh;
+            min-height: 100dvh;
             overflow-x: hidden;
+            width: 100%;
         }
+        
+        img, svg { max-width: 100%; display: block; }
         
         ::-webkit-scrollbar { 
             width: 4px; 
@@ -45,6 +54,7 @@
         .sidebar { 
             width: 260px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: rgba(10,14,26,0.95); 
             backdrop-filter: blur(16px); 
             border-right: 1px solid rgba(0,212,255,0.08); 
@@ -121,7 +131,7 @@
             display: flex; 
             align-items: center; 
             gap: 12px; 
-            padding: 10px 14px; 
+            padding: 12px 14px; 
             border-radius: 10px; 
             color: #94A3B8; 
             text-decoration: none; 
@@ -233,9 +243,12 @@
             text-decoration: none; 
             font-size: 16px; 
             transition: 0.3s; 
-            padding: 4px; 
+            padding: 8px; 
             border-radius: 8px; 
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .sidebar .user-info .logout-btn:hover { 
@@ -261,12 +274,14 @@
         .main-content { 
             flex: 1; 
             padding: 16px 20px 30px; 
-            min-height: 100vh; 
+            min-height: 100vh;
+            min-height: 100dvh;
             background: radial-gradient(circle at 20% 30%, #0D1B3E, #060A14 80%);
             margin-left: 260px;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: calc(100% - 260px);
             max-width: 100%;
+            min-width: 0;
         }
         
         .main-content.full-width {
@@ -331,9 +346,13 @@
             font-size: 22px; 
             color: #E2E8F0; 
             cursor: pointer; 
-            padding: 6px; 
+            padding: 8px; 
             border-radius: 8px;
             transition: 0.3s;
+            min-width: 44px;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
         }
         
         .topbar .topbar-right .menu-toggle:hover {
@@ -374,6 +393,7 @@
             border: 1px solid rgba(0,212,255,0.06); 
             transition: all 0.3s; 
             box-shadow: 0 4px 30px rgba(0,0,0,0.2); 
+            min-width: 0;
         }
         
         .card-stat:hover { 
@@ -415,6 +435,7 @@
             font-size: 24px; 
             font-weight: 700; 
             color: #E2E8F0; 
+            word-break: break-word;
         }
         
         .card-stat .card-label { 
@@ -518,7 +539,7 @@
             box-shadow: 0 0 30px rgba(0,212,255,0.04); 
         }
 
-        /* ===== TABLA ===== */
+        /* ===== TABLA (vista escritorio/tablet) ===== */
         .table-container { 
             background: rgba(10,14,26,0.6); 
             backdrop-filter: blur(12px); 
@@ -585,12 +606,12 @@
         /* ===== BOTONES DE ACCIÓN ===== */
         .btn-actions { 
             display: flex; 
-            gap: 4px; 
+            gap: 6px; 
             flex-wrap: wrap;
         }
         
         .btn-actions button { 
-            padding: 4px 10px; 
+            padding: 6px 12px; 
             border: none; 
             border-radius: 6px; 
             font-size: 12px; 
@@ -598,6 +619,7 @@
             transition: 0.3s; 
             background: rgba(0,212,255,0.04); 
             color: #94A3B8; 
+            min-height: 32px;
         }
         
         .btn-actions button:hover { 
@@ -625,7 +647,7 @@
         /* Móviles y tablets pequeñas */
         @media (max-width: 768px) {
             .sidebar {
-                width: 280px;
+                width: min(280px, 82vw);
                 padding: 16px;
             }
             
@@ -648,7 +670,7 @@
             }
             
             .topbar .topbar-right .menu-toggle {
-                display: block;
+                display: flex;
             }
             
             .topbar .page-title {
@@ -713,17 +735,72 @@
             }
             
             .table-container table {
-                min-width: 500px;
+                min-width: 560px;
             }
             
             .demo-badge-header {
                 font-size: 9px;
                 padding: 2px 8px;
             }
+        }
+        
+        /* Móviles: la tabla se convierte en tarjetas apiladas para evitar scroll horizontal */
+        @media (max-width: 620px) {
+            .table-wrapper {
+                overflow-x: visible;
+            }
             
-            img {
-                max-width: 100%;
-                height: auto;
+            .table-container table {
+                min-width: 0;
+                width: 100%;
+            }
+            
+            .table-container table thead {
+                display: none;
+            }
+            
+            .table-container table, 
+            .table-container table tbody, 
+            .table-container table tr, 
+            .table-container table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .table-container table tr {
+                padding: 12px 14px;
+                border-bottom: 1px solid rgba(0,212,255,0.06);
+            }
+            
+            .table-container table tr:last-child {
+                border-bottom: none;
+            }
+            
+            .table-container table td {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                padding: 6px 0;
+                border-bottom: none;
+                font-size: 13px;
+                text-align: right;
+            }
+            
+            .table-container table td::before {
+                content: attr(data-label);
+                font-size: 11px;
+                font-weight: 600;
+                color: #4DA6FF;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                text-align: left;
+                flex-shrink: 0;
+            }
+            
+            .table-container table td[data-label="Acciones"] .btn-actions {
+                justify-content: flex-end;
+                width: 100%;
             }
         }
         
@@ -798,16 +875,6 @@
                 padding: 5px 12px;
             }
             
-            .table-container table th,
-            .table-container table td {
-                padding: 6px 8px;
-                font-size: 11px;
-            }
-            
-            .table-container table {
-                min-width: 400px;
-            }
-            
             .badge {
                 font-size: 10px;
                 padding: 2px 10px;
@@ -815,11 +882,11 @@
             
             .btn-actions button {
                 font-size: 11px;
-                padding: 3px 8px;
+                padding: 5px 10px;
             }
             
             .sidebar {
-                width: 260px;
+                width: min(260px, 85vw);
                 padding: 14px;
             }
             
@@ -829,7 +896,7 @@
             
             .sidebar .menu li a {
                 font-size: 13px;
-                padding: 8px 12px;
+                padding: 10px 12px;
             }
         }
         
@@ -849,22 +916,21 @@
                 padding: 3px 6px;
             }
             
-            .table-container table {
-                min-width: 320px;
+            .table-container table td {
+                font-size: 12px;
             }
             
-            .table-container table th,
-            .table-container table td {
-                padding: 4px 6px;
+            .table-container table td::before {
                 font-size: 10px;
             }
         }
         
-        /* Modo oscuro para selectores en móvil */
+        /* Inputs consistentes en móvil */
         select, input, textarea {
             background: rgba(0,0,0,0.3);
             color: #E2E8F0;
             border: 1px solid rgba(0,212,255,0.06);
+            font-size: 16px; /* evita zoom automático en iOS */
         }
         
         /* Mejora de touch en móviles */
@@ -877,6 +943,14 @@
             }
             .btn-actions button:hover {
                 background: rgba(0,212,255,0.04);
+            }
+        }
+        
+        /* Soporte para pantallas muy anchas */
+        @media (min-width: 1600px) {
+            .main-content {
+                padding-left: 40px;
+                padding-right: 40px;
             }
         }
     </style>
@@ -894,7 +968,7 @@
         </div>
         <ul class="menu">
             <li class="menu-label">Menú Principal</li>
-            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Panel Principal</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
             <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
             <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
@@ -921,7 +995,7 @@
             <div class="topbar-right">
                 <div class="date-display">
                     <i class="fas fa-calendar-day"></i>
-                    <span id="fechaActual"></span>
+                    <span id="currentDate"></span>
                 </div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
                     <i class="fas fa-bars"></i>
@@ -967,7 +1041,7 @@
         <!-- ===== PRÓXIMAS CITAS ===== -->
         <div class="section-title-bar">
             <h3>📋 Próximas Citas</h3>
-            <a href="agenda.html" class="btn-secondary">Ver todas <i class="fas fa-arrow-right"></i></a>
+            <a href="#" class="btn-secondary" onclick="alert('📌 Ver todas las citas\n🔒 Versión demo'); return false;">Ver todas <i class="fas fa-arrow-right"></i></a>
         </div>
         
         <div class="table-container">
@@ -1014,12 +1088,40 @@
                             </td>
                         </tr>
                         <tr>
-                            <td data-label="Fecha">09/03/2026</td>
+                            <td data-label="Fecha">10/03/2026</td>
                             <td data-label="Hora"><strong>11:45</strong></td>
                             <td data-label="Cliente">Ana Martínez</td>
                             <td data-label="Servicio">Depilación</td>
                             <td data-label="Teléfono">3105559012</td>
                             <td data-label="Estado"><span class="badge badge-realizada">Realizada</span></td>
+                            <td data-label="Acciones">
+                                <div class="btn-actions">
+                                    <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-label="Fecha">10/03/2026</td>
+                            <td data-label="Hora"><strong>14:00</strong></td>
+                            <td data-label="Cliente">Jorge Pérez</td>
+                            <td data-label="Servicio">Corte y barba</td>
+                            <td data-label="Teléfono">3105553456</td>
+                            <td data-label="Estado"><span class="badge badge-cancelada">Cancelada</span></td>
+                            <td data-label="Acciones">
+                                <div class="btn-actions">
+                                    <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-label="Fecha">10/03/2026</td>
+                            <td data-label="Hora"><strong>15:30</strong></td>
+                            <td data-label="Cliente">Laura Sánchez</td>
+                            <td data-label="Servicio">Tratamiento facial</td>
+                            <td data-label="Teléfono">3105557890</td>
+                            <td data-label="Estado"><span class="badge badge-pendiente">Pendiente</span></td>
                             <td data-label="Acciones">
                                 <div class="btn-actions">
                                     <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
@@ -1034,8 +1136,10 @@
     </main>
 
     <script>
-        // ===== FECHA ACTUAL =====
-        document.getElementById('fechaActual').textContent = new Date().toLocaleDateString('es-ES');
+        // ===== FECHA ACTUAL (reemplaza el <?php echo date(...) ?> que no funciona sin servidor PHP) =====
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-ES', {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        });
 
         // ===== TOGGLE SIDEBAR =====
         const menuToggle = document.getElementById('menuToggle');
@@ -1073,14 +1177,18 @@
             });
         });
 
-        // Cerrar al redimensionar a escritorio
+        // Cerrar al redimensionar a escritorio (con debounce simple)
+        let resizeTimer;
         window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                closeSidebar();
-                sidebar.classList.remove('closed');
-            } else {
-                sidebar.classList.add('closed');
-            }
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 768) {
+                    closeSidebar();
+                    sidebar.classList.remove('closed');
+                } else if (!sidebar.classList.contains('open')) {
+                    sidebar.classList.add('closed');
+                }
+            }, 100);
         });
 
         // Estado inicial en móvil
@@ -1088,22 +1196,29 @@
             sidebar.classList.add('closed');
         }
 
-        // ===== TOUCH SWIPE PARA CERRAR SIDEBAR =====
+        // ===== TOUCH SWIPE PARA CERRAR / ABRIR SIDEBAR =====
         let startX = 0;
         document.addEventListener('touchstart', function(e) {
             startX = e.touches[0].clientX;
-        });
+        }, { passive: true });
 
         document.addEventListener('touchend', function(e) {
             const endX = e.changedTouches[0].clientX;
             const diff = startX - endX;
+            // Deslizar hacia la izquierda cierra el menú abierto
             if (diff > 80 && sidebar.classList.contains('open')) {
                 closeSidebar();
             }
-        });
+            // Deslizar hacia la derecha desde el borde izquierdo abre el menú (solo móvil)
+            if (diff < -80 && startX < 30 && window.innerWidth <= 768 && !sidebar.classList.contains('open')) {
+                toggleSidebar();
+            }
+        }, { passive: true });
 
-        console.log('✅ Nexus Agenda · Panel cargado correctamente');
-        console.log('📱 Responsive mode activado');
+        console.log('✅ Nexus Agenda · Panel DEMO cargado correctamente');
+        console.log('👤 Usuario: DEMO (nexus@sistema.com)');
+        console.log('📊 Datos: 5 citas hoy, 3 pendientes');
+        console.log('📱 Responsive mode activado (móvil, tablet, escritorio)');
     </script>
 
 </body>
