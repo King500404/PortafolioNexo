@@ -11,7 +11,9 @@
     <style>
         /* ===== RESET Y BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; overflow-x: hidden; }
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; background: #0A0E1A; color: #E2E8F0; display: flex; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; width: 100%; }
+        img, svg { max-width: 100%; display: block; }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0A0E1A; }
         ::-webkit-scrollbar-thumb { background: #1A2A5E; border-radius: 10px; }
@@ -21,6 +23,7 @@
         .sidebar { 
             width: 260px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: rgba(10,14,26,0.95); 
             backdrop-filter: blur(16px); 
             border-right: 1px solid rgba(0,212,255,0.08); 
@@ -46,7 +49,7 @@
         
         .sidebar .menu { flex: 1; list-style: none; padding: 0; overflow-y: auto; }
         .sidebar .menu li { margin-bottom: 2px; }
-        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
+        .sidebar .menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; position: relative; }
         .sidebar .menu li a i { width: 20px; text-align: center; font-size: 15px; color: #4A5A6A; transition: 0.3s; }
         .sidebar .menu li a:hover { background: rgba(0,212,255,0.04); color: #E2E8F0; }
         .sidebar .menu li a:hover i { color: #00D4FF; }
@@ -60,7 +63,7 @@
         .sidebar .user-info .user-details { flex: 1; min-width: 0; }
         .sidebar .user-info .user-details .name { font-size: 13px; font-weight: 600; color: #E2E8F0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sidebar .user-info .user-details .email { font-size: 11px; color: #4A5A6A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 4px; border-radius: 8px; flex-shrink: 0; }
+        .sidebar .user-info .logout-btn { color: #4A5A6A; text-decoration: none; font-size: 16px; transition: 0.3s; padding: 8px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         .sidebar .user-info .logout-btn:hover { color: #EF4444; background: rgba(239,68,68,0.08); }
 
         /* ===== SIDEBAR OVERLAY ===== */
@@ -72,10 +75,13 @@
             flex: 1; 
             padding: 16px 20px 30px; 
             min-height: 100vh; 
+            min-height: 100dvh;
             background: radial-gradient(circle at 20% 30%, #0D1B3E, #060A14 80%);
             margin-left: 260px;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: calc(100% - 260px);
+            max-width: 100%;
+            min-width: 0;
         }
         .main-content.full-width { margin-left: 0; width: 100%; }
 
@@ -86,14 +92,14 @@
         .topbar .topbar-right { display: flex; align-items: center; gap: 12px; }
         .topbar .topbar-right .date-display { font-size: 13px; color: #94A3B8; background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(0,212,255,0.06); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .topbar .topbar-right .date-display i { color: #00D4FF; }
-        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 6px; border-radius: 8px; transition: 0.3s; }
+        .topbar .topbar-right .menu-toggle { display: none; background: none; border: none; font-size: 22px; color: #E2E8F0; cursor: pointer; padding: 8px; border-radius: 8px; transition: 0.3s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
         .topbar .topbar-right .menu-toggle:hover { background: rgba(0,212,255,0.04); }
         .demo-badge-header { display: inline-flex; align-items: center; gap: 4px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.06); color: #4DA6FF; font-size: 10px; padding: 2px 10px; border-radius: 20px; font-weight: 500; }
         .demo-badge-header i { color: #00D4FF; font-size: 10px; }
 
         /* ===== ESTADÍSTICAS ===== */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        .stat-card { background: rgba(10,14,26,0.4); border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(0,212,255,0.04); text-align: center; transition: 0.3s; }
+        .stat-card { background: rgba(10,14,26,0.4); border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(0,212,255,0.04); text-align: center; transition: 0.3s; min-width: 0; }
         .stat-card:hover { border-color: rgba(0,212,255,0.12); transform: translateY(-2px); }
         .stat-card .stat-icon { font-size: 28px; margin-bottom: 6px; display: block; }
         .stat-card .stat-value { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 700; color: #E2E8F0; }
@@ -128,8 +134,8 @@
         .badge-cancelada { background: rgba(239,68,68,0.12); color: #EF4444; }
 
         /* ===== BOTONES DE ACCIÓN ===== */
-        .btn-actions { display: flex; gap: 4px; flex-wrap: wrap; }
-        .btn-actions button { padding: 4px 10px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; }
+        .btn-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-actions button { padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: 0.3s; background: rgba(0,212,255,0.04); color: #94A3B8; min-height: 32px; }
         .btn-actions button:hover { background: rgba(0,212,255,0.08); }
         .btn-actions .btn-edit { color: #00D4FF; }
         .btn-actions .btn-edit:hover { background: rgba(0,212,255,0.08); box-shadow: 0 0 20px rgba(0,212,255,0.04); }
@@ -149,16 +155,15 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .sidebar { width: min(280px, 85vw); }
+            .main-content { padding: 14px 16px 24px; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { width: min(280px, 82vw); padding: 16px; }
             .sidebar.closed { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .sidebar-overlay.active { display: block; }
-            .main-content { margin-left: 0; width: 100%; }
-            .topbar .topbar-right .menu-toggle { display: block; }
-        }
-        @media (max-width: 768px) {
-            .sidebar { width: min(280px, 85vw); padding: 16px; }
-            .main-content { padding: 12px 14px 20px; }
+            .main-content { margin-left: 0; width: 100%; padding: 12px 14px 20px; }
+            .topbar .topbar-right .menu-toggle { display: flex; }
             .topbar .page-title { font-size: 17px; }
             .topbar .topbar-right .date-display { font-size: 12px; padding: 5px 10px; }
             .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -166,54 +171,22 @@
             .filters-row { flex-direction: column; align-items: stretch; }
             .filters-row select, .filters-row input { width: 100%; min-width: unset; }
             .btn-filter { justify-content: center; }
+            .table-container table { min-width: 550px; }
+            .table-container table th, .table-container table td { padding: 8px 10px; font-size: 12px; }
             .demo-badge-header { font-size: 9px; padding: 2px 8px; }
         }
-
-        /* ===== TABLA EN TARJETAS (MÓVIL) ===== */
-        @media (max-width: 640px) {
+        /* Móviles: la tabla se convierte en tarjetas apiladas para evitar scroll horizontal */
+        @media (max-width: 680px) {
             .table-wrapper { overflow-x: visible; }
-            .table-container table { min-width: 0 !important; width: 100%; }
-            .table-container thead { display: none; }
-            .table-container table, .table-container tbody, .table-container tr, .table-container td {
-                display: block;
-                width: 100%;
-            }
-            .table-container tbody tr {
-                margin: 0 0 12px;
-                padding: 10px 12px;
-                border: 1px solid rgba(0,212,255,0.08);
-                border-radius: 14px;
-                background: rgba(0,0,0,0.2);
-            }
-            .table-container tbody tr:last-child { margin-bottom: 0; }
-            .table-container td {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
-                text-align: right;
-                padding: 7px 2px !important;
-                border-bottom: 1px solid rgba(255,255,255,0.04);
-                white-space: normal;
-                font-size: 12px !important;
-            }
-            .table-container td:last-child { border-bottom: none; }
-            .table-container td::before {
-                content: attr(data-label);
-                font-weight: 700;
-                color: #4DA6FF;
-                font-size: 10px;
-                text-transform: uppercase;
-                letter-spacing: 0.4px;
-                text-align: left;
-                flex-shrink: 0;
-                margin-right: 10px;
-            }
-            .table-container td[data-label="Acciones"] { justify-content: flex-start; flex-wrap: wrap; }
-            .table-container td[data-label="Acciones"]::before { display: none; }
-            .table-container .btn-actions { width: 100%; justify-content: flex-end; }
+            .table-container table { min-width: 0; width: 100%; }
+            .table-container table thead { display: none; }
+            .table-container table, .table-container table tbody, .table-container table tr, .table-container table td { display: block; width: 100%; }
+            .table-container table tr { padding: 12px 14px; border-bottom: 1px solid rgba(0,212,255,0.06); }
+            .table-container table tr:last-child { border-bottom: none; }
+            .table-container table td { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: none; font-size: 13px; text-align: right; }
+            .table-container table td::before { content: attr(data-label); font-size: 11px; font-weight: 600; color: #4DA6FF; text-transform: uppercase; letter-spacing: 0.3px; text-align: left; flex-shrink: 0; }
+            .table-container table td[data-label="Acciones"] .btn-actions { justify-content: flex-end; width: 100%; }
         }
-
         @media (max-width: 480px) {
             .main-content { padding: 10px 10px 16px; }
             .topbar .page-title { font-size: 15px; }
@@ -222,27 +195,28 @@
             .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             .stat-card { padding: 14px 12px; }
             .stat-card .stat-value { font-size: 20px; }
-            .table-container table { min-width: 420px; }
-            .table-container table th, .table-container table td { padding: 6px 8px; font-size: 11px; }
             .badge { font-size: 10px; padding: 2px 10px; }
-            .btn-actions button { font-size: 11px; padding: 3px 8px; }
-            .sidebar { width: 260px; padding: 14px; }
+            .btn-actions button { font-size: 11px; padding: 5px 10px; }
+            .sidebar { width: min(260px, 85vw); padding: 14px; }
             .sidebar .logo .logo-text { font-size: 14px; }
-            .sidebar .menu li a { font-size: 13px; padding: 8px 12px; }
+            .sidebar .menu li a { font-size: 13px; padding: 10px 12px; }
             .filters-row select, .filters-row input { font-size: 12px; padding: 6px 10px; }
         }
         @media (max-width: 360px) {
             .topbar .page-title { font-size: 14px; }
             .topbar .topbar-right .date-display { font-size: 10px; padding: 3px 6px; }
             .stats-grid { grid-template-columns: 1fr; }
-            .table-container table { min-width: 320px; }
-            .table-container table th, .table-container table td { padding: 4px 6px; font-size: 10px; }
+            .table-container table td { font-size: 12px; }
+            .table-container table td::before { font-size: 10px; }
         }
         select, input, textarea { background: rgba(0,0,0,0.3); color: #E2E8F0; border: 1px solid rgba(0,212,255,0.06); }
         @media (hover: none) {
             .stat-card:hover { transform: none; }
             .btn-filter:hover { transform: none; }
             .btn-actions button:hover { background: rgba(0,212,255,0.04); }
+        }
+        @media (min-width: 1600px) {
+            .main-content { padding-left: 40px; padding-right: 40px; }
         }
     </style>
 </head>
@@ -262,8 +236,8 @@
             <li><a href="index.html"><i class="fas fa-home"></i> Panel Principal</a></li>
             <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i> Agenda / Citas</a></li>
             <li><a href="servicios.html"><i class="fas fa-concierge-bell"></i> Mis Servicios</a></li>
-            <li><a href="clientes.html" ><i class="fas fa-users"></i> Clientes</a></li>
-            <li><a href="citas.html" ><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
+            <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+            <li><a href="citas.html" class="active"><i class="fas fa-check-circle"></i> Citas Realizadas</a></li>
             <li><a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a></li>
         </ul>
         <div class="user-info">
@@ -281,7 +255,7 @@
         <div class="topbar">
             <div class="page-title">Citas <span>Realizadas</span><span class="demo-badge-header"><i class="fas fa-flask"></i> demo</span></div>
             <div class="topbar-right">
-                <div class="date-display"><i class="fas fa-calendar-day"></i> <?php echo date('d/m/Y'); ?></div>
+                <div class="date-display"><i class="fas fa-calendar-day"></i> <span id="currentDate"></span></div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
             </div>
         </div>
@@ -319,9 +293,9 @@
                 <option value="realizada">Realizada</option>
                 <option value="cancelada">Cancelada</option>
             </select>
-            <input type="date" value="<?php echo date('Y-m-d'); ?>">
-            <input type="date" value="<?php echo date('Y-m-d'); ?>">
-            <button class="btn-filter" onclick="showToast('📊 Filtro aplicado (DEMO)', 'success')">
+            <input type="date" id="filtroFechaInicio">
+            <input type="date" id="filtroFechaFin">
+            <button class="btn-filter" onclick="showToast('Filtro aplicado (DEMO)', 'success')">
                 <i class="fas fa-filter"></i> Filtrar
             </button>
         </div>
@@ -394,23 +368,6 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- Cita 4 - Confirmada -->
-                        <tr>
-                            <td data-label="Fecha">10/03/2026</td>
-                            <td data-label="Hora"><strong>15:30</strong></td>
-                            <td data-label="Cliente">Laura Sánchez</td>
-                            <td data-label="Servicio">Tratamiento facial</td>
-                            <td data-label="Precio">$55,000</td>
-                            <td data-label="Teléfono">3105557890</td>
-                            <td data-label="Estado"><span class="badge badge-confirmada">Confirmada</span></td>
-                            <td data-label="Acciones">
-                                <div class="btn-actions">
-                                    <button class="btn-edit" onclick="alert('📌 Editar cita\n🔒 Versión demo')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-status" onclick="alert('📌 Cambiar estado\n🔒 Versión demo')"><i class="fas fa-sync-alt"></i></button>
-                                    <button class="btn-demo" onclick="alert('📌 Eliminar cita\n🔒 Versión demo')"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -427,6 +384,15 @@
     </main>
 
     <script>
+        // ===== FECHA ACTUAL Y VALORES POR DEFECTO (reemplaza <?php echo date(...) ?>) =====
+        const hoy = new Date();
+        document.getElementById('currentDate').textContent = hoy.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const yyyy = hoy.getFullYear();
+        const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dd = String(hoy.getDate()).padStart(2, '0');
+        document.getElementById('filtroFechaInicio').value = `${yyyy}-${mm}-${dd}`;
+        document.getElementById('filtroFechaFin').value = `${yyyy}-${mm}-${dd}`;
+
         // ===== TOGGLE SIDEBAR =====
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
@@ -453,22 +419,26 @@
 
         document.querySelectorAll('.sidebar .menu a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 1024) {
+                if (window.innerWidth <= 768) {
                     closeSidebar();
                 }
             });
         });
 
+        let resizeTimer;
         window.addEventListener('resize', function() {
-            if (window.innerWidth > 1024) {
-                closeSidebar();
-                sidebar.classList.remove('closed');
-            } else {
-                sidebar.classList.add('closed');
-            }
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 768) {
+                    closeSidebar();
+                    sidebar.classList.remove('closed');
+                } else if (!sidebar.classList.contains('open')) {
+                    sidebar.classList.add('closed');
+                }
+            }, 100);
         });
 
-        if (window.innerWidth <= 1024) {
+        if (window.innerWidth <= 768) {
             sidebar.classList.add('closed');
         }
 
@@ -476,7 +446,7 @@
         let startX = 0;
         document.addEventListener('touchstart', function(e) {
             startX = e.touches[0].clientX;
-        });
+        }, { passive: true });
 
         document.addEventListener('touchend', function(e) {
             const endX = e.changedTouches[0].clientX;
@@ -484,7 +454,10 @@
             if (diff > 80 && sidebar.classList.contains('open')) {
                 closeSidebar();
             }
-        });
+            if (diff < -80 && startX < 30 && window.innerWidth <= 768 && !sidebar.classList.contains('open')) {
+                toggleSidebar();
+            }
+        }, { passive: true });
 
         // ===== TOAST NOTIFICATIONS =====
         function showToast(message, type = 'success') {
@@ -493,6 +466,9 @@
                 position: fixed;
                 bottom: 30px;
                 right: 30px;
+                left: 30px;
+                margin: 0 auto;
+                max-width: 400px;
                 padding: 14px 24px;
                 border-radius: 10px;
                 font-weight: 500;
@@ -503,8 +479,8 @@
                 transform: translateY(120px);
                 opacity: 0;
                 transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                max-width: 400px;
                 font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+                text-align: center;
             `;
             toast.textContent = message;
             document.body.appendChild(toast);
@@ -529,8 +505,9 @@
         });
 
         console.log('✅ Nexus Agenda · Citas Realizadas DEMO cargado');
-        console.log('📊 Total citas: 4 (Realizadas: 2, Pendientes: 1, Confirmadas: 1)');
+        console.log(' Total citas: 4 (Realizadas: 2, Pendientes: 1, Confirmadas: 1)');
         console.log('🔒 Versión demo - funcionalidades limitadas');
+        console.log('📱 Responsive mode activado (móvil, tablet, escritorio)');
     </script>
 
 </body>
