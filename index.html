@@ -11,7 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap"
         rel="stylesheet">
-    <style> 
+    <style>
+        /* ===== RESET Y BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -1721,7 +1722,7 @@
 
             <div class="modal-options">
                 <!-- WhatsApp -->
-                <a href="https://wa.me/5219533308839?text=Hola%2C%20vi%20tu%20portafolio%20Nexus%20Web%20y%20me%20interesa%20contactarte"
+                <a href="https://wa.me/5219533308839?text=Hola%2C%20vi%20tu%20portafolio%20Nexus%20Web%20Oaxaca%20y%20me%20interesa%20contactarte"
                     target="_blank" class="modal-option">
                     <div class="icon whatsapp"><i class="fab fa-whatsapp"></i></div>
                     <div class="info">
@@ -1732,7 +1733,7 @@
                 </a>
 
                 <!-- Gmail -->
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=contacto.nexusweb.oaxaca@gmail.com&su=Contacto%20desde%20Nexus%20Web%20Portafolio&body=Hola%2C%20vi%20tu%20portafolio%20Nexus%20Web%20y%20me%20gustaría%20contactarte%20para%20un%20proyecto."
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=contacto.nexusweb.oaxaca@gmail.com&su=Contacto%20desde%20Nexus%20Web%20Oaxaca%20Portafolio&body=Hola%2C%20vi%20tu%20portafolio%20Nexus%20Web%20y%20me%20gustaría%20contactarte%20para%20un%20proyecto."
                     target="_blank" class="modal-option">
                     <div class="icon email"><i class="fas fa-envelope"></i></div>
                     <div class="info">
@@ -1996,14 +1997,11 @@
         function cerrarModal() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
-        }
-
-        // Cerrar modal al hacer clic fuera
+        } 
         modal.addEventListener('click', function(e) {
             if (e.target === this) cerrarModal();
         });
 
-        // Cerrar modal con Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') cerrarModal();
         });
