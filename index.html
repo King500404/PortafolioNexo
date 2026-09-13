@@ -8,13 +8,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; } 
-        body { font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif; background: #12121F; color: #E2E8F0; min-height: 100vh; min-height: 100dvh; overflow-x: hidden;  width: 100%; }
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style> 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #12121F;
+            color: #E2E8F0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
         img, svg { max-width: 100%; }
-        .bg-grid { position: fixed; inset: 0; z-index:  0; background: linear-gradient(rgba(0, 212, 255, 0.015) 1px, transparent 1pxlinear-gradient(90deg, rgba(0, 212, 255, 0.015) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; animation: gridPulse 8s ease-in-out infinite alternate; }
+
+        /* ===== FONDO ANIMADO CON RETÍCULA ===== */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                linear-gradient(rgba(0, 212, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            animation: gridPulse 8s ease-in-out infinite alternate;
+        }
 
         @keyframes gridPulse {
             0% {
@@ -1963,10 +1996,14 @@
         function cerrarModal() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
-        }        modal.addEventListener('click', function(e) {
+        }
+
+        // Cerrar modal al hacer clic fuera
+        modal.addEventListener('click', function(e) {
             if (e.target === this) cerrarModal();
         });
-        
+
+        // Cerrar modal con Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') cerrarModal();
         });
