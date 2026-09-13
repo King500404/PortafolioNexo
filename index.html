@@ -3,46 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Nexus Web · Portafolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* ===== RESET Y BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #12121F;
-            color: #E2E8F0;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* ===== FONDO ANIMADO CON RETÍCULA ===== */
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background:
-                linear-gradient(rgba(0, 212, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 212, 255, 0.015) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-            animation: gridPulse 8s ease-in-out infinite alternate;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; } 
+        body { font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif; background: #12121F; color: #E2E8F0; min-height: 100vh; min-height: 100dvh; overflow-x: hidden;  width: 100%; }
+        img, svg { max-width: 100%; }
+        .bg-grid { position: fixed; inset: 0; z-index:  0; background: linear-gradient(rgba(0, 212, 255, 0.015) 1px, transparent 1pxlinear-gradient(90deg, rgba(0, 212, 255, 0.015) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; animation: gridPulse 8s ease-in-out infinite alternate; }
 
         @keyframes gridPulse {
             0% {
@@ -339,6 +311,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            min-width: 0;
         }
 
         .header-logo {
@@ -378,6 +351,7 @@
         .header-brand {
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
         .header-title {
@@ -425,7 +399,7 @@
             font-size: 13px;
             font-weight: 500;
             transition: 0.3s;
-            padding-bottom: 4px;
+            padding: 6px 2px 4px;
             border-bottom: 1px solid transparent;
             letter-spacing: 0.3px;
             position: relative;
@@ -466,6 +440,7 @@
             box-shadow: 0 4px 25px rgba(0, 102, 255, 0.15);
             text-decoration: none;
             animation: pulseButton 4s ease-in-out infinite;
+            min-height: 40px;
         }
 
         @keyframes pulseButton {
@@ -524,6 +499,9 @@
             padding: 36px 40px;
             max-width: 480px;
             width: 100%;
+            max-height: 90vh;
+            max-height: 90dvh;
+            overflow-y: auto;
             border: 1px solid rgba(0, 212, 255, 0.08);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             animation: modalSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -547,6 +525,7 @@
             color: #E2E8F0;
             margin-bottom: 6px;
             text-align: center;
+            padding-right: 20px;
         }
 
         .modal h3 span {
@@ -562,18 +541,25 @@
 
         .modal-close {
             position: absolute;
-            top: 16px;
-            right: 20px;
+            top: 12px;
+            right: 12px;
             background: none;
             border: none;
             color: #4A5A6A;
             font-size: 22px;
             cursor: pointer;
             transition: 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-close:hover {
             color: #E2E8F0;
+            background: rgba(255,255,255,0.05);
         }
 
         .modal-options {
@@ -625,6 +611,7 @@
 
         .modal-option .info {
             flex: 1;
+            min-width: 0;
         }
 
         .modal-option .info .label {
@@ -636,11 +623,13 @@
             font-weight: 600;
             color: #E2E8F0;
             font-size: 15px;
+            overflow-wrap: break-word;
         }
 
         .modal-option .arrow {
             color: #4A5A6A;
             transition: 0.3s;
+            flex-shrink: 0;
         }
 
         .modal-option:hover .arrow {
@@ -693,6 +682,7 @@
         .section {
             padding: 40px 0 20px;
             animation: fadeInUp 0.8s ease-out;
+            scroll-margin-top: 16px;
         }
 
         @keyframes fadeInUp {
@@ -736,6 +726,7 @@
             align-items: center;
             padding: 20px 0 10px;
             animation: fadeInUp 0.6s ease-out 0.2s both;
+            scroll-margin-top: 16px;
         }
 
         .hero-content .hero-badge {
@@ -771,6 +762,7 @@
             color: #E2E8F0;
             line-height: 1.1;
             margin-bottom: 10px;
+            word-wrap: break-word;
         }
 
         .hero-content h1 span {
@@ -832,6 +824,7 @@
             box-shadow: 0 4px 30px rgba(0, 102, 255, 0.15);
             text-decoration: none;
             animation: pulseButton 4s ease-in-out infinite;
+            min-height: 44px;
         }
 
         .hero-content .btn-primary:hover {
@@ -844,6 +837,7 @@
             justify-content: center;
             align-items: center;
             animation: floatCode 8s ease-in-out infinite;
+            min-width: 0;
         }
 
         @keyframes floatCode {
@@ -902,6 +896,7 @@
             align-items: center;
             gap: 12px;
             animation: typeLine 0.5s ease-out both;
+            flex-wrap: wrap;
         }
 
         .hero-visual .code-block .code-line:nth-child(1) {
@@ -988,6 +983,7 @@
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             animation: fadeInUp 0.6s ease-out both;
+            min-width: 0;
         }
 
         .tech-item:nth-child(1) {
@@ -1085,6 +1081,7 @@
             position: relative;
             overflow: hidden;
             animation: fadeInUp 0.8s ease-out both;
+            min-width: 0;
         }
 
         .project-card:nth-child(1) {
@@ -1311,6 +1308,10 @@
             color: #00D4FF;
         }
 
+        .contact-item > div {
+            min-width: 0;
+        }
+
         .contact-item .label {
             font-size: 11px;
             color: #4A5A6A;
@@ -1320,6 +1321,7 @@
             font-weight: 500;
             color: #E2E8F0;
             font-size: 14px;
+            overflow-wrap: break-word;
         }
 
         .contact-item .value a {
@@ -1397,6 +1399,7 @@
             text-decoration: none;
             margin-top: 8px;
             animation: pulseButton 4s ease-in-out infinite;
+            min-height: 44px;
         }
 
         .btn-contact-bottom:hover {
@@ -1492,7 +1495,7 @@
             .header-nav {
                 width: 100%;
                 justify-content: flex-start;
-                gap: 12px;
+                gap: 12px 16px;
             }
 
             .header-nav a {
@@ -1614,6 +1617,38 @@
                 height: 60px;
             }
         }
+
+        @media (max-width: 360px) {
+            .header-title { font-size: 16px; }
+            .header-slogan { font-size: 11px; }
+            .hero-content h1 { font-size: 21px; }
+            .hero-content .hero-sub { font-size: 14px; }
+            .section-title { font-size: 19px; }
+            .modal-option .info .value { font-size: 13px; }
+        }
+
+        @media (min-width: 1600px) {
+            .container { max-width: 1300px; }
+        }
+
+        /* ===== RENDIMIENTO EN MÓVIL Y ACCESIBILIDAD ===== */
+        /* Menos partículas/decoración animada en pantallas pequeñas para aligerar el render */
+        @media (max-width: 600px) {
+            .particle:nth-child(n+11),
+            .shooting-star:nth-child(n+15),
+            .neon-line:nth-child(n+4) {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 </head>
 
@@ -1647,7 +1682,7 @@
     <!-- ===== MODAL DE CONTACTO ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal" style="position:relative;">
-            <button class="modal-close" onclick="cerrarModal()">&times;</button>
+            <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar">&times;</button>
             <h3>Contáctame <span>ahora</span></h3>
             <p class="modal-sub">Elige el canal que prefieras para comunicarte conmigo.</p>
 
@@ -1882,13 +1917,6 @@
                             <i class="fas fa-clock"></i>
                             <span>Respondo usualmente en menos de 24 horas</span>
                         </div>
-
-                        <div class="contact-social">
-                            <a href="#"><i class="fab fa-github"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
                     </div>
 
                     <div style="display:flex; flex-direction:column; gap:16px;">
@@ -1935,14 +1963,10 @@
         function cerrarModal() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
-        }
-
-        // Cerrar modal al hacer clic fuera
-        modal.addEventListener('click', function(e) {
+        }        modal.addEventListener('click', function(e) {
             if (e.target === this) cerrarModal();
         });
-
-        // Cerrar modal con Escape
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') cerrarModal();
         });
@@ -1951,7 +1975,5 @@
         console.log('📱 Contacto: WhatsApp +52 1 953 330 8839 | Gmail contacto.nexusweb.oaxaca@gmail.com');
         console.log('📍 Ubicación: Huajuapan de León, Oaxaca, México');
     </script>
-
 </body>
-
 </html>
